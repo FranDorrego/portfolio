@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: ventana-de-proyecto.tsx    Project: portfolio                      */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:43:44  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -25,6 +25,7 @@ import type { Proyecto } from '@/types/proyecto';
 import { mesCorto } from '@/utils/texto';
 import { EstadoDeProyecto } from './estado-de-proyecto';
 import { useEtiquetaDeCategoria } from './use-etiqueta-de-categoria';
+import { DiagramaDeProyecto } from './diagrama-de-proyecto';
 import { GaleriaDeProyecto } from './galeria-de-proyecto';
 
 function Bloque({ titulo, children }: { titulo: string; children: ReactNode }): JSX.Element {
@@ -116,7 +117,18 @@ export function VentanaDeProyecto({ proyecto, alCerrar, alDevolverFoco }: Props)
             </DialogDescription>
           </header>
 
-          <GaleriaDeProyecto key={proyecto.id} proyecto={proyecto} />
+          {proyecto.screenshots.length > 0 && (
+            <GaleriaDeProyecto key={proyecto.id} proyecto={proyecto} />
+          )}
+          {proyecto.diagram && (
+            <DiagramaDeProyecto
+              pasos={proyecto.diagram}
+              className="rounded-lg border border-border"
+            />
+          )}
+          {proyecto.screenshots.length === 0 && !proyecto.diagram && (
+            <GaleriaDeProyecto key={proyecto.id} proyecto={proyecto} />
+          )}
 
           <div className="grid gap-6 md:grid-cols-2">
             {proyecto.problem && (

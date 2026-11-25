@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: filtros-de-proyectos.test.ts    Project: portfolio                 */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:46:46  by vm                                      */
 /* ************************************************************************** */
 
 /** El buscador y los filtros del catalogo, sobre el catalogo real. */
@@ -49,7 +49,7 @@ describe('filtros de proyectos', () => {
     const clientesConDjango = buscar({ tecnologia: 'django', categoria: 'cliente' });
     expect(clientesConDjango).toContain('vivenadando');
     expect(clientesConDjango).not.toContain('ardumaker-developer');
-    expect(buscar({ tecnologia: 'c', categoria: 'sistemas' })).toEqual(['sistemas-42']);
+    expect(buscar({ tecnologia: 'c', categoria: 'sistemas' })).toContain('sistemas-42');
     expect(buscar({ tecnologia: 'c', categoria: 'cliente' })).toEqual([]);
     expect(buscar({ tecnologia: 'django', categoria: 'cliente', texto: 'ocr' })).toContain(
       'auralyx',

@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: portada-de-proyecto.tsx    Project: portfolio                      */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:43:44  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -18,6 +18,7 @@
 import { ImageOff } from 'lucide-react';
 import { recurso } from '@/lib/raiz';
 import { useIdioma } from '@/i18n';
+import { DiagramaDeProyecto } from './diagrama-de-proyecto';
 import { cn } from '@/lib/class-names';
 import type { Proyecto } from '@/types/proyecto';
 import { rellenar } from '@/utils/texto';
@@ -37,9 +38,12 @@ export function PortadaDeProyecto({ proyecto, className }: Props): JSX.Element {
         alt={leer(captura.alt)}
         loading="lazy"
         decoding="async"
-        className={cn('aspect-[16/9] w-full bg-background object-cover', className)}
+        className={cn('aspect-[16/7] w-full bg-background object-cover object-top', className)}
       />
     );
+  }
+  if (proyecto.diagram) {
+    return <DiagramaDeProyecto pasos={proyecto.diagram} compacto className={className} />;
   }
   return (
     <div
