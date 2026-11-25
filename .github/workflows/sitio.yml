@@ -5,12 +5,12 @@
 #   /_/   \_\_|   \__,_|\__,_|_|  |_|\__,_|_|\_\___|_|                       #
 #                                                                            #
 #   File: sitio.yml    Project: portfolio                                    #
-#   Created: 2026/11/25 22:22:29  by claude                                  #
-#   Updated: 2026/11/25 22:22:29  by claude                                  #
+#   Created: 2026/11/25 22:27:55  by claude                                  #
+#   Updated: 2026/11/25 22:30:09  by vm                                      #
 # ************************************************************************** #
 
-# Verifica, actualiza las estadisticas de GitHub y publica el sitio en GitHub Pages.
-# Corre en cada push a main y una vez por dia, para que la actividad de GitHub este al dia.
+# Verifica el codigo en cada push y mantiene al dia las estadisticas de GitHub.
+# El despliegue lo hace ArduMaker: cada push a main vuelve a publicar el sitio en el VPS.
 name: Sitio
 
 on:
@@ -20,18 +20,15 @@ on:
     - cron: '17 5 * * *'
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 concurrency:
   group: sitio
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  construir:
+  verificar:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -42,31 +39,35 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm test
-      - id: pages
-        uses: actions/configure-pages@v5
+      - run: npm run build
+
+  # Vuelve a leer la actividad de GitHub y, si cambio, la guarda en el repositorio: ese commit
+  # es el que hace que ArduMaker publique el sitio con las cifras nuevas.
+  estadisticas:
+    needs: verificar
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          enablement: true
+          node-version: 22
       # Sin GH_STATS_TOKEN se usa el token de la accion, que solo ve la actividad publica.
-      # Si GitHub no responde, el sitio se publica igual y el widget lo dice.
-      - name: Estadisticas de GitHub
-        continue-on-error: true
-        run: npm run estadisticas
+      - run: node scripts/estadisticas-de-github.mjs
         env:
           GH_STATS_TOKEN: ${{ secrets.GH_STATS_TOKEN }}
           GITHUB_TOKEN: ${{ github.token }}
-      - run: npm run build
+      - name: Guardar si cambio
         env:
-          VITE_SITE_URL: ${{ steps.pages.outputs.base_url }}
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-  publicar:
-    needs: construir
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.despliegue.outputs.page_url }}
-    steps:
-      - id: despliegue
-        uses: actions/deploy-pages@v4
+          MENSAJE: >-
+            Estadisticas de GitHub al dia: la accion diaria volvio a leer commits, pull
+            requests, merges y el mapa de contribuciones, y guarda el archivo que muestra el
+            sitio para que ArduMaker lo publique
+        run: |
+          git add public/github-stats.json
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "$MENSAJE"
+          git push

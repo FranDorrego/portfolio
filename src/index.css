@@ -6,12 +6,13 @@
 /*                                                                            */
 /*   File: index.css    Project: portfolio                                    */
 /*   Created: 2026/11/25 22:18:47  by claude                                  */
-/*   Updated: 2026/11/25 22:18:47  by claude                                  */
+/*   Updated: 2026/11/25 22:29:31  by vm                                      */
 /* ************************************************************************** */
 
 /**
- * La base visual: fondo zinc-950, superficies zinc-900, bordes zinc-800 y acento esmeralda,
- * como la consola de ArduMaker. Todo el color sale de estas variables.
+ * La base visual: los mismos colores que los fronts de ArduMaker, en claro y en oscuro. Fondo
+ * neutro, superficies un paso mas arriba, el azul de la marca para acciones y enlaces, y el
+ * verde para lo que esta en marcha. Todo el color sale de estas variables.
  */
 
 @tailwind base;
@@ -19,18 +20,50 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: light;
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --secondary: 260 4% 96%;
+  --muted: 260 4% 94%;
+  --muted-foreground: 215 16% 40%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214 20% 78%;
+  --primary: 214 100% 42%;
+  --action: 214 100% 46%;
+  --action-foreground: 0 0% 100%;
+  --action-hover: 214 100% 38%;
+  --success: 118 55% 30%;
+  --velo: 0.4;
+  /* El mapa de contribuciones: de «sin actividad» a lo mas intenso. */
+  --mapa-0: 220 14% 91%;
+  --mapa-1: 118 45% 78%;
+  --mapa-2: 118 48% 58%;
+  --mapa-3: 118 51% 42%;
+  --mapa-4: 118 55% 27%;
+}
+
+.dark {
   color-scheme: dark;
-  --background: 240 10% 3.9%;
-  --foreground: 240 4.8% 95.9%;
-  --card: 240 5.9% 10%;
-  --secondary: 240 3.7% 15.9%;
-  --muted: 240 4.8% 8%;
-  --muted-foreground: 240 5% 64.9%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 5.3% 26.1%;
-  /* emerald-400 para texto y foco; emerald-500 de relleno con texto oscuro (7:1). */
-  --primary: 158 64% 52%;
-  --action: 160 84% 39%;
+  --background: 220 8% 9%;
+  --foreground: 220 6% 93%;
+  --card: 220 7% 14%;
+  --secondary: 220 7% 19%;
+  --muted: 220 7% 12%;
+  --muted-foreground: 220 5% 70%;
+  --border: 220 6% 19%;
+  --input: 220 5% 30%;
+  --primary: 214 100% 66%;
+  --action: 214 100% 46%;
+  --action-foreground: 0 0% 100%;
+  --action-hover: 214 100% 40%;
+  --success: 118 50% 62%;
+  --velo: 0.8;
+  --mapa-0: 220 6% 19%;
+  --mapa-1: 118 45% 22%;
+  --mapa-2: 118 48% 34%;
+  --mapa-3: 118 51% 48%;
+  --mapa-4: 118 55% 66%;
 }
 
 * {
@@ -54,14 +87,14 @@ body {
 }
 
 ::selection {
-  background-color: hsl(160 84% 39% / 0.35);
+  background-color: hsl(var(--action) / 0.3);
 }
 
 /* La rejilla tenue del hero y de las portadas sin captura. */
 .rejilla-tecnica {
   background-image:
-    linear-gradient(hsl(240 3.7% 15.9% / 0.6) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(240 3.7% 15.9% / 0.6) 1px, transparent 1px);
+    linear-gradient(hsl(var(--border) / 0.7) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--border) / 0.7) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 

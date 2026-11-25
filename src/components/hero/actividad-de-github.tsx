@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: actividad-de-github.tsx    Project: portfolio                      */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:29:31  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -108,7 +108,7 @@ export function ActividadDeGithub({
         <span aria-hidden className="flex gap-1.5">
           <span className="h-2.5 w-2.5 rounded-full bg-input" />
           <span className="h-2.5 w-2.5 rounded-full bg-input" />
-          <span className="h-2.5 w-2.5 rounded-full bg-primary/80" />
+          <span className="h-2.5 w-2.5 rounded-full bg-success" />
         </span>
         <h2 id="github-titulo" className="font-mono text-xs text-muted-foreground">
           <span className="sr-only">{t.github.titulo}: </span>

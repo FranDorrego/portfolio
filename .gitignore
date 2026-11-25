@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: .gitignore    Project: portfolio                                   #
 #   Created: 2026/11/17 19:26:33  by frfrand                                 #
-#   Updated: 2026/11/17 19:26:33  by frfrand                                 #
+#   Updated: 2026/11/25 22:29:50  by vm                                      #
 # ************************************************************************** #
 
 node_modules/
@@ -14,9 +14,6 @@ dist/
 .env
 .env.*
 !.env.example
-
-# Lo escribe scripts/estadisticas-de-github.mjs en cada despliegue.
-public/github-stats.json
 
 # ArduMaker repository standard
 # Agregado automáticamente: faltaba en este proyecto.

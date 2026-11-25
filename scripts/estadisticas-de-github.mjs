@@ -6,13 +6,13 @@
 /*                                                                            */
 /*   File: estadisticas-de-github.mjs    Project: portfolio                   */
 /*   Created: 2026/11/25 22:22:29  by claude                                  */
-/*   Updated: 2026/11/25 22:22:35  by claude                                  */
+/*   Updated: 2026/11/25 22:29:50  by vm                                      */
 /* ************************************************************************** */
 
 /**
  * Escribe public/github-stats.json con la actividad real de GitHub: commits, pull requests,
- * merges y el mapa de contribuciones del ultimo anio. Lo corre la accion de GitHub en cada
- * despliegue y una vez por dia, asi el sitio se mantiene al dia solo.
+ * merges y el mapa de contribuciones del ultimo anio. Lo corre la accion de GitHub en cada push
+ * y una vez por dia, y guarda el archivo en el repositorio: asi el sitio se mantiene al dia solo.
  *
  *   GITHUB_TOKEN=... node scripts/estadisticas-de-github.mjs
  *

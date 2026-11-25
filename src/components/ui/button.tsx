@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: button.tsx    Project: portfolio                                   */
 /*   Created: 2026/11/25 22:18:47  by claude                                  */
-/*   Updated: 2026/11/25 22:18:47  by claude                                  */
+/*   Updated: 2026/11/25 22:29:31  by vm                                      */
 /* ************************************************************************** */
 
 /** El boton: tres variantes y la misma respuesta al apretarlo en toda la pagina. */
@@ -26,7 +26,7 @@ const variantes = cva(
   {
     variants: {
       variant: {
-        default: 'bg-action text-background hover:bg-primary',
+        default: 'bg-action text-action-foreground hover:bg-action-hover',
         outline: 'border border-input text-foreground hover:bg-secondary',
         ghost: 'text-muted-foreground hover:bg-secondary hover:text-foreground',
       },

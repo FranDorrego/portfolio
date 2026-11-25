@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: dialog.tsx    Project: portfolio                                   */
 /*   Created: 2026/11/25 22:18:47  by claude                                  */
-/*   Updated: 2026/11/25 22:18:47  by claude                                  */
+/*   Updated: 2026/11/25 22:29:31  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -32,7 +32,7 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Primitiva.Content>
 export const DialogContent = React.forwardRef<HTMLDivElement, Props>(
   ({ className, children, textoDeCerrar, ...props }, ref) => (
     <Primitiva.Portal>
-      <Primitiva.Overlay className="entrada-de-vista fixed inset-0 z-50 bg-black/80" />
+      <Primitiva.Overlay className="entrada-de-vista fixed inset-0 z-50 bg-black/[var(--velo)]" />
       <Primitiva.Content
         ref={ref}
         className={cn(

@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: estado-de-proyecto.tsx    Project: portfolio                       */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:29:31  by vm                                      */
 /* ************************************************************************** */
 
 /** El indicador de estado. Solo se dibuja cuando el estado esta confirmado. */
@@ -16,7 +16,7 @@ import { cn } from '@/lib/class-names';
 import type { EstadoDeProyecto as Estado } from '@/types/proyecto';
 
 const PUNTO: Record<Estado, string> = {
-  activo: 'bg-primary',
+  activo: 'bg-success',
   'en-desarrollo': 'bg-amber-400',
   mantenimiento: 'bg-sky-400',
   finalizado: 'bg-muted-foreground',

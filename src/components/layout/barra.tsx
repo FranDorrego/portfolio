@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: barra.tsx    Project: portfolio                                    */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:29:31  by vm                                      */
 /* ************************************************************************** */
 
 /** La barra de arriba: quien soy, donde estoy, si estoy disponible, idioma y accesos rapidos. */
@@ -20,6 +20,7 @@ import { useIdioma } from '@/i18n';
 import { cn } from '@/lib/class-names';
 import { CONTENEDOR_DE_PAGINA } from '@/lib/movimiento';
 import { SelectorDeIdioma } from './selector-de-idioma';
+import { SelectorDeTema } from './selector-de-tema';
 
 const ENLACE =
   'rounded-md px-2.5 py-1.5 text-sm transition-colors duration-150 focus-visible:outline-none ' +
@@ -82,13 +83,14 @@ export function Barra(): JSX.Element {
             <span className="truncate">{t.barra.ubicacion}</span>
           </span>
           <span className="flex items-center gap-1.5 text-xs text-foreground">
-            <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+            <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
             <span className="truncate">{t.barra.estado}</span>
           </span>
         </div>
         <div className="ml-auto flex items-center gap-2">
           <Navegacion className="hidden md:block" />
           <SelectorDeIdioma />
+          <SelectorDeTema />
         </div>
       </div>
       <div className="border-t border-border md:hidden">

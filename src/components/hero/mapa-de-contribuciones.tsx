@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: mapa-de-contribuciones.tsx    Project: portfolio                   */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:29:50  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -25,8 +25,8 @@ import { cn } from '@/lib/class-names';
 const LADO = 10;
 const PASO = 13;
 
-/** De «sin actividad» (zinc) a lo mas intenso (esmeralda claro). */
-export const COLORES_POR_NIVEL = ['#27272a', '#064e3b', '#047857', '#10b981', '#6ee7b7'] as const;
+/** De «sin actividad» a lo mas intenso: variables del tema (index.css), claro u oscuro. */
+export const COLORES_POR_NIVEL = [0, 1, 2, 3, 4].map((nivel) => `hsl(var(--mapa-${nivel}))`);
 
 interface Posicion {
   semana: number;
@@ -90,7 +90,7 @@ export function MapaDeContribuciones({ dias }: { dias: DiaDeContribuciones[] }):
         className={cn(
           'relative rounded-sm focus-visible:outline-none focus-visible:ring-2',
           'focus-visible:ring-ring focus-visible:ring-offset-4',
-          'focus-visible:ring-offset-[#09090b]',
+          'focus-visible:ring-offset-card',
         )}
       >
         <svg viewBox={`0 0 ${ancho} ${alto}`} className="block h-auto w-full" aria-hidden>
@@ -105,7 +105,9 @@ export function MapaDeContribuciones({ dias }: { dias: DiaDeContribuciones[] }):
                   height={LADO}
                   rx={2}
                   fill={COLORES_POR_NIVEL[celda.nivel]}
-                  stroke={activa?.semana === x && activa.dia === y ? '#fafafa' : 'none'}
+                  stroke={
+                    activa?.semana === x && activa.dia === y ? 'hsl(var(--foreground))' : 'none'
+                  }
                   strokeWidth={1.5}
                   onMouseEnter={() => setActiva({ semana: x, dia: y })}
                 />

@@ -6,7 +6,7 @@
 <!--                                                                            -->
 <!--   File: README.md    Project: portfolio                                    -->
 <!--   Created: 2026/11/25 22:17:56  by claude                                  -->
-<!--   Updated: 2026/11/25 22:26:30  by claude                                  -->
+<!--   Updated: 2026/11/25 22:29:50  by vm                                      -->
 <!-- ************************************************************************** -->
 
 # Portfolio · Franco Dorrego
@@ -14,10 +14,10 @@
 Programador Full Stack en Porto, Portugal. Quién soy, mi actividad en GitHub, mi experiencia, lo
 bueno y lo que tengo que mejorar, preguntas frecuentes y cómo contactarme.
 
-- 🌐 **Sitio:** <https://frandorrego.github.io/portfolio/> (español) ·
-  [`/pt/`](https://frandorrego.github.io/portfolio/pt/) (portugués)
 - 📦 **Repositorio:** <https://github.com/FranDorrego/portfolio>
 - 🛠️ **Stack:** React · Vite · TypeScript · Tailwind CSS
+- 🎨 **Diseño:** el estilo de los fronts de ArduMaker, con tema claro y oscuro
+- 🌍 **Idiomas:** español (`/`) y portugués (`/pt/`)
 - ✅ **Estándar:** revisado con el checker de [ArduMaker](https://ardumaker.com):
   `ardumaker check` sin errores ni advertencias
 
@@ -40,15 +40,16 @@ npm run dev
 
 ## Despliegue (deploy)
 
-Se despliega solo: cada `push` a `main` y una vez por día, la acción [`sitio.yml`](.github/workflows/sitio.yml)
-verifica el código, vuelve a leer la actividad de GitHub y publica en GitHub Pages.
+Se despliega solo, en un VPS de [ArduMaker](https://ardumaker.com) como app de tipo git: cada
+`push` a `main` vuelve a compilar y publicar el sitio.
 
-Para activarlo la primera vez: **Settings → Pages → Source → GitHub Actions**.
+La acción [`sitio.yml`](.github/workflows/sitio.yml) verifica el código en cada `push` y, una vez
+por día, vuelve a leer la actividad de GitHub y guarda `public/github-stats.json` en el
+repositorio. Ese commit dispara un despliegue nuevo, así las cifras están siempre al día.
 
 ### Estadísticas de GitHub
 
-El widget lee `github-stats.json`, que la acción genera con la API de GitHub. Nunca muestra una
-cifra inventada: si el archivo no está, lo dice.
+El widget nunca muestra una cifra inventada: si el archivo no está, lo dice.
 
 - Sin configurar nada, cuenta **solo la actividad pública**.
 - Para sumar los repositorios privados: crear un token personal (permisos `read:user` y `repo`) y

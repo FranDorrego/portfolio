@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: es.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/25 22:22:29  by claude                                  */
+/*   Updated: 2026/11/25 22:29:31  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en espanol. Su forma es el molde de los demas idiomas. */
@@ -30,6 +30,8 @@ export const es = {
     idiomas: { es: 'Español', pt: 'Português' },
     fotoAlt: 'Foto de Franco Dorrego',
     inicio: 'Ir al inicio',
+    temaClaro: 'Cambiar a tema claro',
+    temaOscuro: 'Cambiar a tema oscuro',
   },
   nav: {
     proyectos: 'Experiencia',

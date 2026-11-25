@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: pt.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/25 22:22:29  by claude                                  */
+/*   Updated: 2026/11/25 22:29:31  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en portugues de Portugal. Misma forma que `es.ts`. */
@@ -32,6 +32,8 @@ export const pt: Textos = {
     idiomas: { es: 'Español', pt: 'Português' },
     fotoAlt: 'Fotografia de Franco Dorrego',
     inicio: 'Ir para o início',
+    temaClaro: 'Mudar para tema claro',
+    temaOscuro: 'Mudar para tema escuro',
   },
   nav: {
     proyectos: 'Experiência',
