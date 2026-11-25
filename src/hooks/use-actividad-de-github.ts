@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: use-actividad-de-github.ts    Project: portfolio                   */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:40:58  by vm                                      */
 /* ************************************************************************** */
 
 /** Los cuatro estados del widget de GitHub: cargando, con datos, vacio y error (con reintento). */
@@ -24,7 +24,10 @@ export type EstadoDeActividad =
 /** Sin ninguna cifra y sin mapa no hay nada que mostrar: es el estado vacio. */
 export function estaVacia(actividad: ActividadDeGithub): boolean {
   const sinCifras =
-    actividad.commits === null && actividad.pullRequests === null && actividad.merges === null;
+    actividad.total === null &&
+    actividad.commits === null &&
+    actividad.pullRequests === null &&
+    actividad.merges === null;
   return sinCifras && actividad.contributions.length === 0;
 }
 

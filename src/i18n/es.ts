@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: es.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/25 22:29:31  by vm                                      */
+/*   Updated: 2026/11/25 22:40:58  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en espanol. Su forma es el molde de los demas idiomas. */
@@ -40,8 +40,6 @@ export const es = {
     contacto: 'Contacto',
   },
   hero: {
-    subtitulo: 'Programador Full Stack',
-    rolesLeyenda: 'También trabajo como',
     descripcion: 'Productos web, cloud y automatizaciones con IA. Del diseño a producción.',
     etiquetas: 'Áreas de trabajo',
     verProyectos: 'Ver experiencia',
@@ -52,7 +50,8 @@ export const es = {
     titulo: 'Actividad en GitHub',
     verPerfil: 'Ver perfil en GitHub',
     commits: 'Commits',
-    pullRequests: 'Pull requests',
+    pullRequests: 'PRs',
+    contribuciones: 'Contribuciones',
     merges: 'Merges',
     cargando: 'Cargando la actividad de GitHub',
     vacio: 'Todavía no hay actividad para mostrar.',
@@ -60,15 +59,11 @@ export const es = {
     error: 'No se pudo leer la actividad de GitHub.',
     reintentar: 'Reintentar',
     mapa: 'Mapa de contribuciones',
-    resumenDelMapa: '{{total}} contribuciones · {{desde}} – {{hasta}}',
+    resumenDelMapa: '{{total}} contribuciones entre el {{desde}} y el {{hasta}}',
     unDia: '{{cantidad}} contribuciones el {{fecha}}',
     unDiaUna: '1 contribución el {{fecha}}',
     unDiaNinguna: 'Sin contribuciones el {{fecha}}',
-    menos: 'Menos',
-    mas: 'Más',
     ayudaDelMapa: 'Usa las flechas para recorrer los días.',
-    actualizado: 'Actualizado el {{fecha}}',
-    soloPublico: 'solo repos públicos',
   },
   proyectos: {
     titulo: 'Experiencia',
@@ -137,13 +132,13 @@ export const es = {
   sobreMi: {
     titulo: 'Sobre mí',
     resumen:
-      'Unos 4 años creando aplicaciones web, automatizaciones e infraestructura cloud, casi siempre por mi cuenta: productos propios y clientes internacionales. Uso IA para ir más rápido; la arquitectura y la revisión son mías.',
+      '4 años creando aplicaciones web, automatizaciones e infraestructura cloud: productos propios y clientes internacionales.',
     datos: {
       origen: 'Argentino',
       residencia: '3 años en Portugal',
       legal: 'Residencia aprobada',
       idiomas: 'Español y portugués fluidos',
-      ingles: 'Inglés en mejora',
+      ingles: 'No manejo el inglés: lo estoy estudiando',
       formacion: '42 Porto · Common Core',
     },
     fortalezasTitulo: 'Lo bueno',
@@ -157,7 +152,7 @@ export const es = {
     ],
     mejorasTitulo: 'A mejorar',
     mejoras: [
-      'Mi inglés',
+      'Inglés: hoy no lo manejo y me estoy esforzando para aprenderlo',
       'Procesos de ingeniería a gran escala',
       'Estándares y metodologías enterprise',
       'Experiencia en equipos consolidados',

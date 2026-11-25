@@ -7,7 +7,7 @@
 /*                                                                            */
 /*   File: inicio.test.tsx    Project: portfolio                              */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:40:58  by vm                                      */
 /* ************************************************************************** */
 
 /** La pagina entera: idioma, catalogo, detalle y los estados del widget de GitHub. */
@@ -118,6 +118,7 @@ describe('actividad de GitHub', () => {
       .mockRejectedValueOnce(new Error('caida'))
       .mockResolvedValue({
         username: 'FranDorrego',
+        total: 90,
         commits: 12,
         pullRequests: null,
         merges: 3,
@@ -132,12 +133,13 @@ describe('actividad de GitHub', () => {
     // Lo que el proveedor no informo se dice, no se rellena con un cero.
     expect(screen.getByText('No disponible')).toBeTruthy();
     expect(screen.getByRole('img', { name: /Mapa de contribuciones/ })).toBeTruthy();
-    expect(screen.getByText('Actualizado el 25 de noviembre de 2026')).toBeTruthy();
+    expect(screen.getByText('90')).toBeTruthy();
   });
 
   it('sin ningun dato muestra el estado vacio', async () => {
     const leer = vi.fn<ProveedorDeActividad['leer']>().mockResolvedValue({
       username: 'FranDorrego',
+      total: null,
       commits: null,
       pullRequests: null,
       merges: null,

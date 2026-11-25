@@ -5,22 +5,22 @@
 /*   /_/   \_\_|   \__,_|\__,_|_|  |_|\__,_|_|\_\___|_|                       */
 /*                                                                            */
 /*   File: estadisticas-de-github.test.mjs    Project: portfolio              */
-/*   Created: 2026/11/25 22:22:29  by claude                                  */
-/*   Updated: 2026/11/25 22:22:35  by claude                                  */
+/*   Created: 2026/11/25 22:27:55  by claude                                  */
+/*   Updated: 2026/11/25 22:40:59  by vm                                      */
 /* ************************************************************************** */
 
-/** El resumen de las estadisticas: suma los anios y dice si incluye lo privado. */
+/** El resumen de las estadisticas del ultimo anio, y si incluye lo privado. */
 
 import { describe, expect, it } from 'vitest';
-import { consulta, resumir } from './estadisticas-de-github.mjs';
+import { haceUnAnio, resumir } from './estadisticas-de-github.mjs';
 
 const respuesta = (viewer) => ({
   viewer: { login: viewer },
   user: {
-    a2025: { totalCommitContributions: 10 },
-    a2026: { totalCommitContributions: 32 },
     contributionsCollection: {
+      totalCommitContributions: 42,
       contributionCalendar: {
+        totalContributions: 90,
         weeks: [{ contributionDays: [{ date: '2026-11-24', contributionCount: 3 }] }],
       },
     },
@@ -30,12 +30,11 @@ const respuesta = (viewer) => ({
 });
 
 describe('estadisticas de GitHub', () => {
-  it('pide un tramo por anio', () => {
-    const texto = consulta(2023, 2025);
-    expect(texto.match(/a\d{4}: contributionsCollection/g)).toHaveLength(3);
+  it('cuenta los pull requests desde hace un anio', () => {
+    expect(haceUnAnio(new Date('2026-11-25T06:00:00Z'))).toBe('2025-11-25');
   });
 
-  it('suma los commits de todos los anios y arma el mapa', () => {
+  it('arma el archivo que lee el sitio', () => {
     const resumen = resumir({
       datos: respuesta('otro'),
       usuario: 'FranDorrego',
@@ -43,8 +42,9 @@ describe('estadisticas de GitHub', () => {
     });
     expect(resumen).toEqual({
       username: 'FranDorrego',
-      updated_at: '2026-11-25T06:00:00.000Z',
+      updated_at: '2026-11-25',
       includes_private: false,
+      total_contributions: 90,
       commits: 42,
       pull_requests: 7,
       merges: 5,
@@ -53,9 +53,11 @@ describe('estadisticas de GitHub', () => {
   });
 
   it('con el token del propio usuario incluye lo privado', () => {
-    expect(
-      resumir({ datos: respuesta('frandorrego'), usuario: 'FranDorrego', ahora: new Date() })
-        .includes_private,
-    ).toBe(true);
+    const resumen = resumir({
+      datos: respuesta('frandorrego'),
+      usuario: 'FranDorrego',
+      ahora: new Date(),
+    });
+    expect(resumen.includes_private).toBe(true);
   });
 });

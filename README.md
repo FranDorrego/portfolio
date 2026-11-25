@@ -6,7 +6,7 @@
 <!--                                                                            -->
 <!--   File: README.md    Project: portfolio                                    -->
 <!--   Created: 2026/11/25 22:17:56  by claude                                  -->
-<!--   Updated: 2026/11/25 22:31:35  by vm                                      -->
+<!--   Updated: 2026/11/25 22:41:32  by vm                                      -->
 <!-- ************************************************************************** -->
 
 # Portfolio · Franco Dorrego
@@ -51,11 +51,11 @@ repositorio. Ese commit dispara un despliegue nuevo, así las cifras están siem
 
 ### Estadísticas de GitHub
 
-El widget nunca muestra una cifra inventada: si el archivo no está, lo dice.
+Son del último año y nunca se inventan: si el archivo no está, el widget lo dice.
 
-- Sin configurar nada, cuenta **solo la actividad pública**.
-- Para sumar los repositorios privados: crear un token personal (permisos `read:user` y `repo`) y
-  guardarlo como secreto del repositorio con el nombre `GH_STATS_TOKEN`.
+- Sin configurar nada se muestra el total de contribuciones y el mapa.
+- Con el secreto `GH_STATS_TOKEN` se suman commits, pull requests y merges, contando también
+  los repositorios privados. Es un token personal clásico con permisos `read:user` y `repo`.
 
 ## Qué editar
 

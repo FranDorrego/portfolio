@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: github.service.ts    Project: portfolio                            */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:40:58  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -75,6 +75,7 @@ export function interpretarActividad(cuerpo: unknown, usuario: string): Activida
   const totales = esObjeto(datos.totals) ? { ...datos, ...datos.totals } : datos;
   return {
     username: typeof datos.username === 'string' ? datos.username : usuario,
+    total: numero(totales, ['total_contributions', 'totalContributions', 'total']),
     commits: numero(totales, ['commits', 'total_commits', 'totalCommits']),
     pullRequests: numero(totales, ['pull_requests', 'pullRequests', 'prs', 'total_prs']),
     merges: numero(totales, ['merges', 'merged_pull_requests', 'mergedPullRequests', 'merged']),

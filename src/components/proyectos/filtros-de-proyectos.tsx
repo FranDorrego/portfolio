@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: filtros-de-proyectos.tsx    Project: portfolio                     */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:41:32  by vm                                      */
 /* ************************************************************************** */
 
 /** Los dos grupos de filtros (tecnologia y categoria). Se combinan entre si y con la busqueda. */
@@ -46,7 +46,7 @@ function Grupo<T extends string>({
       <legend className="mb-2 font-mono text-xs uppercase tracking-wider text-muted-foreground">
         {titulo}
       </legend>
-      <div className="flex flex-wrap gap-2">
+      <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
         {opciones.map((opcion) => {
           const marcada = opcion.valor === elegida;
           return (
@@ -56,7 +56,7 @@ function Grupo<T extends string>({
               aria-pressed={marcada}
               onClick={() => alElegir(opcion.valor)}
               className={cn(
-                'rounded-md border px-3 py-1.5 text-sm',
+                'shrink-0 rounded-md border px-3 py-1.5 text-sm',
                 SOLAPA_PULSABLE,
                 marcada
                   ? 'border-primary/60 bg-primary/10 text-primary'

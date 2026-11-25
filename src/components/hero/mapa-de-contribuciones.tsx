@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: mapa-de-contribuciones.tsx    Project: portfolio                   */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:29:50  by vm                                      */
+/*   Updated: 2026/11/25 22:40:58  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -79,7 +79,7 @@ export function MapaDeContribuciones({ dias }: { dias: DiaDeContribuciones[] }):
   };
 
   return (
-    <figure className="m-0">
+    <div>
       <div
         role="img"
         tabIndex={0}
@@ -134,21 +134,6 @@ export function MapaDeContribuciones({ dias }: { dias: DiaDeContribuciones[] }):
           {celdaActiva ? describir(celdaActiva) : ''}
         </span>
       </div>
-      <figcaption
-        className={cn(
-          'mt-3 flex flex-wrap items-center justify-between gap-2 font-mono text-xs',
-          'text-muted-foreground',
-        )}
-      >
-        <span>{resumen}</span>
-        <span aria-hidden className="flex items-center gap-1">
-          {t.github.menos}
-          {COLORES_POR_NIVEL.map((color) => (
-            <span key={color} className="h-2.5 w-2.5 rounded-sm" style={{ background: color }} />
-          ))}
-          {t.github.mas}
-        </span>
-      </figcaption>
-    </figure>
+    </div>
   );
 }

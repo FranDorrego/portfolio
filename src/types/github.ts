@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: github.ts    Project: portfolio                                    */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:40:58  by vm                                      */
 /* ************************************************************************** */
 
 /** La actividad de GitHub tal como la usa la interfaz, sin importar de que proveedor salga. */
@@ -20,6 +20,8 @@ export interface DiaDeContribuciones {
 /** `null` en una cifra: el proveedor no la informo. Se muestra «no disponible», nunca un cero. */
 export interface ActividadDeGithub {
   username: string;
+  /** Todas las contribuciones del periodo (incluye lo privado si el perfil lo muestra). */
+  total: number | null;
   commits: number | null;
   pullRequests: number | null;
   merges: number | null;

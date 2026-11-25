@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: perfil.ts    Project: portfolio                                    */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:40:58  by vm                                      */
 /* ************************************************************************** */
 
 /** Los datos de contacto. Son los que el autor ya publica en su perfil de GitHub. */
@@ -25,15 +25,6 @@ export const PERFIL = {
  */
 export const RUTA_DEL_CV = 'cv-franco-dorrego.pdf';
 export const HAY_CV: boolean = __HAY_CV__;
-
-/** Los roles que se escriben y se borran en el hero. No se traducen: son nombres de rol. */
-export const ROLES = [
-  'Project Manager',
-  'Cloud Architecture',
-  'Full Stack Developer',
-  'Python Developer',
-  'Django Developer',
-] as const;
 
 export const ETIQUETAS_DEL_HERO = [
   'Python / Django',

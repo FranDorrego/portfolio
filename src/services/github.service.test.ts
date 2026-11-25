@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: github.service.test.ts    Project: portfolio                       */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:40:58  by vm                                      */
 /* ************************************************************************** */
 
 /** Como se lee la respuesta del proveedor: tolerante con la forma, estricto con los datos. */
@@ -33,6 +33,7 @@ describe('interpretarActividad', () => {
     );
     expect(actividad).toEqual({
       username: 'FranDorrego',
+      total: null,
       commits: 10,
       pullRequests: 4,
       merges: 3,

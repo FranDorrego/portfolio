@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: pt.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/25 22:29:31  by vm                                      */
+/*   Updated: 2026/11/25 22:40:58  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en portugues de Portugal. Misma forma que `es.ts`. */
@@ -42,8 +42,6 @@ export const pt: Textos = {
     contacto: 'Contacto',
   },
   hero: {
-    subtitulo: 'Programador Full Stack',
-    rolesLeyenda: 'Também trabalho como',
     descripcion: 'Produtos web, cloud e automatizações com IA. Do desenho à produção.',
     etiquetas: 'Áreas de trabalho',
     verProyectos: 'Ver experiência',
@@ -54,7 +52,8 @@ export const pt: Textos = {
     titulo: 'Atividade no GitHub',
     verPerfil: 'Ver perfil no GitHub',
     commits: 'Commits',
-    pullRequests: 'Pull requests',
+    pullRequests: 'PRs',
+    contribuciones: 'Contribuições',
     merges: 'Merges',
     cargando: 'A carregar a atividade do GitHub',
     vacio: 'Ainda não há atividade para mostrar.',
@@ -62,15 +61,11 @@ export const pt: Textos = {
     error: 'Não foi possível ler a atividade do GitHub.',
     reintentar: 'Tentar novamente',
     mapa: 'Mapa de contribuições',
-    resumenDelMapa: '{{total}} contribuições · {{desde}} – {{hasta}}',
+    resumenDelMapa: '{{total}} contribuições entre {{desde}} e {{hasta}}',
     unDia: '{{cantidad}} contribuições a {{fecha}}',
     unDiaUna: '1 contribuição a {{fecha}}',
     unDiaNinguna: 'Sem contribuições a {{fecha}}',
-    menos: 'Menos',
-    mas: 'Mais',
     ayudaDelMapa: 'Use as setas para percorrer os dias.',
-    actualizado: 'Atualizado a {{fecha}}',
-    soloPublico: 'só repos públicos',
   },
   proyectos: {
     titulo: 'Experiência',
@@ -139,13 +134,13 @@ export const pt: Textos = {
   sobreMi: {
     titulo: 'Sobre mim',
     resumen:
-      'Cerca de 4 anos a criar aplicações web, automatizações e infraestrutura cloud, quase sempre por conta própria: produtos próprios e clientes internacionais. Uso IA para ir mais depressa; a arquitetura e a revisão são minhas.',
+      '4 anos a criar aplicações web, automatizações e infraestrutura cloud: produtos próprios e clientes internacionais.',
     datos: {
       origen: 'Argentino',
       residencia: '3 anos em Portugal',
       legal: 'Residência aprovada',
       idiomas: 'Espanhol e português fluentes',
-      ingles: 'Inglês em melhoria',
+      ingles: 'Não domino o inglês: estou a estudá-lo',
       formacion: '42 Porto · Common Core',
     },
     fortalezasTitulo: 'O bom',
@@ -159,7 +154,7 @@ export const pt: Textos = {
     ],
     mejorasTitulo: 'A melhorar',
     mejoras: [
-      'O meu inglês',
+      'Inglês: hoje não o domino e estou a esforçar-me para o aprender',
       'Processos de engenharia em grande escala',
       'Normas e metodologias enterprise',
       'Experiência em equipas consolidadas',

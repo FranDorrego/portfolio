@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: barra.tsx    Project: portfolio                                    */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:29:31  by vm                                      */
+/*   Updated: 2026/11/25 22:41:53  by vm                                      */
 /* ************************************************************************** */
 
 /** La barra de arriba: quien soy, donde estoy, si estoy disponible, idioma y accesos rapidos. */
@@ -23,7 +23,8 @@ import { SelectorDeIdioma } from './selector-de-idioma';
 import { SelectorDeTema } from './selector-de-tema';
 
 const ENLACE =
-  'rounded-md px-2.5 py-1.5 text-sm transition-colors duration-150 focus-visible:outline-none ' +
+  'whitespace-nowrap rounded-md px-2 py-1.5 text-sm transition-colors duration-150 ' +
+  'focus-visible:outline-none ' +
   'focus-visible:ring-2 focus-visible:ring-ring';
 
 function Navegacion({ className }: { className?: string }): JSX.Element {
@@ -31,7 +32,7 @@ function Navegacion({ className }: { className?: string }): JSX.Element {
   const activa = useSeccionActiva(IDS_DE_SECCIONES);
   return (
     <nav aria-label={t.barra.navegacion} className={className}>
-      <ul className="flex items-center gap-1">
+      <ul className="flex w-full items-center justify-between gap-1 md:w-auto md:justify-start">
         {SECCIONES.map((seccion) => {
           const actual = activa === seccion.id;
           return (
@@ -59,7 +60,12 @@ function Navegacion({ className }: { className?: string }): JSX.Element {
 export function Barra(): JSX.Element {
   const { t } = useIdioma();
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/95 lg:backdrop-blur">
+    <header
+      className={cn(
+        'sticky top-0 z-40 border-b border-border bg-background',
+        'lg:bg-background/95 lg:backdrop-blur',
+      )}
+    >
       <div className={cn(CONTENEDOR_DE_PAGINA, 'flex h-14 items-center gap-3')}>
         <a
           href="#inicio"

@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: actividad-de-github.tsx    Project: portfolio                      */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:29:31  by vm                                      */
+/*   Updated: 2026/11/25 22:40:58  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -22,9 +22,12 @@ import { useActividadDeGithub } from '@/hooks/use-actividad-de-github';
 import { useIdioma } from '@/i18n';
 import { USUARIO_DE_GITHUB } from '@/services/github.service';
 import type { ActividadDeGithub as Actividad, ProveedorDeActividad } from '@/types/github';
-import { fechaLarga, numeroConFormato, rellenar } from '@/utils/texto';
+import { totalDeContribuciones } from '@/utils/mapa-de-contribuciones';
+import { numeroConFormato } from '@/utils/texto';
 import { MapaDeContribuciones } from './mapa-de-contribuciones';
 import { cn } from '@/lib/class-names';
+
+const totalDe = (actividad: Actividad): number => totalDeContribuciones(actividad.contributions);
 
 function Cifra({ etiqueta, valor }: { etiqueta: string; valor: number | null }): JSX.Element {
   const { t, idioma } = useIdioma();
@@ -46,8 +49,8 @@ function Esqueleto(): JSX.Element {
   const { t } = useIdioma();
   return (
     <div role="status" aria-label={t.github.cargando}>
-      <div className="grid grid-cols-3 gap-2">
-        {[0, 1, 2].map((n) => (
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {[0, 1, 2, 3].map((n) => (
           <Skeleton key={n} className="h-[4.25rem] rounded-md" />
         ))}
       </div>
@@ -58,13 +61,22 @@ function Esqueleto(): JSX.Element {
 }
 
 function Datos({ actividad }: { actividad: Actividad }): JSX.Element {
-  const { t, idioma } = useIdioma();
+  const { t } = useIdioma();
+  // Commits, PRs y merges solo se muestran completos: si el proveedor no ve los repositorios
+  // privados, queda el total de contribuciones (que si los incluye) y el mapa.
+  const completo = actividad.includesPrivate === true;
+  const total = actividad.total ?? (actividad.contributions.length > 0 ? totalDe(actividad) : null);
   return (
     <>
-      <dl className="grid grid-cols-3 gap-2">
-        <Cifra etiqueta={t.github.commits} valor={actividad.commits} />
-        <Cifra etiqueta={t.github.pullRequests} valor={actividad.pullRequests} />
-        <Cifra etiqueta={t.github.merges} valor={actividad.merges} />
+      <dl className={cn('grid gap-2', completo ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-1')}>
+        <Cifra etiqueta={t.github.contribuciones} valor={total} />
+        {completo && (
+          <>
+            <Cifra etiqueta={t.github.commits} valor={actividad.commits} />
+            <Cifra etiqueta={t.github.pullRequests} valor={actividad.pullRequests} />
+            <Cifra etiqueta={t.github.merges} valor={actividad.merges} />
+          </>
+        )}
       </dl>
       <div className="mt-4">
         {actividad.contributions.length > 0 ? (
@@ -80,14 +92,6 @@ function Datos({ actividad }: { actividad: Actividad }): JSX.Element {
           </p>
         )}
       </div>
-      {actividad.updatedAt && (
-        <p className="mt-3 font-mono text-xs text-muted-foreground">
-          {rellenar(t.github.actualizado, {
-            fecha: fechaLarga(actividad.updatedAt.slice(0, 10), idioma),
-          })}
-          {actividad.includesPrivate === false && ` · ${t.github.soloPublico}`}
-        </p>
-      )}
     </>
   );
 }
