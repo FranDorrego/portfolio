@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: propios.ts    Project: portfolio                                   */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:44:10  by vm                                      */
 /* ************************************************************************** */
 
 /** Productos y herramientas propias. Lo descubierto en GitHub esta marcado en cada ficha. */
@@ -62,7 +62,18 @@ export const PROPIOS: Proyecto[] = [
     cardTags: ['MCP', 'OAuth 2.1', 'Django', 'Python'],
     filters: ['python', 'django', 'ia', 'cloud'],
     status: 'activo',
-    screenshots: [],
+    screenshots: [
+      {
+        src: 'proyectos/ardumaker-mcp/mcp.webp',
+        alt: { es: 'Página de ArduMaker MCP', pt: 'Página da ArduMaker MCP' },
+      },
+    ],
+    diagram: [
+      { icon: 'ia', label: 'Agente de IA' },
+      { icon: 'usuario', label: { es: 'Aprobación', pt: 'Aprovação' } },
+      { icon: 'api', label: 'Servidor MCP' },
+      { icon: 'nube', label: 'VPS · DNS · DB' },
+    ],
     logo: 'logos/ardumaker.png',
     featured: false,
     visibility: 'privado',
@@ -118,6 +129,13 @@ export const PROPIOS: Proyecto[] = [
       },
     ],
     screenshots: [],
+    diagram: [
+      { icon: 'externo', label: 'Binance' },
+      { icon: 'api', label: 'API Django' },
+      { icon: 'grafico', label: { es: 'Estadísticas', pt: 'Estatísticas' } },
+      { icon: 'planilla', label: 'Excel' },
+      { icon: 'correo', label: 'Email' },
+    ],
     featured: false,
     visibility: 'privado',
   },
@@ -170,6 +188,13 @@ export const PROPIOS: Proyecto[] = [
     startDate: '2026-10',
     status: 'activo',
     screenshots: [],
+    diagram: [
+      { icon: 'extension', label: { es: 'Extensión', pt: 'Extensão' } },
+      { icon: 'video', label: { es: 'Grabación', pt: 'Gravação' } },
+      { icon: 'datos', label: 'IndexedDB' },
+      { icon: 'api', label: 'ArduMaker' },
+      { icon: 'documento', label: { es: 'Transcripción', pt: 'Transcrição' } },
+    ],
     logo: 'logos/ardumaker.png',
     featured: false,
     visibility: 'privado',
@@ -215,6 +240,12 @@ export const PROPIOS: Proyecto[] = [
     startDate: '2025-10',
     status: 'activo',
     screenshots: [],
+    diagram: [
+      { icon: 'api', label: 'API central' },
+      { icon: 'consola', label: 'Agente host' },
+      { icon: 'nube', label: { es: 'Contenedor LXD', pt: 'Contentor LXD' } },
+      { icon: 'consola', label: 'Agente VPS' },
+    ],
     logo: 'logos/ardumaker.png',
     featured: false,
     visibility: 'privado',
@@ -248,6 +279,12 @@ export const PROPIOS: Proyecto[] = [
     startDate: '2026-09',
     status: 'activo',
     screenshots: [],
+    diagram: [
+      { icon: 'codigo', label: 'Commit' },
+      { icon: 'consola', label: 'ardumaker check' },
+      { icon: 'documento', label: { es: 'Reglas', pt: 'Regras' } },
+      { icon: 'nube', label: 'CI' },
+    ],
     logo: 'logos/ardumaker.png',
     featured: false,
     visibility: 'privado',
@@ -285,6 +322,12 @@ export const PROPIOS: Proyecto[] = [
     startDate: '2025-04',
     endDate: '2025-05',
     screenshots: [],
+    diagram: [
+      { icon: 'grafico', label: 'TradingView' },
+      { icon: 'correo', label: 'Email' },
+      { icon: 'api', label: 'API Django' },
+      { icon: 'externo', label: 'Exchange' },
+    ],
     featured: false,
     visibility: 'privado',
   },

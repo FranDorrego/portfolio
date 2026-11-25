@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: distrivalto.ts    Project: portfolio                               */
 /*   Created: 2026/11/25 22:24:26  by claude                                  */
-/*   Updated: 2026/11/25 22:24:26  by claude                                  */
+/*   Updated: 2026/11/25 22:44:10  by vm                                      */
 /* ************************************************************************** */
 
 /** Distrivalto: el tercer destacado. */
@@ -115,6 +115,13 @@ export const DISTRIVALTO: Proyecto = {
     },
   ],
   screenshots: [],
+  diagram: [
+    { icon: 'chat', label: { es: 'Web y WhatsApp', pt: 'Web e WhatsApp' } },
+    { icon: 'api', label: 'API Django' },
+    { icon: 'flujo', label: 'n8n + IA' },
+    { icon: 'documento', label: { es: 'Manuales OCR', pt: 'Manuais OCR' } },
+    { icon: 'usuario', label: 'Agente humano' },
+  ],
   featured: true,
   visibility: 'privado',
 };

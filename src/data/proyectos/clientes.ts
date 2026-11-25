@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: clientes.ts    Project: portfolio                                  */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:46:26  by vm                                      */
 /* ************************************************************************** */
 
 /** Trabajo para clientes. Donde hubo equipo, la ficha dice que parte es mia. */
@@ -76,6 +76,13 @@ export const CLIENTES: Proyecto[] = [
     startDate: '2025-12',
     endDate: '2026-10',
     screenshots: [],
+    diagram: [
+      { icon: 'chat', label: 'WhatsApp' },
+      { icon: 'flujo', label: 'n8n + IA' },
+      { icon: 'api', label: 'API Django' },
+      { icon: 'web', label: { es: 'Panel', pt: 'Painel' } },
+      { icon: 'planilla', label: 'Excel' },
+    ],
     featured: false,
     visibility: 'privado',
   },
@@ -127,6 +134,13 @@ export const CLIENTES: Proyecto[] = [
     startDate: '2025-07',
     endDate: '2026-10',
     screenshots: [],
+    diagram: [
+      { icon: 'chat', label: 'WhatsApp' },
+      { icon: 'documento', label: { es: 'Factura', pt: 'Fatura' } },
+      { icon: 'ia', label: { es: 'IA de visión', pt: 'IA de visão' } },
+      { icon: 'api', label: 'API Django' },
+      { icon: 'planilla', label: 'Excel' },
+    ],
     featured: false,
     visibility: 'privado',
   },
@@ -156,6 +170,12 @@ export const CLIENTES: Proyecto[] = [
     endDate: '2025-02',
     status: 'finalizado',
     screenshots: [],
+    diagram: [
+      { icon: 'grafico', label: 'TradingView' },
+      { icon: 'api', label: 'API Django' },
+      { icon: 'externo', label: 'Binance Futures' },
+      { icon: 'chat', label: 'Telegram' },
+    ],
     featured: false,
     visibility: 'privado',
   },
@@ -202,6 +222,12 @@ export const CLIENTES: Proyecto[] = [
     startDate: '2026-01',
     endDate: '2026-06',
     screenshots: [],
+    diagram: [
+      { icon: 'web', label: 'WooCommerce' },
+      { icon: 'api', label: 'API Django' },
+      { icon: 'flujo', label: 'n8n + IA' },
+      { icon: 'chat', label: { es: 'Chat de ventas', pt: 'Chat de vendas' } },
+    ],
     featured: false,
     visibility: 'privado',
   },
@@ -240,31 +266,48 @@ export const CLIENTES: Proyecto[] = [
     startDate: '2025-10',
     endDate: '2026-04',
     screenshots: [],
+    diagram: [
+      { icon: 'web', label: 'Landing' },
+      { icon: 'pago', label: 'Stripe' },
+      { icon: 'usuario', label: { es: 'Alumno', pt: 'Aluno' } },
+      { icon: 'juego', label: { es: 'Ejercicios', pt: 'Exercícios' } },
+      { icon: 'grafico', label: { es: 'Progreso', pt: 'Progresso' } },
+    ],
     featured: false,
     visibility: 'privado',
   },
   {
     id: 'dinamarca-tours',
     slug: 'dinamarca-tours',
-    title: 'Dinamarca Tours',
+    title: 'Tours en Dinamarca',
     category: 'cliente',
-    client: 'Dinamarca Tours',
+    country: { es: 'Dinamarca', pt: 'Dinamarca' },
     shortDescription: {
-      es: 'Plataforma de reservas de tours: disponibilidad, calendario, gestión de salidas y cobro de una seña al reservar.',
-      pt: 'Plataforma de reservas de tours: disponibilidade, calendário, gestão de saídas e cobrança de um sinal na reserva.',
+      es: 'Reservas de tours guiados con cobro online: disponibilidad, calendario, panel de administración y comprobantes.',
+      pt: 'Reservas de tours guiados com pagamento online: disponibilidade, calendário, painel de administração e comprovativos.',
     },
     fullDescription: {
-      es: 'Proyecto en su etapa inicial. El alcance definido es el agendamiento de tours con un cobro mínimo de reserva.',
-      pt: 'Projeto na fase inicial. O âmbito definido é o agendamento de tours com uma cobrança mínima de reserva.',
+      es: 'Sitio público en dos idiomas para reservar sin crear cuenta y pagar una seña, y un panel para gestionar salidas, horarios recurrentes, bloqueos, asistencia y estadísticas. Cada reserva envía su correo y su comprobante en PDF.',
+      pt: 'Site público em duas línguas para reservar sem criar conta e pagar um sinal, e um painel para gerir saídas, horários recorrentes, bloqueios, presenças e estatísticas. Cada reserva envia o seu email e o comprovativo em PDF.',
     },
-    role: { es: 'Arquitectura y desarrollo.', pt: 'Arquitetura e desenvolvimento.' },
-    languages: [],
-    technologies: [],
-    cardTags: [],
-    filters: [],
+    role: {
+      es: 'Arquitectura y dirección técnica; el código se escribió con asistentes de IA bajo mi revisión.',
+      pt: 'Arquitetura e direção técnica; o código foi escrito com assistentes de IA sob a minha revisão.',
+    },
+    languages: ['Python', 'TypeScript'],
+    technologies: ['Django', 'DRF', 'PostgreSQL', 'React', 'Vite', 'SumUp', 'PDF', 'Vitest'],
+    cardTags: ['Django', 'React', 'PostgreSQL', 'SumUp'],
+    filters: ['python', 'django', 'react', 'typescript', 'ia'],
     startDate: '2026-10',
     status: 'en-desarrollo',
     screenshots: [],
+    diagram: [
+      { icon: 'web', label: { es: 'Sitio público', pt: 'Site público' } },
+      { icon: 'pago', label: 'SumUp' },
+      { icon: 'api', label: 'API Django' },
+      { icon: 'usuario', label: { es: 'Panel admin', pt: 'Painel admin' } },
+      { icon: 'correo', label: 'PDF + email' },
+    ],
     featured: false,
     visibility: 'privado',
   },

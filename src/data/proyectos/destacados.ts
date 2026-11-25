@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: destacados.ts    Project: portfolio                                */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:44:10  by vm                                      */
 /* ************************************************************************** */
 
 /** Los cuatro proyectos que se ven al llegar. Cada dato sale del repositorio o del autor. */
@@ -130,7 +130,33 @@ export const DESTACADOS: Proyecto[] = [
         },
       },
     ],
-    screenshots: [],
+    screenshots: [
+      {
+        src: 'proyectos/ardumaker-developer/inicio.webp',
+        alt: { es: 'Inicio del sitio de ArduMaker', pt: 'Início do site da ArduMaker' },
+      },
+      {
+        src: 'proyectos/ardumaker-developer/servicios.webp',
+        alt: { es: 'Página de servicios de ArduMaker', pt: 'Página de serviços da ArduMaker' },
+      },
+      {
+        src: 'proyectos/ardumaker-developer/panel.webp',
+        alt: { es: 'Acceso al panel de cliente', pt: 'Acesso ao painel de cliente' },
+      },
+      {
+        src: 'proyectos/ardumaker-developer/estado.webp',
+        alt: {
+          es: 'Página de estado de la infraestructura',
+          pt: 'Página de estado da infraestrutura',
+        },
+      },
+    ],
+    diagram: [
+      { icon: 'usuario', label: { es: 'Panel web', pt: 'Painel web' } },
+      { icon: 'api', label: 'API Django' },
+      { icon: 'consola', label: { es: 'Agente del host', pt: 'Agente do host' } },
+      { icon: 'nube', label: 'miniVPS Linux' },
+    ],
     logo: 'logos/ardumaker.png',
     demoUrl: 'https://ardumaker.com',
     featured: true,
@@ -239,6 +265,13 @@ export const DESTACADOS: Proyecto[] = [
       },
     ],
     screenshots: [],
+    diagram: [
+      { icon: 'chat', label: 'WhatsApp' },
+      { icon: 'flujo', label: 'n8n + IA' },
+      { icon: 'api', label: 'API Django' },
+      { icon: 'externo', label: 'JackRabbit' },
+      { icon: 'web', label: { es: 'Panel', pt: 'Painel' } },
+    ],
     logo: 'logos/vivenadando.jpeg',
     featured: true,
     visibility: 'privado',

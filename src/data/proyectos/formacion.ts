@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: formacion.ts    Project: portfolio                                 */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 22:47:36  by vm                                      */
 /* ************************************************************************** */
 
 /** 42 Porto, formacion, hackathons y hardware. */
@@ -63,6 +63,13 @@ export const FORMACION: Proyecto[] = [
     endDate: '2026-04',
     status: 'finalizado',
     screenshots: [],
+    diagram: [
+      { icon: 'consola', label: 'Entrada' },
+      { icon: 'codigo', label: 'Tokenizer' },
+      { icon: 'codigo', label: 'Parser' },
+      { icon: 'consola', label: 'fork / execve' },
+      { icon: 'juego', label: 'Raycasting' },
+    ],
     repositoryUrl: 'https://github.com/rodperei/minishell',
     featured: true,
     visibility: 'publico',
@@ -94,6 +101,13 @@ export const FORMACION: Proyecto[] = [
     endDate: '2026-04',
     status: 'finalizado',
     screenshots: [],
+    diagram: [
+      { icon: 'video', label: 'Vídeo' },
+      { icon: 'api', label: 'Flask' },
+      { icon: 'ia', label: 'Detector' },
+      { icon: 'datos', label: 'SQLite' },
+      { icon: 'web', label: 'WebSocket' },
+    ],
     repositoryUrl: 'https://github.com/FranDorrego/Hackaton---Seguranza',
     featured: false,
     visibility: 'publico',
@@ -124,6 +138,12 @@ export const FORMACION: Proyecto[] = [
     endDate: '2023-12',
     status: 'finalizado',
     screenshots: [],
+    diagram: [
+      { icon: 'usuario', label: 'Cliente' },
+      { icon: 'web', label: 'Next.js' },
+      { icon: 'api', label: 'API Django' },
+      { icon: 'datos', label: 'SQLite' },
+    ],
     repositoryUrl: 'https://github.com/FranDorrego/ITBA',
     featured: false,
     visibility: 'publico',
@@ -160,6 +180,12 @@ export const FORMACION: Proyecto[] = [
       },
     ],
     screenshots: [],
+    diagram: [
+      { icon: 'documento', label: 'Cursos' },
+      { icon: 'codigo', label: 'C / Arduino' },
+      { icon: 'externo', label: 'Kits' },
+      { icon: 'usuario', label: '≈ 3.000' },
+    ],
     featured: false,
     visibility: 'privado',
   },
