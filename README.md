@@ -6,7 +6,7 @@
 <!--                                                                            -->
 <!--   File: README.md    Project: portfolio                                    -->
 <!--   Created: 2026/11/25 22:17:56  by claude                                  -->
-<!--   Updated: 2026/11/25 22:29:50  by vm                                      -->
+<!--   Updated: 2026/11/25 22:31:35  by vm                                      -->
 <!-- ************************************************************************** -->
 
 # Portfolio · Franco Dorrego
@@ -14,6 +14,8 @@
 Programador Full Stack en Porto, Portugal. Quién soy, mi actividad en GitHub, mi experiencia, lo
 bueno y lo que tengo que mejorar, preguntas frecuentes y cómo contactarme.
 
+- 🌐 **Sitio:** <https://git-452.arducloud.com> (español) · <https://git-452.arducloud.com/pt/>
+  (portugués)
 - 📦 **Repositorio:** <https://github.com/FranDorrego/portfolio>
 - 🛠️ **Stack:** React · Vite · TypeScript · Tailwind CSS
 - 🎨 **Diseño:** el estilo de los fronts de ArduMaker, con tema claro y oscuro
