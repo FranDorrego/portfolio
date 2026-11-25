@@ -1,0 +1,72 @@
+# ************************************************************************** #
+#      / \   _ __  __| |_   _|  \/  | __ _| | _____ _ __                     #
+#     / _ \ | '__|/ _` | | | | |\/| |/ _` | |/ / _ \ '__|                    #
+#    / ___ \| |  | (_| | |_| | |  | | (_| |   <  __/ |                       #
+#   /_/   \_\_|   \__,_|\__,_|_|  |_|\__,_|_|\_\___|_|                       #
+#                                                                            #
+#   File: sitio.yml    Project: portfolio                                    #
+#   Created: 2026/11/25 22:22:29  by claude                                  #
+#   Updated: 2026/11/25 22:22:29  by claude                                  #
+# ************************************************************************** #
+
+# Verifica, actualiza las estadisticas de GitHub y publica el sitio en GitHub Pages.
+# Corre en cada push a main y una vez por dia, para que la actividad de GitHub este al dia.
+name: Sitio
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: sitio
+  cancel-in-progress: true
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - id: pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      # Sin GH_STATS_TOKEN se usa el token de la accion, que solo ve la actividad publica.
+      # Si GitHub no responde, el sitio se publica igual y el widget lo dice.
+      - name: Estadisticas de GitHub
+        continue-on-error: true
+        run: npm run estadisticas
+        env:
+          GH_STATS_TOKEN: ${{ secrets.GH_STATS_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+      - run: npm run build
+        env:
+          VITE_SITE_URL: ${{ steps.pages.outputs.base_url }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  publicar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - id: despliegue
+        uses: actions/deploy-pages@v4

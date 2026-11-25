@@ -1,0 +1,89 @@
+# ************************************************************************** #
+#      / \   _ __  __| |_   _|  \/  | __ _| | _____ _ __                     #
+#     / _ \ | '__|/ _` | | | | |\/| |/ _` | |/ / _ \ '__|                    #
+#    / ___ \| |  | (_| | |_| | |  | | (_| |   <  __/ |                       #
+#   /_/   \_\_|   \__,_|\__,_|_|  |_|\__,_|_|\_\___|_|                       #
+#                                                                            #
+#   File: .gitignore    Project: portfolio                                   #
+#   Created: 2026/11/17 19:26:33  by frfrand                                 #
+#   Updated: 2026/11/17 19:26:33  by frfrand                                 #
+# ************************************************************************** #
+
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+
+# Lo escribe scripts/estadisticas-de-github.mjs en cada despliegue.
+public/github-stats.json
+
+# ArduMaker repository standard
+# Agregado automáticamente: faltaba en este proyecto.
+
+# Environments and installed dependencies
+venv/
+.venv/
+env/
+virtualenv/
+vendor/
+
+# Cache and compiled output
+__pycache__/
+*.py[cod]
+*.so
+*.dll
+*.dylib
+*.o
+*.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# Build and distribution
+build/
+out/
+target/
+*.egg-info/
+staticfiles/
+
+# Editors and operating system
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# AI assistants and working session
+.claude/
+.cursor/
+.aider*
+.continue/
+.request_session/
+# The .ardumaker/ folder IS tracked on purpose: it carries the tool and the project
+# configuration, so whoever clones the repository gets both. Do not ignore it.
+# Only the account pointer stays local, because it names a person.
+.ardumaker/cuenta.local
+
+# Local data
+*.sqlite3
+*.db
+*.log
+logs/
+media/
+uploads/
+coverage/
+htmlcov/
+
+# Secrets - these are NEVER committed
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+credentials.json
+*-service-account.json

@@ -1,0 +1,7 @@
+dist
+node_modules
+.ardumaker
+public
+src/locales
+src/content
+package-lock.json

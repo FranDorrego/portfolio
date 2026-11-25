@@ -1,0 +1,4 @@
+# Portafolio de Franco Dorrego: todo es publico.
+# El sitemap lo escribe scripts/sitemap.mjs al compilar, con la direccion de VITE_SITE_URL.
+User-agent: *
+Allow: /
