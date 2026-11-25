@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: es.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/25 22:40:58  by vm                                      */
+/*   Updated: 2026/11/25 23:21:38  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en espanol. Su forma es el molde de los demas idiomas. */
@@ -30,6 +30,7 @@ export const es = {
     idiomas: { es: 'Español', pt: 'Português' },
     fotoAlt: 'Foto de Franco Dorrego',
     inicio: 'Ir al inicio',
+    verFoto: 'Ver la foto en grande',
     temaClaro: 'Cambiar a tema claro',
     temaOscuro: 'Cambiar a tema oscuro',
   },
@@ -41,7 +42,6 @@ export const es = {
   },
   hero: {
     descripcion: 'Productos web, cloud y automatizaciones con IA. Del diseño a producción.',
-    etiquetas: 'Áreas de trabajo',
     verProyectos: 'Ver experiencia',
     descargarCv: 'CV',
     contactar: 'Contactar',
@@ -50,7 +50,7 @@ export const es = {
     titulo: 'Actividad en GitHub',
     verPerfil: 'Ver perfil en GitHub',
     commits: 'Commits',
-    pullRequests: 'PRs',
+    pullRequests: 'Pull requests',
     contribuciones: 'Contribuciones',
     merges: 'Merges',
     cargando: 'Cargando la actividad de GitHub',
@@ -64,6 +64,10 @@ export const es = {
     unDiaUna: '1 contribución el {{fecha}}',
     unDiaNinguna: 'Sin contribuciones el {{fecha}}',
     ayudaDelMapa: 'Usa las flechas para recorrer los días.',
+    enElAnio: '{{total}} contribuciones en el último año',
+    dias: ['lun', 'mié', 'vie'],
+    menos: 'Menos',
+    mas: 'Más',
   },
   proyectos: {
     titulo: 'Experiencia',

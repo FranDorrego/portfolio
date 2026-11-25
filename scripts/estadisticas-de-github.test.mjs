@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: estadisticas-de-github.test.mjs    Project: portfolio              */
 /*   Created: 2026/11/25 22:27:55  by claude                                  */
-/*   Updated: 2026/11/25 22:40:59  by vm                                      */
+/*   Updated: 2026/11/25 23:21:40  by vm                                      */
 /* ************************************************************************** */
 
 /** El resumen de las estadisticas del ultimo anio, y si incluye lo privado. */
@@ -21,7 +21,13 @@ const respuesta = (viewer) => ({
       totalCommitContributions: 42,
       contributionCalendar: {
         totalContributions: 90,
-        weeks: [{ contributionDays: [{ date: '2026-11-24', contributionCount: 3 }] }],
+        weeks: [
+          {
+            contributionDays: [
+              { date: '2026-11-24', contributionCount: 3, contributionLevel: 'SECOND_QUARTILE' },
+            ],
+          },
+        ],
       },
     },
   },
@@ -48,7 +54,7 @@ describe('estadisticas de GitHub', () => {
       commits: 42,
       pull_requests: 7,
       merges: 5,
-      contributions: [{ date: '2026-11-24', count: 3 }],
+      contributions: [{ date: '2026-11-24', count: 3, level: 2 }],
     });
   });
 

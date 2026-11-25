@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: dialog.tsx    Project: portfolio                                   */
 /*   Created: 2026/11/25 22:18:47  by claude                                  */
-/*   Updated: 2026/11/25 22:29:31  by vm                                      */
+/*   Updated: 2026/11/25 23:23:21  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -48,7 +48,7 @@ export const DialogContent = React.forwardRef<HTMLDivElement, Props>(
           aria-label={textoDeCerrar}
           className={cn(
             'absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-md',
-            'text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground',
+            'bg-card/80 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
           )}
         >

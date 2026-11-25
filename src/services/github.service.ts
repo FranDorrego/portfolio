@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: github.service.ts    Project: portfolio                            */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:40:58  by vm                                      */
+/*   Updated: 2026/11/25 23:21:38  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -44,10 +44,12 @@ function numero(origen: Objeto, claves: string[]): number | null {
 
 const FECHA = /^\d{4}-\d{2}-\d{2}/;
 
-function unDia(fecha: unknown, cantidad: unknown): DiaDeContribuciones | null {
+function unDia(fecha: unknown, cantidad: unknown, nivel?: unknown): DiaDeContribuciones | null {
   if (typeof fecha !== 'string' || !FECHA.test(fecha)) return null;
   if (typeof cantidad !== 'number' || !Number.isFinite(cantidad) || cantidad < 0) return null;
-  return { date: fecha.slice(0, 10), count: Math.round(cantidad) };
+  const dia: DiaDeContribuciones = { date: fecha.slice(0, 10), count: Math.round(cantidad) };
+  if (nivel === 0 || nivel === 1 || nivel === 2 || nivel === 3 || nivel === 4) dia.level = nivel;
+  return dia;
 }
 
 /** Acepta una lista `[{ date, count }]` o un diccionario `{ 'AAAA-MM-DD': n }`. */
@@ -56,7 +58,11 @@ export function leerContribuciones(crudo: unknown): DiaDeContribuciones[] {
   if (Array.isArray(crudo)) {
     dias = crudo.map((fila) =>
       esObjeto(fila)
-        ? unDia(fila.date ?? fila.fecha, fila.count ?? fila.contributionCount ?? fila.cantidad)
+        ? unDia(
+            fila.date ?? fila.fecha,
+            fila.count ?? fila.contributionCount ?? fila.cantidad,
+            fila.level,
+          )
         : null,
     );
   } else if (esObjeto(crudo)) {

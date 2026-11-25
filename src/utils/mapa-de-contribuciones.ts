@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: mapa-de-contribuciones.ts    Project: portfolio                    */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 23:21:39  by vm                                      */
 /* ************************************************************************** */
 
 /** Las cuentas del mapa de contribuciones: semanas completas y niveles de intensidad. */
@@ -46,6 +46,11 @@ export function armarSemanas(
 ): (Celda | null)[][] {
   if (dias.length === 0) return [];
   const porFecha = new Map(dias.map((dia) => [dia.date, dia.count]));
+  const porNivel = new Map(
+    dias
+      .filter((dia) => dia.level !== undefined)
+      .map((dia) => [dia.date, dia.level as Celda['nivel']]),
+  );
   const ultimo = aFecha(dias[dias.length - 1].date);
   let primero = aFecha(dias[0].date);
   const inicioMinimo = new Date(ultimo.getTime() - (maximoDeSemanas * 7 - 1) * UN_DIA_MS);
@@ -60,7 +65,8 @@ export function armarSemanas(
   for (let dia = primero; dia <= ultimo; dia = new Date(dia.getTime() + UN_DIA_MS)) {
     const date = aTexto(dia);
     const count = porFecha.get(date) ?? 0;
-    semana.push({ date, count, nivel: nivelDe(count, maximo) });
+    const nivel = porNivel.get(date) ?? nivelDe(count, maximo);
+    semana.push({ date, count, nivel });
     if (semana.length === 7) {
       semanas.push(semana);
       semana = [];
@@ -75,4 +81,31 @@ export function armarSemanas(
 
 export function totalDeContribuciones(dias: DiaDeContribuciones[]): number {
   return dias.reduce((suma, dia) => suma + dia.count, 0);
+}
+
+const MESES_CORTOS: Record<string, string[]> = {
+  es: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'],
+  pt: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'],
+};
+
+/**
+ * Los nombres de mes sobre las columnas, como en GitHub: en la primera semana que empieza en un
+ * mes nuevo. Si el primero queda a menos de tres columnas del siguiente, no se escribe (se pisan).
+ */
+export function etiquetasDeMes(
+  semanas: (Celda | null)[][],
+  idioma: string,
+): { columna: number; texto: string }[] {
+  const meses = MESES_CORTOS[idioma] ?? MESES_CORTOS.es;
+  const etiquetas: { columna: number; texto: string }[] = [];
+  let anterior = -1;
+  semanas.forEach((semana, columna) => {
+    const primera = semana.find((celda) => celda !== null);
+    if (!primera) return;
+    const mes = Number(primera.date.slice(5, 7)) - 1;
+    if (mes !== anterior) etiquetas.push({ columna, texto: meses[mes] });
+    anterior = mes;
+  });
+  if (etiquetas.length > 1 && etiquetas[1].columna - etiquetas[0].columna < 3) etiquetas.shift();
+  return etiquetas;
 }

@@ -5,27 +5,30 @@
 /*   /_/   \_\_|   \__,_|\__,_|_|  |_|\__,_|_|\_\___|_|                       */
 /*                                                                            */
 /*   File: mapa-de-contribuciones.tsx    Project: portfolio                   */
-/*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:40:58  by vm                                      */
+/*   Created: 2026/11/25 22:27:55  by claude                                  */
+/*   Updated: 2026/11/25 23:22:56  by vm                                      */
 /* ************************************************************************** */
 
 /**
- * El mapa de contribuciones: una columna por semana, en escala esmeralda. Es un SVG que se
- * adapta al ancho de la tarjeta (no hay scroll lateral). El detalle de un dia aparece al pasar el
- * mouse o al recorrerlo con las flechas del teclado.
+ * El mapa de contribuciones, igual al del perfil de GitHub: meses arriba, lunes, miercoles y
+ * viernes a la izquierda, los mismos verdes y la leyenda «Menos … Mas» abajo. En pantallas
+ * angostas se desplaza de costado y arranca mostrando lo mas reciente, como en GitHub. El
+ * detalle de un dia aparece al pasar el mouse o al recorrerlo con las flechas del teclado.
  */
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useIdioma } from '@/i18n';
-import type { DiaDeContribuciones } from '@/types/github';
-import { armarSemanas, totalDeContribuciones, type Celda } from '@/utils/mapa-de-contribuciones';
-import { fechaLarga, numeroConFormato, rellenar } from '@/utils/texto';
 import { cn } from '@/lib/class-names';
+import type { DiaDeContribuciones } from '@/types/github';
+import { armarSemanas, etiquetasDeMes, type Celda } from '@/utils/mapa-de-contribuciones';
+import { fechaLarga, numeroConFormato, rellenar } from '@/utils/texto';
 
 const LADO = 10;
 const PASO = 13;
+const MARGEN_IZQUIERDO = 30;
+const MARGEN_SUPERIOR = 18;
 
-/** De «sin actividad» a lo mas intenso: variables del tema (index.css), claro u oscuro. */
+/** Los verdes de GitHub, del tema actual (index.css). */
 export const COLORES_POR_NIVEL = [0, 1, 2, 3, 4].map((nivel) => `hsl(var(--mapa-${nivel}))`);
 
 interface Posicion {
@@ -40,13 +43,27 @@ const MOVIMIENTOS: Record<string, [number, number]> = {
   ArrowDown: [0, 1],
 };
 
-export function MapaDeContribuciones({ dias }: { dias: DiaDeContribuciones[] }): JSX.Element {
+interface Props {
+  dias: DiaDeContribuciones[];
+  /** El texto del pie a la izquierda (en GitHub, «Learn how we count contributions»). */
+  pie?: React.ReactNode;
+}
+
+export function MapaDeContribuciones({ dias, pie }: Props): JSX.Element {
   const { t, idioma } = useIdioma();
   const semanas = useMemo(() => armarSemanas(dias), [dias]);
+  const meses = useMemo(() => etiquetasDeMes(semanas, idioma), [semanas, idioma]);
   const [activa, setActiva] = useState<Posicion | null>(null);
+  const desplazable = useRef<HTMLDivElement>(null);
 
-  const ancho = semanas.length * PASO - (PASO - LADO);
-  const alto = 7 * PASO - (PASO - LADO);
+  // Como en GitHub: en una pantalla angosta se ve primero lo mas reciente.
+  useEffect(() => {
+    const caja = desplazable.current;
+    if (caja) caja.scrollLeft = caja.scrollWidth;
+  }, [semanas]);
+
+  const ancho = MARGEN_IZQUIERDO + semanas.length * PASO - (PASO - LADO);
+  const alto = MARGEN_SUPERIOR + 7 * PASO - (PASO - LADO);
   const celdaActiva: Celda | null = activa ? (semanas[activa.semana]?.[activa.dia] ?? null) : null;
 
   const describir = (celda: Celda): string => {
@@ -55,12 +72,6 @@ export function MapaDeContribuciones({ dias }: { dias: DiaDeContribuciones[] }):
     if (celda.count === 1) return rellenar(t.github.unDiaUna, { fecha });
     return rellenar(t.github.unDia, { cantidad: numeroConFormato(celda.count, idioma), fecha });
   };
-
-  const resumen = rellenar(t.github.resumenDelMapa, {
-    total: numeroConFormato(totalDeContribuciones(dias), idioma),
-    desde: fechaLarga(dias[0].date, idioma),
-    hasta: fechaLarga(dias[dias.length - 1].date, idioma),
-  });
 
   const mover = (evento: React.KeyboardEvent): void => {
     const paso = MOVIMIENTOS[evento.key];
@@ -78,60 +89,99 @@ export function MapaDeContribuciones({ dias }: { dias: DiaDeContribuciones[] }):
     if (semanas[semana]?.[dia]) setActiva({ semana, dia });
   };
 
+  const x = (semana: number): number => MARGEN_IZQUIERDO + semana * PASO;
+  const y = (dia: number): number => MARGEN_SUPERIOR + dia * PASO;
+
   return (
-    <div>
-      <div
-        role="img"
-        tabIndex={0}
-        aria-label={`${t.github.mapa}. ${resumen}. ${t.github.ayudaDelMapa}`}
-        onKeyDown={mover}
-        onBlur={() => setActiva(null)}
-        onMouseLeave={() => setActiva(null)}
-        className={cn(
-          'relative rounded-sm focus-visible:outline-none focus-visible:ring-2',
-          'focus-visible:ring-ring focus-visible:ring-offset-4',
-          'focus-visible:ring-offset-card',
-        )}
-      >
-        <svg viewBox={`0 0 ${ancho} ${alto}`} className="block h-auto w-full" aria-hidden>
-          {semanas.map((semana, x) =>
-            semana.map((celda, y) =>
-              celda ? (
-                <rect
-                  key={celda.date}
-                  x={x * PASO}
-                  y={y * PASO}
-                  width={LADO}
-                  height={LADO}
-                  rx={2}
-                  fill={COLORES_POR_NIVEL[celda.nivel]}
-                  stroke={
-                    activa?.semana === x && activa.dia === y ? 'hsl(var(--foreground))' : 'none'
-                  }
-                  strokeWidth={1.5}
-                  onMouseEnter={() => setActiva({ semana: x, dia: y })}
-                />
-              ) : null,
-            ),
+    <div className="rounded-md border border-border px-3 pb-3 pt-3 sm:px-4">
+      <div ref={desplazable} className="overflow-x-auto">
+        <div
+          role="img"
+          tabIndex={0}
+          aria-label={`${t.github.mapa}. ${t.github.ayudaDelMapa}`}
+          onKeyDown={mover}
+          onBlur={() => setActiva(null)}
+          onMouseLeave={() => setActiva(null)}
+          className={cn(
+            'relative min-w-[44rem] rounded-sm focus-visible:outline-none lg:min-w-0',
+            'focus-visible:ring-2 focus-visible:ring-ring',
           )}
-        </svg>
-        {activa && celdaActiva && (
-          <div
-            className={cn(
-              'pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full',
-              'whitespace-nowrap rounded-md border border-border bg-card px-2 py-1 text-xs',
-              'text-foreground shadow-flotante',
+        >
+          <svg viewBox={`0 0 ${ancho} ${alto}`} className="block h-auto w-full" aria-hidden>
+            {meses.map((mes) => (
+              <text
+                key={`${mes.columna}-${mes.texto}`}
+                x={x(mes.columna)}
+                y={10}
+                className="fill-foreground text-[9px]"
+              >
+                {mes.texto}
+              </text>
+            ))}
+            {t.github.dias.map((nombre, indice) => (
+              <text
+                key={nombre}
+                x={0}
+                y={y(1 + indice * 2) + LADO - 1}
+                className="fill-foreground text-[9px]"
+              >
+                {nombre}
+              </text>
+            ))}
+            {semanas.map((semana, columna) =>
+              semana.map((celda, fila) =>
+                celda ? (
+                  <rect
+                    key={celda.date}
+                    x={x(columna)}
+                    y={y(fila)}
+                    width={LADO}
+                    height={LADO}
+                    rx={2}
+                    fill={COLORES_POR_NIVEL[celda.nivel]}
+                    stroke={
+                      activa?.semana === columna && activa.dia === fila
+                        ? 'hsl(var(--foreground))'
+                        : 'hsl(var(--foreground) / 0.05)'
+                    }
+                    strokeWidth={activa?.semana === columna && activa.dia === fila ? 1.5 : 0.5}
+                    onMouseEnter={() => setActiva({ semana: columna, dia: fila })}
+                  />
+                ) : null,
+              ),
             )}
-            style={{
-              left: `clamp(5.5rem, ${((activa.semana * PASO + LADO / 2) / ancho) * 100}%, calc(100% - 5.5rem))`,
-              top: `calc(${((activa.dia * PASO) / alto) * 100}% - 6px)`,
-            }}
-          >
-            {describir(celdaActiva)}
-          </div>
-        )}
-        <span aria-live="polite" className="sr-only">
-          {celdaActiva ? describir(celdaActiva) : ''}
+          </svg>
+          {activa && celdaActiva && (
+            <div
+              className={cn(
+                'pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full',
+                'whitespace-nowrap rounded-md bg-foreground px-2 py-1 text-xs text-background',
+              )}
+              style={{
+                left: `${((x(activa.semana) + LADO / 2) / ancho) * 100}%`,
+                top: `calc(${(y(activa.dia) / alto) * 100}% - 6px)`,
+              }}
+            >
+              {describir(celdaActiva)}
+            </div>
+          )}
+          <span aria-live="polite" className="sr-only">
+            {celdaActiva ? describir(celdaActiva) : ''}
+          </span>
+        </div>
+      </div>
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
+        <span>{pie}</span>
+        <span aria-hidden className="flex items-center gap-1">
+          {t.github.menos}
+          {COLORES_POR_NIVEL.map((color) => (
+            <span
+              key={color}
+              className="h-2.5 w-2.5 rounded-sm outline outline-1 -outline-offset-1 outline-foreground/5"
+              style={{ background: color }}
+            />
+          ))}
+          {t.github.mas}
         </span>
       </div>
     </div>

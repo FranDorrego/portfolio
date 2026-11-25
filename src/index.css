@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: index.css    Project: portfolio                                    */
 /*   Created: 2026/11/25 22:18:47  by claude                                  */
-/*   Updated: 2026/11/25 22:29:31  by vm                                      */
+/*   Updated: 2026/11/25 23:19:33  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -35,12 +35,12 @@
   --action-hover: 214 100% 38%;
   --success: 118 55% 30%;
   --velo: 0.4;
-  /* El mapa de contribuciones: de «sin actividad» a lo mas intenso. */
-  --mapa-0: 220 14% 91%;
-  --mapa-1: 118 45% 78%;
-  --mapa-2: 118 48% 58%;
-  --mapa-3: 118 51% 42%;
-  --mapa-4: 118 55% 27%;
+  /* El mapa de contribuciones, con los mismos verdes que usa GitHub en cada tema. */
+  --mapa-0: 210 13% 93%;
+  --mapa-1: 129 60% 76%;
+  --mapa-2: 136 52% 51%;
+  --mapa-3: 136 54% 41%;
+  --mapa-4: 135 53% 28%;
 }
 
 .dark {
@@ -59,11 +59,11 @@
   --action-hover: 214 100% 40%;
   --success: 118 50% 62%;
   --velo: 0.8;
-  --mapa-0: 220 6% 19%;
-  --mapa-1: 118 45% 22%;
-  --mapa-2: 118 48% 34%;
-  --mapa-3: 118 51% 48%;
-  --mapa-4: 118 55% 66%;
+  --mapa-0: 215 21% 11%;
+  --mapa-1: 150 66% 16%;
+  --mapa-2: 148 100% 21%;
+  --mapa-3: 135 63% 40%;
+  --mapa-4: 130 63% 53%;
 }
 
 * {
@@ -103,6 +103,11 @@ body {
   animation: parpadeo-del-cursor 1.1s steps(1, end) infinite;
 }
 
+/* La flecha del inicio: baja y vuelve, despacio, para invitar a seguir. */
+.flecha-de-scroll {
+  animation: bajar-y-volver 1.8s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
 /* Aparecer al scrollear: 400 ms, una sola vez. */
 .por-aparecer {
   opacity: 0;
@@ -128,6 +133,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .cursor-de-consola,
+  .flecha-de-scroll,
   .entrada-de-vista,
   .entrada-de-ventana {
     animation: none;
@@ -151,6 +157,18 @@ body {
   56%,
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes bajar-y-volver {
+  0%,
+  100% {
+    transform: translateY(-3px);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(5px);
+    opacity: 1;
   }
 }
 

@@ -5,25 +5,38 @@
 /*   /_/   \_\_|   \__,_|\__,_|_|  |_|\__,_|_|\_\___|_|                       */
 /*                                                                            */
 /*   File: hero.tsx    Project: portfolio                                     */
-/*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:41:32  by vm                                      */
+/*   Created: 2026/11/25 22:27:55  by claude                                  */
+/*   Updated: 2026/11/25 23:23:36  by vm                                      */
 /* ************************************************************************** */
 
-/** La primera pantalla: identidad a la izquierda y la actividad de GitHub a la derecha. */
+/**
+ * La primera pantalla, con el formato de las portadas de ArduMaker: ocupa todo el alto, titulo
+ * grande, una sola accion y la actividad de GitHub a la derecha. Abajo, una flecha lleva a lo
+ * que sigue.
+ */
 
-import { ArrowRight, Download, Mail } from 'lucide-react';
+import { ChevronDown, Download, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ETIQUETAS_DEL_HERO, HAY_CV, RUTA_DEL_CV } from '@/data/perfil';
-import { recurso } from '@/lib/raiz';
+import { HAY_CV, RUTA_DEL_CV, TITULOS_DEL_HERO } from '@/data/perfil';
 import { useIdioma } from '@/i18n';
 import { cn } from '@/lib/class-names';
 import { CONTENEDOR_DE_PAGINA } from '@/lib/movimiento';
+import { recurso } from '@/lib/raiz';
 import { ActividadDeGithub } from './actividad-de-github';
+import { FotoDePerfil } from './foto-de-perfil';
+import { MaquinaDeEscribir } from './maquina-de-escribir';
 
 export function Hero(): JSX.Element {
   const { t } = useIdioma();
   return (
-    <section id="inicio" aria-labelledby="inicio-titulo" className="relative overflow-hidden">
+    <section
+      id="inicio"
+      aria-labelledby="inicio-titulo"
+      className={cn(
+        'relative flex min-h-[calc(100svh-6.25rem)] flex-col overflow-hidden',
+        'md:min-h-[calc(100svh-3.5rem)]',
+      )}
+    >
       <div
         aria-hidden
         className={cn(
@@ -34,61 +47,54 @@ export function Hero(): JSX.Element {
       <div
         className={cn(
           CONTENEDOR_DE_PAGINA,
-          'relative grid gap-12 py-14 sm:py-20 lg:items-center lg:gap-16 lg:py-28',
-          'lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]',
+          'relative grid flex-1 content-center gap-10 py-10 lg:items-center lg:gap-10',
+          'lg:grid-cols-[minmax(0,1fr)_minmax(0,45.5rem)]',
         )}
       >
         <div>
+          <FotoDePerfil className="h-24 w-24 sm:h-28 sm:w-28" />
           <h1
             id="inicio-titulo"
-            className={cn(
-              'text-[2.75rem] font-bold leading-[1.05] tracking-tight text-foreground',
-              'sm:text-6xl',
-            )}
+            className="mt-6 text-[2.75rem] font-bold leading-[1.05] tracking-tight text-foreground sm:text-6xl"
           >
             Franco Dorrego
           </h1>
+          <div className="mt-4">
+            <MaquinaDeEscribir titulos={TITULOS_DEL_HERO} />
+          </div>
           <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
             {t.hero.descripcion}
           </p>
-          <ul aria-label={t.hero.etiquetas} className="mt-6 flex flex-wrap gap-2">
-            {ETIQUETAS_DEL_HERO.map((etiqueta) => (
-              <li
-                key={etiqueta}
-                className={cn(
-                  'rounded-md border border-border bg-card px-2.5 py-1 font-mono text-xs',
-                  'text-foreground/90',
-                )}
-              >
-                {etiqueta}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg" className="px-4 sm:px-6">
-              <a href="#proyectos">
-                {t.hero.verProyectos}
-                <ArrowRight aria-hidden />
+          <div className="mt-7 flex flex-wrap gap-3">
+            <Button asChild size="lg">
+              <a href="#contacto">
+                <Mail aria-hidden />
+                {t.hero.contactar}
               </a>
             </Button>
             {HAY_CV && (
-              <Button asChild size="lg" variant="outline" className="px-4 sm:px-6">
+              <Button asChild size="lg" variant="outline">
                 <a href={recurso(RUTA_DEL_CV)} download>
                   <Download aria-hidden />
                   {t.hero.descargarCv}
                 </a>
               </Button>
             )}
-            <Button asChild size="lg" variant="outline" className="px-4 sm:px-6">
-              <a href="#contacto">
-                <Mail aria-hidden />
-                {t.hero.contactar}
-              </a>
-            </Button>
           </div>
         </div>
         <ActividadDeGithub />
       </div>
+      <a
+        href="#proyectos"
+        aria-label={t.hero.verProyectos}
+        className={cn(
+          'relative mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full',
+          'text-muted-foreground transition-colors hover:text-foreground',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+        )}
+      >
+        <ChevronDown aria-hidden className="flecha-de-scroll h-6 w-6" />
+      </a>
     </section>
   );
 }

@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: github.ts    Project: portfolio                                    */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:40:58  by vm                                      */
+/*   Updated: 2026/11/25 23:21:38  by vm                                      */
 /* ************************************************************************** */
 
 /** La actividad de GitHub tal como la usa la interfaz, sin importar de que proveedor salga. */
@@ -15,6 +15,8 @@ export interface DiaDeContribuciones {
   /** AAAA-MM-DD. */
   date: string;
   count: number;
+  /** El nivel de color que le da GitHub (0 a 4). Sin el, se calcula por cuartos. */
+  level?: 0 | 1 | 2 | 3 | 4;
 }
 
 /** `null` en una cifra: el proveedor no la informo. Se muestra «no disponible», nunca un cero. */

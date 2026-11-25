@@ -6,7 +6,7 @@
 <!--                                                                            -->
 <!--   File: README.md    Project: portfolio                                    -->
 <!--   Created: 2026/11/25 22:17:56  by claude                                  -->
-<!--   Updated: 2026/11/25 22:47:36  by vm                                      -->
+<!--   Updated: 2026/11/25 23:23:21  by vm                                      -->
 <!-- ************************************************************************** -->
 
 # Portfolio · Franco Dorrego
@@ -63,7 +63,7 @@ Son del último año y nunca se inventan: si el archivo no está, el widget lo d
 |---|---|
 | Proyectos del catálogo | `src/data/proyectos/` |
 | Textos (español y portugués) | `src/i18n/es.ts` · `src/i18n/pt.ts` |
-| Contacto y roles del inicio | `src/data/perfil.ts` |
+| Contacto, foto y títulos que se escriben en el inicio | `src/data/perfil.ts` |
 | Capturas de un proyecto | `public/proyectos/<slug>/` y el campo `screenshots` |
 | Diagrama de un proyecto | El campo `diagram`: tres a cinco pasos con icono |
 | CV | Dejar el PDF en `public/cv-franco-dorrego.pdf`: el botón aparece solo |

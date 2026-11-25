@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: estadisticas-de-github.mjs    Project: portfolio                   */
 /*   Created: 2026/11/25 22:22:29  by claude                                  */
-/*   Updated: 2026/11/25 22:41:53  by vm                                      */
+/*   Updated: 2026/11/25 23:21:40  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -28,6 +28,9 @@ import path from 'node:path';
 const USUARIO = process.env.GITHUB_STATS_USER ?? 'FranDorrego';
 const SALIDA = path.resolve(import.meta.dirname, '../public/github-stats.json');
 
+/** Los niveles de color de GitHub, del 0 al 4. */
+const NIVELES = ['NONE', 'FIRST_QUARTILE', 'SECOND_QUARTILE', 'THIRD_QUARTILE', 'FOURTH_QUARTILE'];
+
 /** Todo en un pedido: el ultimo anio de contribuciones y los pull requests desde esa fecha. */
 export const CONSULTA = `query($usuario: String!, $prs: String!, $merges: String!) {
   viewer { login }
@@ -36,7 +39,7 @@ export const CONSULTA = `query($usuario: String!, $prs: String!, $merges: String
       totalCommitContributions
       contributionCalendar {
         totalContributions
-        weeks { contributionDays { date contributionCount } }
+        weeks { contributionDays { date contributionCount contributionLevel } }
       }
     }
   }
@@ -56,7 +59,11 @@ export function resumir({ datos, usuario, ahora }) {
   const coleccion = datos.user.contributionsCollection;
   const dias = coleccion.contributionCalendar.weeks
     .flatMap((semana) => semana.contributionDays)
-    .map((dia) => ({ date: dia.date, count: dia.contributionCount }));
+    .map((dia) => ({
+      date: dia.date,
+      count: dia.contributionCount,
+      level: NIVELES.indexOf(dia.contributionLevel),
+    }));
   return {
     username: usuario,
     updated_at: ahora.toISOString().slice(0, 10),

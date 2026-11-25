@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: pt.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/25 22:40:58  by vm                                      */
+/*   Updated: 2026/11/25 23:21:38  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en portugues de Portugal. Misma forma que `es.ts`. */
@@ -32,6 +32,7 @@ export const pt: Textos = {
     idiomas: { es: 'Español', pt: 'Português' },
     fotoAlt: 'Fotografia de Franco Dorrego',
     inicio: 'Ir para o início',
+    verFoto: 'Ver a fotografia em grande',
     temaClaro: 'Mudar para tema claro',
     temaOscuro: 'Mudar para tema escuro',
   },
@@ -43,7 +44,6 @@ export const pt: Textos = {
   },
   hero: {
     descripcion: 'Produtos web, cloud e automatizações com IA. Do desenho à produção.',
-    etiquetas: 'Áreas de trabalho',
     verProyectos: 'Ver experiência',
     descargarCv: 'CV',
     contactar: 'Contactar',
@@ -52,7 +52,7 @@ export const pt: Textos = {
     titulo: 'Atividade no GitHub',
     verPerfil: 'Ver perfil no GitHub',
     commits: 'Commits',
-    pullRequests: 'PRs',
+    pullRequests: 'Pull requests',
     contribuciones: 'Contribuições',
     merges: 'Merges',
     cargando: 'A carregar a atividade do GitHub',
@@ -66,6 +66,10 @@ export const pt: Textos = {
     unDiaUna: '1 contribuição a {{fecha}}',
     unDiaNinguna: 'Sem contribuições a {{fecha}}',
     ayudaDelMapa: 'Use as setas para percorrer os dias.',
+    enElAnio: '{{total}} contribuições no último ano',
+    dias: ['seg', 'qua', 'sex'],
+    menos: 'Menos',
+    mas: 'Mais',
   },
   proyectos: {
     titulo: 'Experiência',

@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: perfil.ts    Project: portfolio                                    */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:40:58  by vm                                      */
+/*   Updated: 2026/11/25 23:19:33  by vm                                      */
 /* ************************************************************************** */
 
 /** Los datos de contacto. Son los que el autor ya publica en su perfil de GitHub. */
@@ -14,6 +14,7 @@
 export const PERFIL = {
   nombre: 'Franco Dorrego',
   foto: 'franco-dorrego.jpg',
+  fotoGrande: 'franco-dorrego-grande.webp',
   email: 'francodorrego@gmail.com',
   linkedin: 'https://www.linkedin.com/in/francodorrego/',
   github: 'https://github.com/FranDorrego',
@@ -26,7 +27,8 @@ export const PERFIL = {
 export const RUTA_DEL_CV = 'cv-franco-dorrego.pdf';
 export const HAY_CV: boolean = __HAY_CV__;
 
-export const ETIQUETAS_DEL_HERO = [
+/** Los titulos que la maquina de escribir del inicio va sumando. No se traducen. */
+export const TITULOS_DEL_HERO = [
   'Python / Django',
   'React / TypeScript',
   'Cloud / Linux',
