@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: clientes.ts    Project: portfolio                                  */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:46:26  by vm                                      */
+/*   Updated: 2026/11/25 23:34:38  by vm                                      */
 /* ************************************************************************** */
 
 /** Trabajo para clientes. Donde hubo equipo, la ficha dice que parte es mia. */
@@ -75,7 +75,30 @@ export const CLIENTES: Proyecto[] = [
     filters: ['python', 'django', 'react', 'typescript', 'ia'],
     startDate: '2025-12',
     endDate: '2026-10',
-    screenshots: [],
+    screenshots: [
+      {
+        src: 'proyectos/beltran-contadores/01.webp',
+        alt: { es: 'Portada del sistema', pt: 'Página inicial do sistema' },
+      },
+      {
+        src: 'proyectos/beltran-contadores/02.webp',
+        alt: {
+          es: 'Clientes productores y sus campañas agrícolas',
+          pt: 'Clientes produtores e as suas campanhas agrícolas',
+        },
+      },
+      {
+        src: 'proyectos/beltran-contadores/03.webp',
+        alt: {
+          es: 'Detalle de una campaña: campos, lotes y cultivos',
+          pt: 'Detalhe de uma campanha: campos, lotes e culturas',
+        },
+      },
+      {
+        src: 'proyectos/beltran-contadores/04.webp',
+        alt: { es: 'Acceso al panel AgroAdmin', pt: 'Acesso ao painel AgroAdmin' },
+      },
+    ],
     diagram: [
       { icon: 'chat', label: 'WhatsApp' },
       { icon: 'flujo', label: 'n8n + IA' },
@@ -133,7 +156,37 @@ export const CLIENTES: Proyecto[] = [
     filters: ['python', 'django', 'react', 'typescript', 'ia'],
     startDate: '2025-07',
     endDate: '2026-10',
-    screenshots: [],
+    screenshots: [
+      {
+        src: 'proyectos/auralyx/01.webp',
+        alt: { es: 'Web corporativa de AuraLyx', pt: 'Site corporativo da AuraLyx' },
+      },
+      {
+        src: 'proyectos/auralyx/02.webp',
+        alt: {
+          es: 'Panel del CRM con métricas y contactos',
+          pt: 'Painel do CRM com métricas e contactos',
+        },
+      },
+      {
+        src: 'proyectos/auralyx/03.webp',
+        alt: {
+          es: 'Portada de la gestión de facturas por WhatsApp',
+          pt: 'Página inicial da gestão de faturas por WhatsApp',
+        },
+      },
+      {
+        src: 'proyectos/auralyx/04.webp',
+        alt: {
+          es: 'Documentos leídos por IA y su estado de exportación',
+          pt: 'Documentos lidos por IA e o seu estado de exportação',
+        },
+      },
+      {
+        src: 'proyectos/auralyx/05.webp',
+        alt: { es: 'Empresas de una gestoría', pt: 'Empresas de um gabinete de contabilidade' },
+      },
+    ],
     diagram: [
       { icon: 'chat', label: 'WhatsApp' },
       { icon: 'documento', label: { es: 'Factura', pt: 'Fatura' } },
@@ -265,48 +318,26 @@ export const CLIENTES: Proyecto[] = [
     filters: ['react', 'typescript'],
     startDate: '2025-10',
     endDate: '2026-04',
-    screenshots: [],
+    screenshots: [
+      {
+        src: 'proyectos/plataforma-ingles/01.webp',
+        alt: { es: 'Landing del método VSF Inglés', pt: 'Landing do método VSF Inglés' },
+      },
+      {
+        src: 'proyectos/plataforma-ingles/02.webp',
+        alt: { es: 'Inscripción al programa', pt: 'Inscrição no programa' },
+      },
+      {
+        src: 'proyectos/plataforma-ingles/03.webp',
+        alt: { es: 'Página de la clase gratuita', pt: 'Página da aula gratuita' },
+      },
+    ],
     diagram: [
       { icon: 'web', label: 'Landing' },
       { icon: 'pago', label: 'Stripe' },
       { icon: 'usuario', label: { es: 'Alumno', pt: 'Aluno' } },
       { icon: 'juego', label: { es: 'Ejercicios', pt: 'Exercícios' } },
       { icon: 'grafico', label: { es: 'Progreso', pt: 'Progresso' } },
-    ],
-    featured: false,
-    visibility: 'privado',
-  },
-  {
-    id: 'dinamarca-tours',
-    slug: 'dinamarca-tours',
-    title: 'Tours en Dinamarca',
-    category: 'cliente',
-    country: { es: 'Dinamarca', pt: 'Dinamarca' },
-    shortDescription: {
-      es: 'Reservas de tours guiados con cobro online: disponibilidad, calendario, panel de administración y comprobantes.',
-      pt: 'Reservas de tours guiados com pagamento online: disponibilidade, calendário, painel de administração e comprovativos.',
-    },
-    fullDescription: {
-      es: 'Sitio público en dos idiomas para reservar sin crear cuenta y pagar una seña, y un panel para gestionar salidas, horarios recurrentes, bloqueos, asistencia y estadísticas. Cada reserva envía su correo y su comprobante en PDF.',
-      pt: 'Site público em duas línguas para reservar sem criar conta e pagar um sinal, e um painel para gerir saídas, horários recorrentes, bloqueios, presenças e estatísticas. Cada reserva envia o seu email e o comprovativo em PDF.',
-    },
-    role: {
-      es: 'Arquitectura y dirección técnica; el código se escribió con asistentes de IA bajo mi revisión.',
-      pt: 'Arquitetura e direção técnica; o código foi escrito com assistentes de IA sob a minha revisão.',
-    },
-    languages: ['Python', 'TypeScript'],
-    technologies: ['Django', 'DRF', 'PostgreSQL', 'React', 'Vite', 'SumUp', 'PDF', 'Vitest'],
-    cardTags: ['Django', 'React', 'PostgreSQL', 'SumUp'],
-    filters: ['python', 'django', 'react', 'typescript', 'ia'],
-    startDate: '2026-10',
-    status: 'en-desarrollo',
-    screenshots: [],
-    diagram: [
-      { icon: 'web', label: { es: 'Sitio público', pt: 'Site público' } },
-      { icon: 'pago', label: 'SumUp' },
-      { icon: 'api', label: 'API Django' },
-      { icon: 'usuario', label: { es: 'Panel admin', pt: 'Painel admin' } },
-      { icon: 'correo', label: 'PDF + email' },
     ],
     featured: false,
     visibility: 'privado',

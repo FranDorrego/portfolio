@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: distrivalto.ts    Project: portfolio                               */
 /*   Created: 2026/11/25 22:24:26  by claude                                  */
-/*   Updated: 2026/11/25 22:44:10  by vm                                      */
+/*   Updated: 2026/11/25 23:34:20  by vm                                      */
 /* ************************************************************************** */
 
 /** Distrivalto: el tercer destacado. */
@@ -114,7 +114,40 @@ export const DISTRIVALTO: Proyecto = {
       },
     },
   ],
-  screenshots: [],
+  screenshots: [
+    {
+      src: 'proyectos/distrivalto/01.webp',
+      alt: { es: 'Chat público con la asistente Mila', pt: 'Chat público com a assistente Mila' },
+    },
+    {
+      src: 'proyectos/distrivalto/02.webp',
+      alt: {
+        es: 'Respuesta de Mila con pasos para revisar un equipo',
+        pt: 'Resposta da Mila com passos para rever um equipamento',
+      },
+    },
+    {
+      src: 'proyectos/distrivalto/03.webp',
+      alt: {
+        es: 'Panel de administración con indicadores y evolución mensual',
+        pt: 'Painel de administração com indicadores e evolução mensal',
+      },
+    },
+    {
+      src: 'proyectos/distrivalto/04.webp',
+      alt: {
+        es: 'Mesa de soporte: conversaciones y botón para tomar un chat',
+        pt: 'Equipa de suporte: conversas e botão para assumir um chat',
+      },
+    },
+    {
+      src: 'proyectos/distrivalto/05.webp',
+      alt: {
+        es: 'Consumo de IA: saldo, gasto diario y mensual',
+        pt: 'Consumo de IA: saldo, gasto diário e mensal',
+      },
+    },
+  ],
   diagram: [
     { icon: 'chat', label: { es: 'Web y WhatsApp', pt: 'Web e WhatsApp' } },
     { icon: 'api', label: 'API Django' },

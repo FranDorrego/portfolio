@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: proyectos.ts    Project: portfolio                                 */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 23:31:45  by vm                                      */
+/*   Updated: 2026/11/25 23:34:37  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -17,6 +17,7 @@
 import type { Proyecto } from '@/types/proyecto';
 import { CLIENTES } from './proyectos/clientes';
 import { DESTACADOS } from './proyectos/destacados';
+import { DINAMARCA } from './proyectos/dinamarca';
 import { DISTRIVALTO } from './proyectos/distrivalto';
 import { FORMACION } from './proyectos/formacion';
 import { MAS_CLIENTES } from './proyectos/clientes-2';
@@ -33,6 +34,7 @@ const CATALOGO: Proyecto[] = [
   DISTRIVALTO,
   sistemas,
   ...CLIENTES,
+  DINAMARCA,
   ...PROPIOS,
   ...MAS_CLIENTES,
   ...MAS_PROPIOS,

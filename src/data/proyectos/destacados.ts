@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: destacados.ts    Project: portfolio                                */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:44:10  by vm                                      */
+/*   Updated: 2026/11/25 23:34:05  by vm                                      */
 /* ************************************************************************** */
 
 /** Los cuatro proyectos que se ven al llegar. Cada dato sale del repositorio o del autor. */
@@ -264,7 +264,26 @@ export const DESTACADOS: Proyecto[] = [
         },
       },
     ],
-    screenshots: [],
+    screenshots: [
+      {
+        src: 'proyectos/vivenadando/01.webp',
+        alt: {
+          es: 'Panel de atención: chats de WhatsApp y conversación con el asistente de IA',
+          pt: 'Painel de atendimento: chats de WhatsApp e conversa com o assistente de IA',
+        },
+      },
+      {
+        src: 'proyectos/vivenadando/02.webp',
+        alt: {
+          es: 'Horarios de JackRabbit que ve la IA y calendario semanal por profesor',
+          pt: 'Horários do JackRabbit que a IA vê e calendário semanal por professor',
+        },
+      },
+      {
+        src: 'proyectos/vivenadando/03.webp',
+        alt: { es: 'Acceso al panel de ViveNadando', pt: 'Acesso ao painel da ViveNadando' },
+      },
+    ],
     diagram: [
       { icon: 'chat', label: 'WhatsApp' },
       { icon: 'flujo', label: 'n8n + IA' },
