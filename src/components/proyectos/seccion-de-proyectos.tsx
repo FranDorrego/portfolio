@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: seccion-de-proyectos.tsx    Project: portfolio                     */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 23:31:45  by vm                                      */
 /* ************************************************************************** */
 
 /** La seccion de proyectos: buscador, filtros, cantidad de resultados, grilla y «ver mas». */
@@ -35,7 +35,12 @@ export function SeccionDeProyectos(): JSX.Element {
       : rellenar(t.proyectos.resultados, { cantidad: encontrados.length });
 
   return (
-    <Seccion id="proyectos" titulo={t.proyectos.titulo} Icono={Briefcase}>
+    <Seccion
+      id="proyectos"
+      titulo={t.proyectos.titulo}
+      junto={t.proyectos.antiguedad}
+      Icono={Briefcase}
+    >
       <div className="space-y-5">
         <BuscadorDeProyectos valor={criterios.texto} alCambiar={(texto) => cambiar({ texto })} />
         <FiltrosDeProyectos criterios={criterios} alCambiar={cambiar} />

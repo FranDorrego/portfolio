@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: hero.tsx    Project: portfolio                                     */
 /*   Created: 2026/11/25 22:27:55  by claude                                  */
-/*   Updated: 2026/11/25 23:23:36  by vm                                      */
+/*   Updated: 2026/11/25 23:32:42  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -47,19 +47,25 @@ export function Hero(): JSX.Element {
       <div
         className={cn(
           CONTENEDOR_DE_PAGINA,
-          'relative grid flex-1 content-center gap-10 py-10 lg:items-center lg:gap-10',
-          'lg:grid-cols-[minmax(0,1fr)_minmax(0,45.5rem)]',
+          'relative grid flex-1 content-center gap-10 py-10 xl:items-center xl:gap-10',
+          'xl:grid-cols-[minmax(0,1fr)_minmax(0,40rem)]',
         )}
       >
         <div>
           <FotoDePerfil className="h-24 w-24 sm:h-28 sm:w-28" />
           <h1
             id="inicio-titulo"
-            className="mt-6 text-[2.75rem] font-bold leading-[1.05] tracking-tight text-foreground sm:text-6xl"
+            className={cn(
+              'mt-6 whitespace-nowrap text-[clamp(2.25rem,10.5vw,3.75rem)] font-bold',
+              'leading-[1.05] tracking-tight text-foreground lg:text-5xl',
+            )}
           >
             Franco Dorrego
           </h1>
-          <div className="mt-4">
+          <p className="mt-3 text-xl font-medium text-foreground/90 sm:text-2xl">
+            {t.hero.subtitulo}
+          </p>
+          <div className="mt-2">
             <MaquinaDeEscribir titulos={TITULOS_DEL_HERO} />
           </div>
           <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">

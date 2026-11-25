@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: seccion.tsx    Project: portfolio                                  */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/25 22:21:17  by claude                                  */
+/*   Updated: 2026/11/25 23:32:42  by vm                                      */
 /* ************************************************************************** */
 
 /** El marco de una seccion: ancla, icono, titulo y aparicion al scrollear. */
@@ -21,10 +21,12 @@ interface Props {
   id: string;
   titulo: string;
   Icono: LucideIcon;
+  /** Un dato corto al lado del titulo (por ejemplo, los anios de experiencia). */
+  junto?: string;
   children: ReactNode;
 }
 
-export function Seccion({ id, titulo, Icono, children }: Props): JSX.Element {
+export function Seccion({ id, titulo, Icono, junto, children }: Props): JSX.Element {
   const { ref, clase } = useAparecer<HTMLDivElement>();
   return (
     <section id={id} aria-labelledby={`${id}-titulo`} className="border-t border-border">
@@ -43,6 +45,16 @@ export function Seccion({ id, titulo, Icono, children }: Props): JSX.Element {
             <Icono className="h-5 w-5" />
           </span>
           {titulo}
+          {junto && (
+            <span
+              className={cn(
+                'rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono',
+                'text-base font-medium text-primary',
+              )}
+            >
+              {junto}
+            </span>
+          )}
         </h2>
         <div className="mt-8">{children}</div>
       </div>

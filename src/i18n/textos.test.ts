@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: textos.test.ts    Project: portfolio                               */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 23:21:38  by vm                                      */
+/*   Updated: 2026/11/25 23:31:45  by vm                                      */
 /* ************************************************************************** */
 
 /** Los dos idiomas tienen exactamente las mismas claves y ningun texto vacio. */
@@ -50,6 +50,7 @@ describe('textos de la interfaz', () => {
     // Solo pueden coincidir nombres propios y expresiones identicas en los dos idiomas.
     expect(iguales).toEqual([
       'Porto, Portugal',
+      'Developer Full Stack Web',
       'Pull requests',
       'Cloud / Linux',
       'IA & n8n',

@@ -6,12 +6,12 @@
 /*                                                                            */
 /*   File: proyectos.ts    Project: portfolio                                 */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:46:46  by vm                                      */
+/*   Updated: 2026/11/25 23:31:45  by vm                                      */
 /* ************************************************************************** */
 
 /**
  * El catalogo: la fuente unica de los proyectos. El orden de esta lista es el de la pagina, y
- * los cuatro primeros son los destacados.
+ * los que tienen capturas van primero.
  */
 
 import type { Proyecto } from '@/types/proyecto';
@@ -28,7 +28,7 @@ import { OTROS_PROPIOS } from './proyectos/propios-3';
 
 const [sistemas, ...restoDeFormacion] = FORMACION;
 
-export const PROYECTOS: readonly Proyecto[] = [
+const CATALOGO: Proyecto[] = [
   ...DESTACADOS,
   DISTRIVALTO,
   sistemas,
@@ -40,4 +40,10 @@ export const PROYECTOS: readonly Proyecto[] = [
   ...OTROS_PROPIOS,
   ...restoDeFormacion,
   ...MAS_FORMACION,
+];
+
+/** Los proyectos con capturas van primero; entre ellos, y entre los demas, se respeta el orden. */
+export const PROYECTOS: readonly Proyecto[] = [
+  ...CATALOGO.filter((proyecto) => proyecto.screenshots.length > 0),
+  ...CATALOGO.filter((proyecto) => proyecto.screenshots.length === 0),
 ];

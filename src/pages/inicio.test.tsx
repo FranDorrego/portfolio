@@ -7,7 +7,7 @@
 /*                                                                            */
 /*   File: inicio.test.tsx    Project: portfolio                              */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 23:22:09  by vm                                      */
+/*   Updated: 2026/11/25 23:31:53  by vm                                      */
 /* ************************************************************************** */
 
 /** La pagina entera: idioma, catalogo, detalle y los estados del widget de GitHub. */
@@ -45,14 +45,10 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllGlobals());
 
 describe('pagina de inicio', () => {
-  it('muestra los cuatro destacados y amplia el catalogo de a poco', () => {
+  it('muestra cuatro proyectos y amplia el catalogo de a poco', () => {
     dibujarPagina();
-    expect(titulos()).toEqual([
-      'ArduMaker Developer',
-      'ViveNadando',
-      'Distrivalto',
-      'Minishell, cub3D & Pipex',
-    ]);
+    expect(titulos()).toHaveLength(4);
+    expect(titulos()[0]).toBe('ArduMaker Developer');
     fireEvent.click(screen.getByRole('button', { name: /Ver más/ }));
     expect(titulos()).toHaveLength(8);
   });

@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: pt.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/25 23:21:38  by vm                                      */
+/*   Updated: 2026/11/25 23:31:45  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en portugues de Portugal. Misma forma que `es.ts`. */
@@ -43,6 +43,7 @@ export const pt: Textos = {
     contacto: 'Contacto',
   },
   hero: {
+    subtitulo: 'Developer Full Stack Web',
     descripcion: 'Produtos web, cloud e automatizações com IA. Do desenho à produção.',
     verProyectos: 'Ver experiência',
     descargarCv: 'CV',
@@ -73,6 +74,7 @@ export const pt: Textos = {
   },
   proyectos: {
     titulo: 'Experiência',
+    antiguedad: '+5 anos',
     buscar: 'Pesquisar projetos',
     buscarEjemplo: 'Pesquisar: Django, WhatsApp, cliente…',
     borrarBusqueda: 'Limpar a pesquisa',
@@ -138,7 +140,7 @@ export const pt: Textos = {
   sobreMi: {
     titulo: 'Sobre mim',
     resumen:
-      '4 anos a criar aplicações web, automatizações e infraestrutura cloud: produtos próprios e clientes internacionais.',
+      'Mais de 5 anos a criar aplicações web, automatizações e infraestrutura cloud: produtos próprios e clientes internacionais.',
     datos: {
       origen: 'Argentino',
       residencia: '3 anos em Portugal',

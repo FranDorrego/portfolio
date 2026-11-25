@@ -5,25 +5,19 @@
 /*   /_/   \_\_|   \__,_|\__,_|_|  |_|\__,_|_|\_\___|_|                       */
 /*                                                                            */
 /*   File: maquina-de-escribir.ts    Project: portfolio                       */
-/*   Created: 2026/11/25 23:19:33  by vm                                      */
-/*   Updated: 2026/11/25 23:19:33  by vm                                      */
+/*   Created: 2026/11/25 23:23:44  by claude                                  */
+/*   Updated: 2026/11/25 23:31:45  by vm                                      */
 /* ************************************************************************** */
 
 /**
- * El guion de la maquina de escribir del inicio: escribe un titulo, lo borra, lo vuelve a
- * escribir y le suma el siguiente con una coma, borra ese ultimo, y asi hasta que quedan todos.
- * Cada paso es el texto al que hay que llegar; la pieza escribe o borra de a una letra.
+ * El guion de la maquina de escribir del inicio: escribe un titulo, lo borra y escribe el
+ * siguiente, en ronda. Cada paso es el texto al que hay que llegar; la pieza escribe o borra de
+ * a una letra.
  */
 
-/** Los textos a los que se llega, en orden: dos pasos adelante y uno atras hasta el total. */
-export function guionAcumulado(titulos: readonly string[]): string[] {
-  const hasta = (cuantos: number): string => titulos.slice(0, cuantos).join(', ');
-  const pasos: string[] = [];
-  for (let cuantos = 1; cuantos <= titulos.length; cuantos++) {
-    pasos.push(hasta(cuantos));
-    if (cuantos < titulos.length) pasos.push(hasta(cuantos - 1));
-  }
-  return pasos;
+/** Los textos a los que se llega, en orden: cada titulo y despues la linea vacia. */
+export function guionRotativo(titulos: readonly string[]): string[] {
+  return titulos.flatMap((titulo) => [titulo, '']);
 }
 
 /** El texto siguiente camino a `destino`: borra una letra si sobra, o escribe la que falta. */

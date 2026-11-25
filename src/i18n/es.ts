@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: es.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/25 23:21:38  by vm                                      */
+/*   Updated: 2026/11/25 23:31:45  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en espanol. Su forma es el molde de los demas idiomas. */
@@ -41,6 +41,7 @@ export const es = {
     contacto: 'Contacto',
   },
   hero: {
+    subtitulo: 'Developer Full Stack Web',
     descripcion: 'Productos web, cloud y automatizaciones con IA. Del diseño a producción.',
     verProyectos: 'Ver experiencia',
     descargarCv: 'CV',
@@ -71,6 +72,7 @@ export const es = {
   },
   proyectos: {
     titulo: 'Experiencia',
+    antiguedad: '+5 años',
     buscar: 'Buscar proyectos',
     buscarEjemplo: 'Buscar: Django, WhatsApp, cliente…',
     borrarBusqueda: 'Borrar la búsqueda',
@@ -136,7 +138,7 @@ export const es = {
   sobreMi: {
     titulo: 'Sobre mí',
     resumen:
-      '4 años creando aplicaciones web, automatizaciones e infraestructura cloud: productos propios y clientes internacionales.',
+      'Más de 5 años creando aplicaciones web, automatizaciones e infraestructura cloud: productos propios y clientes internacionales.',
     datos: {
       origen: 'Argentino',
       residencia: '3 años en Portugal',

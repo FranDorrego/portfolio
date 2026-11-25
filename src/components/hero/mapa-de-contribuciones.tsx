@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: mapa-de-contribuciones.tsx    Project: portfolio                   */
 /*   Created: 2026/11/25 22:27:55  by claude                                  */
-/*   Updated: 2026/11/25 23:22:56  by vm                                      */
+/*   Updated: 2026/11/25 23:32:19  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -103,7 +103,7 @@ export function MapaDeContribuciones({ dias, pie }: Props): JSX.Element {
           onBlur={() => setActiva(null)}
           onMouseLeave={() => setActiva(null)}
           className={cn(
-            'relative min-w-[44rem] rounded-sm focus-visible:outline-none lg:min-w-0',
+            'relative min-w-[44rem] rounded-sm focus-visible:outline-none md:min-w-0',
             'focus-visible:ring-2 focus-visible:ring-ring',
           )}
         >

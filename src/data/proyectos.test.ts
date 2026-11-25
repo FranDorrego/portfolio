@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: proyectos.test.ts    Project: portfolio                            */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/25 23:31:53  by vm                                      */
 /* ************************************************************************** */
 
 /** Lo que el catalogo promete: orden, identificadores unicos y nada inventado. */
@@ -15,14 +15,11 @@ import { describe, expect, it } from 'vitest';
 import { PROYECTOS } from './proyectos';
 
 describe('catalogo de proyectos', () => {
-  it('abre con los cuatro destacados', () => {
-    expect(PROYECTOS.slice(0, 4).map((p) => p.id)).toEqual([
-      'ardumaker-developer',
-      'vivenadando',
-      'distrivalto',
-      'sistemas-42',
-    ]);
-    expect(PROYECTOS.slice(0, 4).every((p) => p.featured)).toBe(true);
+  it('los proyectos con capturas van primero', () => {
+    const conFotos = PROYECTOS.map((p) => p.screenshots.length > 0);
+    const primeroSinFotos = conFotos.indexOf(false);
+    expect(conFotos.slice(primeroSinFotos).every((tiene) => !tiene)).toBe(true);
+    expect(PROYECTOS[0].id).toBe('ardumaker-developer');
   });
 
   it('no repite id ni slug', () => {
