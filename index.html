@@ -7,7 +7,7 @@
 <!--                                                                            -->
 <!--   File: index.html    Project: portfolio                                   -->
 <!--   Created: 2026/11/25 21:30:00  by claude                                  -->
-<!--   Updated: 2026/11/26 01:43:13  by vm                                      -->
+<!--   Updated: 2026/11/26 02:16:26  by vm                                      -->
 <!-- ************************************************************************** -->
 
 <html lang="es" class="dark">
@@ -38,9 +38,8 @@
       href="/llms.txt"
     />
 
-    <!-- Lo primero que pide la pagina: la foto y la actividad de GitHub. -->
+    <!-- Lo primero que pide la pagina: la foto. -->
     <link rel="preload" as="image" href="/franco-dorrego.webp" type="image/webp" />
-    <link rel="preload" as="fetch" href="/github-stats.json" crossorigin="anonymous" />
 
     <meta property="og:type" content="profile" />
     <meta property="og:site_name" content="Franco Dorrego" />
@@ -145,6 +144,50 @@
           }
         ]
       }
+    </script>
+
+    <!--
+      El idioma antes del primer dibujo: quien llega a la raiz con el equipo en portugues o en
+      ingles (o que ya eligio portugues) va a /pt/. Misma regla que idiomaPreferido() en
+      src/i18n/idioma-inicial.ts. Los buscadores y agentes se quedan en el espanol.
+    -->
+    <script>
+      (function () {
+        try {
+          if (location.pathname !== '/') return;
+          if (
+            /bot|crawl|spider|slurp|preview|lighthouse|headless|gptbot|claude|perplexity/i.test(
+              navigator.userAgent,
+            )
+          )
+            return;
+          var guardado = null;
+          try {
+            guardado = localStorage.getItem('portfolio-idioma');
+          } catch (e) {
+            /* sin almacenamiento */
+          }
+          var idioma = guardado;
+          if (idioma !== 'es' && idioma !== 'pt') {
+            idioma = 'es';
+            var lista =
+              navigator.languages && navigator.languages.length
+                ? navigator.languages
+                : [navigator.language || ''];
+            for (var i = 0; i < lista.length; i++) {
+              var c = String(lista[i]).toLowerCase();
+              if (c.indexOf('es') === 0) break;
+              if (c.indexOf('pt') === 0 || c.indexOf('en') === 0) {
+                idioma = 'pt';
+                break;
+              }
+            }
+          }
+          if (idioma === 'pt') location.replace('/pt/' + location.hash);
+        } catch (e) {
+          /* si algo falla, se queda en espanol */
+        }
+      })();
     </script>
 
     <!-- El tema antes del primer dibujo: el elegido, o el oscuro. Misma regla que src/lib/tema.ts. -->

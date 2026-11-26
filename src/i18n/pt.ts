@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: pt.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 01:49:29  by vm                                      */
+/*   Updated: 2026/11/26 02:17:55  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en portugues de Portugal. Misma forma que `es.ts`. */
@@ -54,27 +54,20 @@ export const pt: Textos = {
   github: {
     titulo: 'Atividade no GitHub',
     verPerfil: 'Ver perfil no GitHub',
-    commits: 'Commits',
-    pullRequests: 'Pull requests',
-    contribuciones: 'Contribuições',
-    merges: 'Merges',
     cargando: 'A carregar a atividade do GitHub',
     vacio: 'Ainda não há atividade para mostrar.',
-    sinMapa: 'Mapa de contribuições não disponível.',
+    sinMapa: 'Mapa de commits não disponível.',
     error: 'Não foi possível ler a atividade do GitHub.',
     reintentar: 'Tentar novamente',
-    mapa: 'Mapa de contribuições',
-    resumenDelMapa: '{{total}} contribuições entre {{desde}} e {{hasta}}',
-    unDia: '{{cantidad}} contribuições a {{fecha}}',
-    unDiaUna: '1 contribuição a {{fecha}}',
-    unDiaNinguna: 'Sem contribuições a {{fecha}}',
+    mapa: 'Mapa de commits',
+    unDia: '{{cantidad}} commits a {{fecha}}',
+    unDiaUna: '1 commit a {{fecha}}',
+    unDiaNinguna: 'Sem commits a {{fecha}}',
     ayudaDelMapa: 'Use as setas para percorrer os dias.',
-    enElAnio: '{{total}} contribuições no último ano',
-    enUnAnio: '{{total}} contribuições em {{anio}}',
+    enElAnio: '{{total}} commits no último ano',
+    enUnAnio: '{{total}} commits em {{anio}}',
     ultimoAnio: 'Último ano',
     anios: 'Anos',
-    repos: 'Repositórios',
-    soloPublicos: 'Commits, pull requests, merges e repositórios: só os públicos.',
     conIa:
       'Trabalho em equipa: o planeamento e a planificação são meus; a execução e o código, com IA.',
     dias: ['seg', 'qua', 'sex'],
@@ -85,7 +78,7 @@ export const pt: Textos = {
     titulo: 'Experiência',
     antiguedad: '+5 anos',
     buscar: 'Pesquisar projetos',
-    buscarEjemplo: 'Pesquisar projeto ou tecnologia',
+    buscarEjemplo: 'Pesquisar projeto',
     borrarBusqueda: 'Limpar a pesquisa',
     filtroTecnologia: 'Tecnologia',
     filtroCategoria: 'Categoria',
@@ -178,7 +171,6 @@ export const pt: Textos = {
   },
   formacion: {
     titulo: 'Formação',
-    bajada: 'Estudei e continuo a estudar programação, tecnologia e engenharia em:',
     enCurso: 'Em curso',
   },
   tecnologias: {
@@ -190,11 +182,6 @@ export const pt: Textos = {
   preguntas: {
     titulo: 'Perguntas frequentes',
     lista: [
-      {
-        pregunta: 'Sou um vibecoder?',
-        respuesta:
-          'Não. Uso a IA como complemento do meu trabalho: o que fazer, como fazer, como se liga, o design e a arquitetura são decididos por mim. O que já não me faz parar é como escrever um for ou se um contador leva int ou long. Trabalho lado a lado com a IA, partilhando conhecimento dos dois lados e com lógica razoável.',
-      },
       {
         pregunta: 'O que procuro?',
         respuesta:
@@ -213,6 +200,11 @@ export const pt: Textos = {
       {
         pregunta: 'Porquê empresas médias ou grandes?',
         respuesta: 'Pela mentoria, pelas revisões de código e pelos projetos complexos.',
+      },
+      {
+        pregunta: 'Sou um vibecoder?',
+        respuesta:
+          'Não. A IA é a minha colega de trabalho, não quem decide: o que construir, como resolver, como as peças se ligam, o design e a arquitetura são definidos por mim.\n\nO que já não me trava é o mecânico, como escrever um for ou escolher entre int e long para um contador. Trabalho lado a lado com a IA: os dois contribuímos com conhecimento e eu ponho o critério.',
       },
     ],
   },

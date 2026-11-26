@@ -6,14 +6,13 @@
 /*                                                                            */
 /*   File: seccion.tsx    Project: portfolio                                  */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 01:44:51  by vm                                      */
+/*   Updated: 2026/11/26 02:15:26  by vm                                      */
 /* ************************************************************************** */
 
-/** El marco de una seccion: ancla, icono, titulo y aparicion al scrollear. */
+/** El marco de una seccion: ancla, icono y titulo. Se ve desde el principio: nada aparece despues. */
 
 import type { ReactNode } from 'react';
 import type { LucideIcon } from 'lucide-react';
-import { useAparecer } from '@/hooks/use-aparecer';
 import { cn } from '@/lib/class-names';
 import { CONTENEDOR_DE_PAGINA } from '@/lib/movimiento';
 
@@ -27,10 +26,9 @@ interface Props {
 }
 
 export function Seccion({ id, titulo, Icono, junto, children }: Props): JSX.Element {
-  const { ref, clase } = useAparecer<HTMLDivElement>();
   return (
     <section id={id} aria-labelledby={`${id}-titulo`} className="border-t border-border">
-      <div ref={ref} className={cn(CONTENEDOR_DE_PAGINA, 'py-12 sm:py-16', clase)}>
+      <div className={cn(CONTENEDOR_DE_PAGINA, 'py-12 sm:py-16')}>
         <h2
           id={`${id}-titulo`}
           className="flex items-center gap-3 text-3xl font-semibold tracking-tight text-foreground"

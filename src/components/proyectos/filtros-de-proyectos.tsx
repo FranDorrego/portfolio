@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: filtros-de-proyectos.tsx    Project: portfolio                     */
 /*   Created: 2026/11/25 22:27:55  by claude                                  */
-/*   Updated: 2026/11/26 01:47:41  by vm                                      */
+/*   Updated: 2026/11/26 02:15:26  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -95,7 +95,7 @@ export function FiltrosDeProyectos({ criterios, alCambiar, alLimpiar }: Props): 
     <div
       role="group"
       aria-label={t.proyectos.filtros}
-      className="-mx-4 flex items-center gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0"
+      className="sin-barra -mx-4 flex items-center gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:px-0"
     >
       <Chip marcado={!hayCriterios(criterios)} alTocar={alLimpiar}>
         {hayCriterios(criterios) && <X aria-hidden className="h-3.5 w-3.5" />}

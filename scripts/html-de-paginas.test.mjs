@@ -6,13 +6,13 @@
 /*                                                                            */
 /*   File: html-de-paginas.test.mjs    Project: portfolio                     */
 /*   Created: 2026/11/25 22:25:17  by claude                                  */
-/*   Updated: 2026/11/25 22:25:17  by claude                                  */
+/*   Updated: 2026/11/26 02:16:09  by vm                                      */
 /* ************************************************************************** */
 
 /** La pagina en portugues: idioma, textos, direccion canonica y rutas un nivel mas arriba. */
 
 import { describe, expect, it } from 'vitest';
-import { conContenido, enPortugues, metadatos } from './html-de-paginas.mjs';
+import { conActividad, conContenido, enPortugues, metadatos } from './html-de-paginas.mjs';
 
 const html = `<html lang="es"><head><title>Hola</title>
 <meta name="description" content="Una descripcion" />
@@ -51,5 +51,14 @@ describe('prerender', () => {
       '<body><div id="root"><h1>Hola</h1></div></body>',
     );
     expect(() => conContenido('<body></body>', 'x')).toThrow();
+  });
+});
+
+describe('actividad en la pagina', () => {
+  it('la escribe antes de cerrar head y sin poder cerrar el script', () => {
+    const html = conActividad('<head></head>', { texto: '</script><b>' });
+    expect(html).toContain('window.__ACTIVIDAD__=');
+    expect(html).not.toContain('</script><b>');
+    expect(html.endsWith('</head>')).toBe(true);
   });
 });

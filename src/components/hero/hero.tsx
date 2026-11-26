@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: hero.tsx    Project: portfolio                                     */
 /*   Created: 2026/11/25 22:27:55  by claude                                  */
-/*   Updated: 2026/11/26 01:47:16  by vm                                      */
+/*   Updated: 2026/11/26 02:15:43  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -24,7 +24,6 @@ import { CONTENEDOR_DE_PAGINA } from '@/lib/movimiento';
 import { recurso } from '@/lib/raiz';
 import { UbicacionYEstado } from '@/components/layout/barra';
 import { SelectorDeIdioma } from '@/components/layout/selector-de-idioma';
-import { SelectorDeTema } from '@/components/layout/selector-de-tema';
 import { ActividadDeGithub } from './actividad-de-github';
 import { FotoDePerfil } from './foto-de-perfil';
 import { MaquinaDeEscribir } from './maquina-de-escribir';
@@ -47,53 +46,53 @@ export function Hero(): JSX.Element {
       <div
         className={cn(
           CONTENEDOR_DE_PAGINA,
-          'relative grid flex-1 content-center gap-10 pb-10 pt-5 lg:py-10 xl:items-center xl:gap-10',
+          'relative grid flex-1 content-center gap-6 pb-10 pt-5 lg:py-10 xl:items-center xl:gap-10',
           'xl:grid-cols-[minmax(0,1fr)_minmax(0,40rem)]',
         )}
       >
-        <div>
-          {/* En el celular no hay barra arriba hasta que se baja: esto va aca. */}
-          <div className="mb-6 flex items-center justify-between gap-3 lg:hidden">
-            <UbicacionYEstado />
-            <div className="flex shrink-0 items-center gap-1">
-              <SelectorDeIdioma />
-              <SelectorDeTema />
+        {/* Hasta pantallas anchas, la primera pantalla es solo la presentacion; el mapa va debajo. */}
+        <div className="flex min-h-[calc(100svh-4rem)] flex-col lg:min-h-[calc(100svh-7.5rem)] xl:min-h-0">
+          {/* En el celular no hay barra arriba hasta que se baja: la ciudad y el idioma van aca. */}
+          <div className="flex items-center justify-between gap-3 lg:hidden">
+            <UbicacionYEstado conEstado={false} />
+            <SelectorDeIdioma />
+          </div>
+          <div className="my-auto py-6 xl:py-0">
+            <FotoDePerfil className="h-24 w-24 sm:h-28 sm:w-28" />
+            <h1
+              id="inicio-titulo"
+              className={cn(
+                'mt-6 whitespace-nowrap text-[clamp(2.25rem,10.5vw,3.75rem)] font-bold',
+                'leading-[1.05] tracking-tight text-foreground lg:text-5xl',
+              )}
+            >
+              Franco Dorrego
+            </h1>
+            <p className="mt-3 text-xl font-medium text-foreground/90 sm:text-2xl">
+              {t.hero.subtitulo}
+            </p>
+            <div className="mt-2">
+              <MaquinaDeEscribir titulos={TITULOS_DEL_HERO} />
             </div>
-          </div>
-          <FotoDePerfil className="h-24 w-24 sm:h-28 sm:w-28" />
-          <h1
-            id="inicio-titulo"
-            className={cn(
-              'mt-6 whitespace-nowrap text-[clamp(2.25rem,10.5vw,3.75rem)] font-bold',
-              'leading-[1.05] tracking-tight text-foreground lg:text-5xl',
-            )}
-          >
-            Franco Dorrego
-          </h1>
-          <p className="mt-3 text-xl font-medium text-foreground/90 sm:text-2xl">
-            {t.hero.subtitulo}
-          </p>
-          <div className="mt-2">
-            <MaquinaDeEscribir titulos={TITULOS_DEL_HERO} />
-          </div>
-          <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
-            {t.hero.descripcion}
-          </p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Button asChild size="lg">
-              <a href="#contacto">
-                <Mail aria-hidden />
-                {t.hero.contactar}
-              </a>
-            </Button>
-            {HAY_CV && (
-              <Button asChild size="lg" variant="outline">
-                <a href={recurso(RUTA_DEL_CV)} download>
-                  <Download aria-hidden />
-                  {t.hero.descargarCv}
+            <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
+              {t.hero.descripcion}
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Button asChild size="lg">
+                <a href="#contacto">
+                  <Mail aria-hidden />
+                  {t.hero.contactar}
                 </a>
               </Button>
-            )}
+              {HAY_CV && (
+                <Button asChild size="lg" variant="outline">
+                  <a href={recurso(RUTA_DEL_CV)} download>
+                    <Download aria-hidden />
+                    {t.hero.descargarCv}
+                  </a>
+                </Button>
+              )}
+            </div>
           </div>
         </div>
         <ActividadDeGithub />

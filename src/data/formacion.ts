@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: formacion.ts    Project: portfolio                                 */
 /*   Created: 2026/11/26 01:41:07  by vm                                      */
-/*   Updated: 2026/11/26 01:41:07  by vm                                      */
+/*   Updated: 2026/11/26 02:16:25  by vm                                      */
 /* ************************************************************************** */
 
 /** Donde estudie y estudio. Los nombres de las instituciones no se traducen. */
@@ -15,6 +15,10 @@ import type { Texto } from '@/i18n/idiomas';
 
 export interface Estudio {
   institucion: string;
+  /** El logo, en public/formacion/. */
+  logo: string;
+  /** El sitio oficial de la institucion. */
+  sitio: string;
   titulo: Texto;
   lugar: Texto;
   enCurso: boolean;
@@ -23,6 +27,8 @@ export interface Estudio {
 export const FORMACION: Estudio[] = [
   {
     institucion: '42 Porto',
+    logo: 'formacion/42-porto.webp',
+    sitio: 'https://www.42porto.com',
     titulo: {
       es: 'Linux, C/C++ y desarrollo de software',
       pt: 'Linux, C/C++ e desenvolvimento de software',
@@ -32,18 +38,24 @@ export const FORMACION: Estudio[] = [
   },
   {
     institucion: 'Instituto Tecnológico de Buenos Aires (ITBA)',
+    logo: 'formacion/itba.webp',
+    sitio: 'https://www.itba.edu.ar',
     titulo: { es: 'Desarrollo web Full Stack', pt: 'Desenvolvimento web Full Stack' },
     lugar: { es: 'Buenos Aires, Argentina', pt: 'Buenos Aires, Argentina' },
     enCurso: false,
   },
   {
     institucion: 'Universidad Tecnológica Nacional (UTN)',
+    logo: 'formacion/utn.webp',
+    sitio: 'https://www.frc.utn.edu.ar',
     titulo: { es: 'Técnico en Mecatrónica', pt: 'Técnico de Mecatrónica' },
     lugar: { es: 'Córdoba, Argentina', pt: 'Córdoba, Argentina' },
     enCurso: false,
   },
   {
     institucion: 'Academia Santo Domingo',
+    logo: 'formacion/santo-domingo.webp',
+    sitio: 'https://www.asd.edu.ar',
     titulo: { es: 'Mecánica automotriz general', pt: 'Mecânica automóvel geral' },
     lugar: { es: 'Córdoba, Argentina', pt: 'Córdoba, Argentina' },
     enCurso: false,

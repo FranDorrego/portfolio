@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: idioma-inicial.ts    Project: portfolio                            */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 01:41:37  by vm                                      */
+/*   Updated: 2026/11/26 02:16:09  by vm                                      */
 /* ************************************************************************** */
 
 /** Con que idioma arranca la visita: el de la ruta, el elegido antes o el espanol. */
@@ -43,14 +43,21 @@ export function idiomaDelNavegador(idiomas: readonly string[]): Idioma {
   return IDIOMA_POR_DEFECTO;
 }
 
-/** La ruta (`/pt/`) manda; despues lo elegido antes; despues el idioma del equipo. */
-export function idiomaInicial(): Idioma {
-  if (typeof window === 'undefined') return IDIOMA_POR_DEFECTO;
-  const deLaRuta = idiomaDeLaRuta(window.location.pathname);
-  if (deLaRuta) return deLaRuta;
+/**
+ * A donde tiene que ir una visita que llega a la raiz: lo elegido antes o el idioma del equipo.
+ * Lo aplica el script de index.html antes del primer dibujo (la misma regla, escrita a mano alli)
+ * llevando a `/pt/`, asi la pagina pre-renderizada ya llega en su idioma y nada cambia despues.
+ */
+export function idiomaPreferido(): Idioma {
   if (ROBOTS.test(navigator.userAgent)) return IDIOMA_POR_DEFECTO;
   const idiomas = navigator.languages?.length ? navigator.languages : [navigator.language];
   return idiomaGuardado() ?? idiomaDelNavegador(idiomas.filter(Boolean));
+}
+
+/** El idioma de la pagina es el de su direccion: `/pt/` portugues, el resto espanol. */
+export function idiomaInicial(): Idioma {
+  if (typeof window === 'undefined') return IDIOMA_POR_DEFECTO;
+  return idiomaDeLaRuta(window.location.pathname) ?? IDIOMA_POR_DEFECTO;
 }
 
 /** Recuerda la eleccion y deja en la barra la direccion de ese idioma, sin recargar. */

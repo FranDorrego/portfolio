@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: mapa-de-contribuciones.tsx    Project: portfolio                   */
 /*   Created: 2026/11/25 22:27:55  by claude                                  */
-/*   Updated: 2026/11/25 23:32:19  by vm                                      */
+/*   Updated: 2026/11/26 02:15:26  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -94,7 +94,7 @@ export function MapaDeContribuciones({ dias, pie }: Props): JSX.Element {
 
   return (
     <div className="rounded-md border border-border px-3 pb-3 pt-3 sm:px-4">
-      <div ref={desplazable} className="overflow-x-auto">
+      <div ref={desplazable} className="sin-barra overflow-x-auto">
         <div
           role="img"
           tabIndex={0}

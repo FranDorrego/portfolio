@@ -6,12 +6,12 @@
 /*                                                                            */
 /*   File: selector-de-tema.tsx    Project: portfolio                         */
 /*   Created: 2026/11/25 22:29:31  by vm                                      */
-/*   Updated: 2026/11/26 01:42:30  by vm                                      */
+/*   Updated: 2026/11/26 02:15:26  by vm                                      */
 /* ************************************************************************** */
 
 /** El boton que pasa del tema oscuro al claro y vuelve. El icono dice a cual se va. */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useIdioma } from '@/i18n';
@@ -19,9 +19,9 @@ import { aplicarTema, temaActual, type Tema } from '@/lib/tema';
 
 export function SelectorDeTema(): JSX.Element {
   const { t } = useIdioma();
-  const [tema, setTema] = useState<Tema>(() =>
-    typeof document === 'undefined' ? 'dark' : temaActual(),
-  );
+  // Arranca como el HTML pre-renderizado (oscuro) y se corrige al montar: sin saltos.
+  const [tema, setTema] = useState<Tema>('dark');
+  useEffect(() => setTema(temaActual()), []);
   const otro: Tema = tema === 'dark' ? 'light' : 'dark';
   const Icono = tema === 'dark' ? Sun : Moon;
   return (

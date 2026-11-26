@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: seccion-de-preguntas.tsx    Project: portfolio                     */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/25 22:21:17  by claude                                  */
+/*   Updated: 2026/11/26 02:16:25  by vm                                      */
 /* ************************************************************************** */
 
 /** Las preguntas frecuentes, en un acordeon. Cada una va escrita como una etiqueta: <...>. */
@@ -44,8 +44,10 @@ export function SeccionDePreguntas(): JSX.Element {
                 </span>
               </span>
             </AccordionTrigger>
-            <AccordionContent className="max-w-3xl text-base leading-relaxed text-muted-foreground">
-              {item.respuesta}
+            <AccordionContent className="max-w-3xl space-y-3 text-base leading-relaxed text-muted-foreground">
+              {item.respuesta.split('\n\n').map((parrafo) => (
+                <p key={parrafo}>{parrafo}</p>
+              ))}
             </AccordionContent>
           </AccordionItem>
         ))}

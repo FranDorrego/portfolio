@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: html-de-paginas.mjs    Project: portfolio                          */
 /*   Created: 2026/11/25 22:25:17  by claude                                  */
-/*   Updated: 2026/11/26 01:45:44  by vm                                      */
+/*   Updated: 2026/11/26 02:16:09  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -46,4 +46,11 @@ export function conContenido(plantilla, contenido) {
   const vacio = '<div id="root"></div>';
   if (!plantilla.includes(vacio)) throw new Error('No se encontro <div id="root"></div>');
   return plantilla.replace(vacio, `<div id="root">${contenido}</div>`);
+}
+
+/** Deja la actividad de GitHub escrita en la pagina, antes de los scripts de la aplicacion. */
+export function conActividad(plantilla, actividad) {
+  // `<` escapado: ningun texto de los datos puede cerrar la etiqueta <script>.
+  const datos = JSON.stringify(actividad).replace(/</g, '\\u003c');
+  return plantilla.replace('</head>', `<script>window.__ACTIVIDAD__=${datos}</script>\n</head>`);
 }

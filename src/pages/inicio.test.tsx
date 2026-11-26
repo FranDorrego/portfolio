@@ -7,7 +7,7 @@
 /*                                                                            */
 /*   File: inicio.test.tsx    Project: portfolio                              */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 01:49:07  by vm                                      */
+/*   Updated: 2026/11/26 02:17:06  by vm                                      */
 /* ************************************************************************** */
 
 /** La pagina entera: idioma, catalogo, detalle y los estados del widget de GitHub. */
@@ -145,42 +145,11 @@ describe('actividad de GitHub', () => {
     dibujarWidget({ leer });
     expect(screen.getByRole('status', { name: /Cargando/ })).toBeTruthy();
     fireEvent.click(await screen.findByRole('button', { name: 'Reintentar' }));
-    await waitFor(() =>
-      expect(screen.getByText('90 contribuciones en el último año')).toBeTruthy(),
-    );
-    expect(screen.getByRole('img', { name: /Mapa de contribuciones/ })).toBeTruthy();
-    expect(screen.getByText('12')).toBeTruthy();
-    expect(screen.getByText('Repositorios')).toBeTruthy();
+    await waitFor(() => expect(screen.getByText('90 commits en el último año')).toBeTruthy());
+    expect(screen.getByRole('img', { name: /Mapa de commits/ })).toBeTruthy();
+    expect(screen.getByText(/la ejecución y el código, con IA/)).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: '2025' }));
-    expect(screen.getByText('40 contribuciones en 2025')).toBeTruthy();
-    expect(screen.getByText('30')).toBeTruthy();
-  });
-
-  it('sin los repos privados lo aclara', async () => {
-    const leer = vi.fn<ProveedorDeActividad['leer']>().mockResolvedValue({
-      username: 'FranDorrego',
-      total: 90,
-      commits: 12,
-      pullRequests: 0,
-      merges: 0,
-      contributions: [{ date: '2026-11-01', count: 2 }],
-      updatedAt: '2026-11-25',
-      includesPrivate: false,
-      periodos: [
-        {
-          clave: 'ultimo',
-          total: 90,
-          commits: 12,
-          pullRequests: 0,
-          merges: 0,
-          repos: 1,
-          contributions: [{ date: '2026-11-01', count: 2 }],
-        },
-      ],
-    });
-    dibujarWidget({ leer });
-    expect(await screen.findByText('90 contribuciones en el último año')).toBeTruthy();
-    expect(screen.getByText(/solo los públicos/)).toBeTruthy();
+    expect(screen.getByText('40 commits en 2025')).toBeTruthy();
   });
 
   it('sin ningun dato muestra el estado vacio', async () => {

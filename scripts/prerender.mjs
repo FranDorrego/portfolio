@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: prerender.mjs    Project: portfolio                                */
 /*   Created: 2026/11/26 01:43:49  by vm                                      */
-/*   Updated: 2026/11/26 01:45:44  by vm                                      */
+/*   Updated: 2026/11/26 02:16:09  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -20,7 +20,7 @@ import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { build } from 'vite';
-import { conContenido, enPortugues, metadatos } from './html-de-paginas.mjs';
+import { conActividad, conContenido, enPortugues, metadatos } from './html-de-paginas.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
 const SERVIDOR = path.join(RAIZ, 'dist-servidor');
@@ -34,7 +34,11 @@ if (process.argv[1] && path.resolve(process.argv[1]) === import.meta.filename) {
   });
   const entrada = await import(pathToFileURL(path.join(SERVIDOR, 'entrada.js')).href);
   const leer = (archivo) => readFileSync(path.join(RAIZ, archivo), 'utf8');
-  const plantilla = leer('dist/index.html');
+  // La actividad de GitHub va escrita en la pagina: se dibuja con ella y el navegador la toma
+  // sin pedirla otra vez (src/hooks/use-actividad-de-github.ts).
+  const actividad = JSON.parse(leer('dist/github-stats.json'));
+  globalThis.__ACTIVIDAD__ = actividad;
+  const plantilla = conActividad(leer('dist/index.html'), actividad);
 
   writeFileSync(
     path.join(RAIZ, 'dist/index.html'),

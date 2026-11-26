@@ -6,13 +6,12 @@
 /*                                                                            */
 /*   File: actividad-de-github.tsx    Project: portfolio                      */
 /*   Created: 2026/11/25 22:27:55  by claude                                  */
-/*   Updated: 2026/11/26 01:39:52  by vm                                      */
+/*   Updated: 2026/11/26 02:15:07  by vm                                      */
 /* ************************************************************************** */
 
 /**
- * La actividad de GitHub, como se ve en el perfil: «N contribuciones en el ultimo anio», el mapa
- * y a la derecha los anios para elegir. Debajo, commits, pull requests, merges y repositorios
- * del mismo periodo, y una nota sobre como se trabaja con IA. No sabe de donde salen los datos:
+ * La actividad de GitHub, como se ve en el perfil: «N commits en el ultimo anio», el mapa
+ * y a la derecha los anios para elegir. Debajo, una nota sobre como se trabaja con IA. No sabe de donde salen los datos:
  * recibe un proveedor y dibuja cargando, datos, vacio o error.
  */
 
@@ -34,29 +33,12 @@ import { totalDeContribuciones } from '@/utils/mapa-de-contribuciones';
 import { numeroConFormato, rellenar } from '@/utils/texto';
 import { MapaDeContribuciones } from './mapa-de-contribuciones';
 
-function Cifra({ etiqueta, valor }: { etiqueta: string; valor: number | null }): JSX.Element {
-  const { idioma } = useIdioma();
-  return (
-    <div className="rounded-md border border-border px-3 py-2.5">
-      <dd className="text-2xl font-semibold tabular-nums text-foreground">
-        {valor === null ? '—' : numeroConFormato(valor, idioma)}
-      </dd>
-      <dt className="text-sm text-muted-foreground">{etiqueta}</dt>
-    </div>
-  );
-}
-
 function Esqueleto(): JSX.Element {
   const { t } = useIdioma();
   return (
     <div role="status" aria-label={t.github.cargando}>
       <Skeleton className="h-5 w-64 rounded" />
       <Skeleton className="mt-3 aspect-[53/8.6] w-full rounded-md" />
-      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
-        {[0, 1, 2, 3].map((n) => (
-          <Skeleton key={n} className="h-[4.25rem] rounded-md" />
-        ))}
-      </div>
     </div>
   );
 }
@@ -91,7 +73,7 @@ function Anios({ periodos, elegido, alElegir }: PropsDeAnios): JSX.Element {
     <div
       role="group"
       aria-label={t.github.anios}
-      className="flex gap-1.5 overflow-x-auto pb-1 sm:flex-col sm:overflow-visible sm:pb-0"
+      className="sin-barra flex gap-1.5 overflow-x-auto sm:flex-col sm:overflow-visible"
     >
       {periodos.map((periodo) => {
         const actual = periodo.clave === elegido;
@@ -148,15 +130,6 @@ function Datos({ actividad }: { actividad: Actividad }): JSX.Element {
           <Anios periodos={actividad.periodos} elegido={clave} alElegir={setClave} />
         )}
       </div>
-      <dl className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
-        <Cifra etiqueta={t.github.commits} valor={periodo.commits} />
-        <Cifra etiqueta={t.github.pullRequests} valor={periodo.pullRequests} />
-        <Cifra etiqueta={t.github.merges} valor={periodo.merges} />
-        <Cifra etiqueta={t.github.repos} valor={periodo.repos} />
-      </dl>
-      {actividad.includesPrivate === false && (
-        <p className="mt-1.5 text-xs text-muted-foreground">{t.github.soloPublicos}</p>
-      )}
       <p className="mt-3 flex items-start gap-2 text-sm text-muted-foreground">
         <Bot aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
         {t.github.conIa}

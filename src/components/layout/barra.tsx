@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: barra.tsx    Project: portfolio                                    */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 01:47:16  by vm                                      */
+/*   Updated: 2026/11/26 02:15:26  by vm                                      */
 /* ************************************************************************** */
 
 /** La barra de arriba: quien soy, donde estoy, si estoy disponible, idioma y accesos rapidos. */
@@ -58,7 +58,14 @@ function Navegacion({ className }: { className?: string }): JSX.Element {
 }
 
 /** Donde estoy y si estoy disponible. En el celular va en el inicio, no en la barra. */
-export function UbicacionYEstado({ className }: { className?: string }): JSX.Element {
+export function UbicacionYEstado({
+  className,
+  conEstado = true,
+}: {
+  className?: string;
+  /** Sin el punto de «disponible»: en el inicio del celular va solo la ciudad. */
+  conEstado?: boolean;
+}): JSX.Element {
   const { t } = useIdioma();
   return (
     <div
@@ -71,10 +78,12 @@ export function UbicacionYEstado({ className }: { className?: string }): JSX.Ele
         <MapPin aria-hidden className="h-3.5 w-3.5 shrink-0" />
         <span className="truncate">{t.barra.ubicacion}</span>
       </span>
-      <span className="flex items-center gap-1.5 text-xs text-foreground">
-        <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
-        <span className="truncate">{t.barra.estado}</span>
-      </span>
+      {conEstado && (
+        <span className="flex items-center gap-1.5 text-xs text-foreground">
+          <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
+          <span className="truncate">{t.barra.estado}</span>
+        </span>
+      )}
     </div>
   );
 }
@@ -105,7 +114,7 @@ export function Barra(): JSX.Element {
       </div>
       <div className={cn(CONTENEDOR_DE_PAGINA, 'flex h-12 items-center gap-2 lg:hidden')}>
         <FotoDePerfil className="h-7 w-7" />
-        <Navegacion className="min-w-0 flex-1 overflow-x-auto" />
+        <Navegacion className="sin-barra min-w-0 flex-1 overflow-x-auto" />
       </div>
     </header>
   );

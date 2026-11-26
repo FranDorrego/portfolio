@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: index.css    Project: portfolio                                    */
 /*   Created: 2026/11/25 22:18:47  by claude                                  */
-/*   Updated: 2026/11/26 01:48:20  by vm                                      */
+/*   Updated: 2026/11/26 02:15:26  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -88,6 +88,15 @@ body {
 
 ::selection {
   background-color: hsl(var(--action) / 0.3);
+}
+
+/* Lo que se desliza de costado sin mostrar la barra de scroll. */
+.sin-barra {
+  scrollbar-width: none;
+}
+
+.sin-barra::-webkit-scrollbar {
+  display: none;
 }
 
 /* La rejilla tenue del hero y de las portadas sin captura. */
