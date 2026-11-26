@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: agente.py    Project: portfolio                                    #
 #   Created: 2026/11/26 21:05:20  by vm                                      #
-#   Updated: 2026/11/26 21:05:20  by vm                                      #
+#   Updated: 2026/11/26 22:16:13  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -42,6 +42,10 @@ Reglas, sin excepciones:
   en blanco, sin frases hechas, firmada «Franco Dorrego». Dirigida a la empresa y al cargo.
 - Todo el CV y la carta en {idioma}, incluidos los títulos de los puestos cuando corresponda.
 - El CV tiene que entrar en una página A4.
+- Compatible con cualquier ATS: cada bloque de experiencia y de proyecto lleva su período con el
+  formato «MM/AAAA – MM/AAAA» (o «MM/AAAA – Actualidad» / «Atualidade» / «Present»); nunca un
+  bloque sin fecha. Títulos de puesto claros y estándar, sin emojis, tablas ni símbolos raros.
+  Las palabras clave de la vacante que Franco SÍ tiene, escritas igual que en la vacante.
 
 Respondé SOLO con un JSON con esta forma:
 {{

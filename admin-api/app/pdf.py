@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: pdf.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:04:28  by vm                                      #
-#   Updated: 2026/11/26 22:05:10  by vm                                      #
+#   Updated: 2026/11/26 22:16:13  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -105,21 +105,15 @@ class _Documento(FPDF):
         self.ln(1.6 * self.escala)
 
     def entrada(self, titulo: str, rol: str, periodo: str) -> None:
-        """«Titulo | rol» a la izquierda y el periodo alineado a la derecha, en gris."""
+        """
+        «Empresa | Rol | Periodo» en un solo renglon, con la empresa en negrita: el formato que
+        cualquier ATS separa sin errores (la fecha al lado de lo que fecha, nunca en otra columna).
+        """
         self.letra(9.5)
-        ancho_del_periodo = self.get_string_width(periodo) + 2 if periodo else 0
-        arriba = self.get_y()
-        # Primero el titulo y despues el periodo: es el orden en que lo lee un ATS.
         self.set_text_color(*NEGRO)
-        texto = f"**{_sin_marcas(titulo)}**" + (f"  |  {_sin_marcas(rol)}" if rol else "")
-        self.multi_cell(self.ancho - ancho_del_periodo - 3, self.renglon, texto, markdown=True,
-                        align="L", new_x="LMARGIN", new_y="NEXT")
-        abajo = self.get_y()
-        if periodo:
-            self.set_text_color(*GRIS)
-            self.set_xy(self.w - self.r_margin - ancho_del_periodo, arriba)
-            self.cell(ancho_del_periodo, self.renglon, periodo, align="R")
-            self.set_xy(self.l_margin, abajo)
+        partes = [f"**{_sin_marcas(titulo)}**", _sin_marcas(rol), _sin_marcas(periodo)]
+        self.multi_cell(0, self.renglon, "  |  ".join(p for p in partes if p.strip("*")),
+                        markdown=True, align="L", new_x="LMARGIN", new_y="NEXT")
         self.ln(0.5 * self.escala)
 
     def vineta(self, texto: str) -> None:
@@ -185,8 +179,11 @@ def _bloques(documento: _Documento, titulo: str, bloques: list[dict[str, Any]]) 
 def _dibujar(cv: dict[str, Any], contacto: list[str], escala: float, aire: float) -> _Documento:
     rotulos = SECCIONES.get(cv.get("idioma", "es"), SECCIONES["es"])
     documento = _Documento(escala, aire)
-    documento.set_title(f"{cv.get('nombre', '')} - CV")
+    # Los metadatos tambien los leen algunos ATS: titulo, autor, idioma y palabras clave.
+    documento.set_title(f"{cv.get('nombre', '')} - CV - {cv.get('titulo', '')}")
     documento.set_author(cv.get("nombre", ""))
+    documento.set_lang({"pt": "pt-PT", "en": "en"}.get(cv.get("idioma", "es"), "es"))
+    documento.set_keywords(", ".join(g.get("items", "") for g in cv.get("habilidades", [])))
     _cabecera(documento, cv, contacto)
     if cv.get("resumen"):
         documento.titulo_de_seccion(rotulos["resumen"])
@@ -196,22 +193,25 @@ def _dibujar(cv: dict[str, Any], contacto: list[str], escala: float, aire: float
     if cv.get("formacion"):
         documento.titulo_de_seccion(rotulos["formacion"])
         for estudio in cv["formacion"]:
-            resto = [estudio.get(dato, "") for dato in ("detalle", "lugar", "estado")]
+            # La fecha (o «En curso») va al lado de cada estudio, como en la experiencia.
+            resto = [estudio.get(dato, "") for dato in ("detalle", "lugar", "periodo", "estado")]
             documento.rotulado(estudio.get("institucion", ""),
                                "  |  ".join(parte for parte in resto if parte))
-    if cv.get("habilidades") or cv.get("idiomas"):
+    if cv.get("habilidades"):
         documento.titulo_de_seccion(rotulos["habilidades"])
-        for grupo in cv.get("habilidades", []):
+        for grupo in cv["habilidades"]:
             documento.rotulado(grupo.get("categoria", ""), grupo.get("items", ""))
-        if cv.get("idiomas"):
-            documento.rotulado(rotulos["idiomas"], cv["idiomas"])
+    # Los idiomas en su propia seccion, con titulo estandar: asi los encuentra cualquier ATS.
+    if cv.get("idiomas"):
+        documento.titulo_de_seccion(rotulos["idiomas"])
+        documento.parrafo(cv["idiomas"])
     return documento
 
 
 def _huecos(cv: dict[str, Any]) -> float:
     """Cuantos huecos reparten el aire: uno por seccion y medio entre bloques."""
-    secciones = sum(1 for clave in ("resumen", "formacion") if cv.get(clave))
-    secciones += 1 if cv.get("habilidades") or cv.get("idiomas") else 0
+    secciones = sum(1 for clave in ("resumen", "formacion", "habilidades", "idiomas")
+                    if cv.get(clave))
     medios = 0
     for clave in ("experiencia", "proyectos"):
         bloques = cv.get(clave) or []
