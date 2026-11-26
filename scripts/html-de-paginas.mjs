@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: html-de-paginas.mjs    Project: portfolio                          */
 /*   Created: 2026/11/25 22:25:17  by claude                                  */
-/*   Updated: 2026/11/26 02:16:09  by vm                                      */
+/*   Updated: 2026/11/26 16:56:21  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -38,6 +38,11 @@ export function enPortugues({ html, es, pt }) {
       'property="og:locale:alternate" content="pt_PT"',
       'property="og:locale:alternate" content="es"',
     )
+    .replace('href="/llms.txt"', 'href="/pt/llms.txt"')
+    .replace('href="/llms-full.txt"', 'href="/pt/llms-full.txt"')
+    .replace('href="/cv/"', 'href="/pt/cv/"')
+    .replace('href="/cv-franco-dorrego.pdf"', 'href="/cv-franco-dorrego-pt.pdf"')
+    .replace('href="/resume.json"', 'href="/resume-pt.json"')
     .replaceAll('="./', '="../');
 }
 

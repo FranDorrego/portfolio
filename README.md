@@ -20,8 +20,13 @@ bueno y lo que tengo que mejorar, preguntas frecuentes y cómo contactarme.
 - 🌐 **Sitio:** <https://francodorrego.com> (español) · <https://francodorrego.com/pt/> (portugués)
 - 🌍 **Idiomas:** portugués por defecto; español si el equipo de la persona está en español
 - ⭐ **Clientes:** opiniones de Workana en `src/data/testimonios.ts`
-- 🤖 **Agentes de IA:** el HTML sale pre-renderizado y hay
-  [`/llms.txt`](https://francodorrego.com/llms.txt) y `/llms-full.txt`
+- 🤖 **Para máquinas (bots, agentes de IA, ATS, APIs):** el HTML sale pre-renderizado con todo
+  el contenido (los 45 proyectos incluidos) y el CV está además en:
+  - HTML simple: [`/cv/`](https://francodorrego.com/cv/) · [`/pt/cv/`](https://francodorrego.com/pt/cv/)
+  - PDF con texto real: `/cv-franco-dorrego.pdf` · `/cv-franco-dorrego-pt.pdf` (lo reimprime la
+    acción de GitHub cuando cambia el contenido)
+  - JSON Resume: `/resume.json` · `/resume-pt.json`
+  - Markdown: [`/llms.txt`](https://francodorrego.com/llms.txt), `/llms-full.txt` y sus versiones en `/pt/`
 - ✅ **Estándar:** revisado con el checker de [ArduMaker](https://ardumaker.com):
   `ardumaker check` sin errores ni advertencias
 

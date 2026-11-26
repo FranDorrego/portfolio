@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: sitemap.mjs    Project: portfolio                                  */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 01:43:49  by vm                                      */
+/*   Updated: 2026/11/26 16:55:58  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -32,19 +32,25 @@ export function direccionDelSitio(entorno = process.env) {
   return (valor || 'https://francodorrego.com').trim().replace(/\/+$/, '');
 }
 
+/** El inicio y el CV, cada uno en espanol y en portugues. */
 export function sitemap(sitio, hoy) {
-  const paginas = [
-    { loc: `${sitio}/`, idioma: 'es' },
-    { loc: `${sitio}/pt/`, idioma: 'pt-PT' },
-  ];
-  const alternativas = paginas
-    .map((p) => `    <xhtml:link rel="alternate" hreflang="${p.idioma}" href="${p.loc}"/>`)
-    .join('\n');
-  const filas = paginas
-    .map(
-      (p) =>
-        `  <url>\n    <loc>${p.loc}</loc>\n    <lastmod>${hoy}</lastmod>\n${alternativas}\n  </url>`,
-    )
+  const filas = ['', 'cv/']
+    .map((ruta) => {
+      const paginas = [
+        { loc: `${sitio}/${ruta}`, idioma: 'es' },
+        { loc: `${sitio}/pt/${ruta}`, idioma: 'pt-PT' },
+      ];
+      const alternativas = paginas
+        .map((p) => `    <xhtml:link rel="alternate" hreflang="${p.idioma}" href="${p.loc}"/>`)
+        .join('\n');
+      return paginas
+        .map(
+          (p) =>
+            `  <url>\n    <loc>${p.loc}</loc>\n    <lastmod>${hoy}</lastmod>\n` +
+            `${alternativas}\n  </url>`,
+        )
+        .join('\n');
+    })
     .join('\n');
   return (
     '<?xml version="1.0" encoding="UTF-8"?>\n' +

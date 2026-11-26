@@ -7,7 +7,7 @@
 <!--                                                                            -->
 <!--   File: index.html    Project: portfolio                                   -->
 <!--   Created: 2026/11/25 21:30:00  by claude                                  -->
-<!--   Updated: 2026/11/26 13:33:12  by vm                                      -->
+<!--   Updated: 2026/11/26 16:56:35  by vm                                      -->
 <!-- ************************************************************************** -->
 
 <html lang="es" class="dark">
@@ -31,12 +31,17 @@
     <link rel="alternate" hreflang="es" href="%VITE_SITE_URL%/" />
     <link rel="alternate" hreflang="pt-PT" href="%VITE_SITE_URL%/pt/" />
     <link rel="alternate" hreflang="x-default" href="%VITE_SITE_URL%/" />
+    <!-- Lo mismo para maquinas: agentes de IA, ATS, scripts y APIs (scripts/prerender.mjs). -->
     <link
       rel="alternate"
       type="text/markdown"
       title="Resumen para agentes de IA"
       href="/llms.txt"
     />
+    <link rel="alternate" type="text/markdown" title="CV completo" href="/llms-full.txt" />
+    <link rel="alternate" type="text/html" title="CV" href="/cv/" />
+    <link rel="alternate" type="application/pdf" title="CV" href="/cv-franco-dorrego.pdf" />
+    <link rel="alternate" type="application/json" title="JSON Resume" href="/resume.json" />
 
     <!-- Lo primero que pide la pagina: la foto. -->
     <link rel="preload" as="image" href="/franco-dorrego.webp" type="image/webp" />

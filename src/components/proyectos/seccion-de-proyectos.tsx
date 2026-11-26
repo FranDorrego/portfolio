@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: seccion-de-proyectos.tsx    Project: portfolio                     */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 01:48:20  by vm                                      */
+/*   Updated: 2026/11/26 16:56:21  by vm                                      */
 /* ************************************************************************** */
 
 /** La seccion de proyectos: buscador, filtros, cantidad de resultados, grilla y «ver mas». */
@@ -70,8 +70,10 @@ export function SeccionDeProyectos(): JSX.Element {
         </div>
       ) : (
         <ul className="mt-6 grid gap-5 md:grid-cols-2">
-          {visibles.map((proyecto) => (
-            <li key={proyecto.id}>
+          {/* Todos van en el HTML, para quien lo lee sin JavaScript (buscadores, agentes, ATS);
+              los que todavia no se pidieron con «Ver más» quedan ocultos. */}
+          {encontrados.map((proyecto, indice) => (
+            <li key={proyecto.id} hidden={indice >= visibles.length}>
               <TarjetaDeProyecto proyecto={proyecto} alAbrir={(uno) => abrir(uno.id)} />
             </li>
           ))}

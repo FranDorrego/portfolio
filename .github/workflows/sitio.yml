@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: sitio.yml    Project: portfolio                                    #
 #   Created: 2026/11/25 22:27:55  by claude                                  #
-#   Updated: 2026/11/25 22:30:09  by vm                                      #
+#   Updated: 2026/11/26 16:57:53  by vm                                      #
 # ************************************************************************** #
 
 # Verifica el codigo en cada push y mantiene al dia las estadisticas de GitHub.
@@ -70,4 +70,47 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "$MENSAJE"
+          git push
+
+  # El CV en PDF (lo que leen los ATS): si el curriculum cambio, lo vuelve a imprimir desde /cv/
+  # y lo guarda en el repositorio. Si no cambio, no instala nada ni sube nada.
+  cv:
+    needs: estadisticas
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Ver si el curriculum cambio
+        id: huella
+        run: |
+          nueva=$(cat dist/cv/index.html dist/pt/cv/index.html | sha256sum | cut -d' ' -f1)
+          anterior=$(cat public/cv-franco-dorrego.sha256 2>/dev/null || true)
+          if [ "$nueva" = "$anterior" ]; then echo "cambio=no" >> "$GITHUB_OUTPUT"; fi
+      - if: steps.huella.outputs.cambio != 'no'
+        run: |
+          npm install --no-save playwright@1.63.0
+          npx playwright install --with-deps chromium
+          node scripts/imprimir-cv.mjs
+      - if: steps.huella.outputs.cambio != 'no'
+        name: Guardar si cambio
+        env:
+          MENSAJE: >-
+            CV en PDF al dia: el curriculum cambio y la accion lo volvio a imprimir desde /cv/
+            en español y en portugués, para que ArduMaker lo publique
+        run: |
+          git add public/cv-franco-dorrego.pdf public/cv-franco-dorrego-pt.pdf public/cv-franco-dorrego.sha256
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "$MENSAJE"
+          git pull --rebase origin main
           git push

@@ -7,7 +7,7 @@
 /*                                                                            */
 /*   File: inicio.test.tsx    Project: portfolio                              */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 02:17:06  by vm                                      */
+/*   Updated: 2026/11/26 16:58:15  by vm                                      */
 /* ************************************************************************** */
 
 /** La pagina entera: idioma, catalogo, detalle y los estados del widget de GitHub. */
@@ -18,6 +18,7 @@ import { ActividadDeGithub } from '@/components/hero/actividad-de-github';
 import { ProveedorDeIdioma } from '@/i18n';
 import type { ProveedorDeActividad } from '@/types/github';
 import { Inicio } from './inicio';
+import { HAY_CV } from '@/data/perfil';
 
 function dibujarPagina(): void {
   render(
@@ -93,9 +94,11 @@ describe('pagina de inicio', () => {
     expect(within(ventana).getByText('Código privado')).toBeTruthy();
   });
 
-  it('no ofrece descargar un CV que no existe', () => {
+  it('ofrece el CV en PDF solo si el archivo existe', () => {
     dibujarPagina();
-    expect(screen.queryByRole('link', { name: 'CV' })).toBeNull();
+    const boton = screen.queryByRole('link', { name: 'CV' });
+    if (HAY_CV) expect(boton?.getAttribute('href')).toMatch(/\/cv-franco-dorrego\.pdf$/);
+    else expect(boton).toBeNull();
   });
 });
 

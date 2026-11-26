@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: hero.tsx    Project: portfolio                                     */
 /*   Created: 2026/11/25 22:27:55  by claude                                  */
-/*   Updated: 2026/11/26 13:37:43  by vm                                      */
+/*   Updated: 2026/11/26 16:56:24  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -17,7 +17,7 @@
 
 import { ChevronDown, Download, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { HAY_CV, RUTA_DEL_CV, TITULOS_DEL_HERO } from '@/data/perfil';
+import { HAY_CV, TITULOS_DEL_HERO, rutaDelCv } from '@/data/perfil';
 import { useIdioma } from '@/i18n';
 import { cn } from '@/lib/class-names';
 import { CONTENEDOR_DE_PAGINA } from '@/lib/movimiento';
@@ -29,7 +29,7 @@ import { FotoDePerfil } from './foto-de-perfil';
 import { MaquinaDeEscribir } from './maquina-de-escribir';
 
 export function Hero(): JSX.Element {
-  const { t } = useIdioma();
+  const { t, idioma } = useIdioma();
   return (
     <section
       id="inicio"
@@ -86,7 +86,7 @@ export function Hero(): JSX.Element {
               </Button>
               {HAY_CV && (
                 <Button asChild size="lg" variant="outline">
-                  <a href={recurso(RUTA_DEL_CV)} download>
+                  <a href={recurso(rutaDelCv(idioma))} download>
                     <Download aria-hidden />
                     {t.hero.descargarCv}
                   </a>

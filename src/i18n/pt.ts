@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: pt.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 13:56:14  by vm                                      */
+/*   Updated: 2026/11/26 16:56:33  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en portugues de Portugal. Misma forma que `es.ts`. */
@@ -226,5 +226,6 @@ export const pt: Textos = {
   },
   pie: {
     firma: 'Franco Dorrego · Software Developer · Porto, Portugal',
+    formatos: 'CV noutros formatos',
   },
 };

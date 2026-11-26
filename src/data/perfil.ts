@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: perfil.ts    Project: portfolio                                    */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 01:43:13  by vm                                      */
+/*   Updated: 2026/11/26 16:57:59  by vm                                      */
 /* ************************************************************************** */
 
 /** Los datos de contacto. Son los que el autor ya publica en su perfil de GitHub. */
@@ -21,10 +21,12 @@ export const PERFIL = {
 } as const;
 
 /**
- * El CV: alcanza con dejar el PDF en `public/cv-franco-dorrego.pdf`. Vite avisa en el build si
- * esta (ver vite.config.ts) y recien ahi aparece el boton: no hay enlace a un archivo que no existe.
+ * El CV en PDF: lo imprime scripts/imprimir-cv.mjs en `public/` (uno por idioma). Vite avisa en el
+ * build si esta (ver vite.config.ts) y recien ahi aparece el boton: no hay enlace a un archivo
+ * que no existe.
  */
-export const RUTA_DEL_CV = 'cv-franco-dorrego.pdf';
+export const rutaDelCv = (idioma: 'es' | 'pt'): string =>
+  idioma === 'pt' ? 'cv-franco-dorrego-pt.pdf' : 'cv-franco-dorrego.pdf';
 export const HAY_CV: boolean = __HAY_CV__;
 
 /** Los titulos que la maquina de escribir del inicio va sumando. No se traducen. */

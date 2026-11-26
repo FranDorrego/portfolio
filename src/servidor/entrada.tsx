@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: entrada.tsx    Project: portfolio                                  */
 /*   Created: 2026/11/26 01:43:49  by vm                                      */
-/*   Updated: 2026/11/26 01:43:49  by vm                                      */
+/*   Updated: 2026/11/26 16:55:29  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -21,6 +21,7 @@ import type { Idioma } from '@/i18n/idiomas';
 import { Inicio } from '@/pages/inicio';
 
 export { textoParaAgentes } from './texto-para-agentes';
+export { resumeJson } from './resume-json';
 
 /** El HTML de la pagina en un idioma, listo para ir adentro de `#root`. */
 export function dibujarPagina(idioma: Idioma): string {

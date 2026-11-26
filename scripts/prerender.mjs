@@ -6,20 +6,23 @@
 /*                                                                            */
 /*   File: prerender.mjs    Project: portfolio                                */
 /*   Created: 2026/11/26 01:43:49  by vm                                      */
-/*   Updated: 2026/11/26 02:16:09  by vm                                      */
+/*   Updated: 2026/11/26 16:58:15  by vm                                      */
 /* ************************************************************************** */
 
 /**
  * Despues de `vite build`: compila src/servidor/entrada.tsx para node, dibuja la pagina en
- * espanol (dist/index.html) y en portugues (dist/pt/index.html) adentro de `#root`, y escribe
- * llms.txt y llms-full.txt para los agentes de IA. Asi el contenido esta en el HTML desde el
- * primer byte: lo leen los buscadores y los agentes sin ejecutar JavaScript, y se ve antes.
+ * espanol (dist/index.html) y en portugues (dist/pt/index.html) adentro de `#root`, y escribe en
+ * los dos idiomas lo que leen las maquinas: llms.txt y llms-full.txt (agentes de IA), /cv/ (el
+ * curriculum en HTML simple, para ATS y scripts) y resume.json (JSON Resume, para APIs). Asi
+ * el contenido esta en el HTML desde el primer byte: lo leen los buscadores y los agentes sin
+ * ejecutar JavaScript, y se ve antes.
  */
 
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { build } from 'vite';
+import { paginaDelCv } from './pagina-del-cv.mjs';
 import { conActividad, conContenido, enPortugues, metadatos } from './html-de-paginas.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
@@ -52,14 +55,23 @@ if (process.argv[1] && path.resolve(process.argv[1]) === import.meta.filename) {
   mkdirSync(path.join(RAIZ, 'dist/pt'), { recursive: true });
   writeFileSync(path.join(RAIZ, 'dist/pt/index.html'), enPt);
 
-  writeFileSync(
-    path.join(RAIZ, 'dist/llms.txt'),
-    entrada.textoParaAgentes({ sitio: SITIO, completo: false }),
-  );
-  writeFileSync(
-    path.join(RAIZ, 'dist/llms-full.txt'),
-    entrada.textoParaAgentes({ sitio: SITIO, completo: true }),
-  );
+  for (const idioma of ['es', 'pt']) {
+    const carpeta = path.join(RAIZ, 'dist', idioma === 'pt' ? 'pt' : '');
+    const escribir = (archivo, contenido) => {
+      mkdirSync(path.dirname(path.join(carpeta, archivo)), { recursive: true });
+      writeFileSync(path.join(carpeta, archivo), contenido);
+    };
+    const resumen = entrada.textoParaAgentes({ sitio: SITIO, completo: false, idioma });
+    const completo = entrada.textoParaAgentes({ sitio: SITIO, completo: true, idioma });
+    escribir('llms.txt', resumen);
+    escribir('llms-full.txt', completo);
+    escribir('cv/index.html', paginaDelCv({ markdown: completo, idioma, sitio: SITIO }));
+    const resume = entrada.resumeJson({ sitio: SITIO, idioma });
+    writeFileSync(
+      path.join(RAIZ, 'dist', `resume${idioma === 'pt' ? '-pt' : ''}.json`),
+      JSON.stringify(resume, null, 2) + '\n',
+    );
+  }
   rmSync(SERVIDOR, { recursive: true, force: true });
-  console.log('prerender: dist/index.html, dist/pt/index.html, llms.txt y llms-full.txt');
+  console.log('prerender: paginas, llms.txt, llms-full.txt, /cv/ y resume.json en es y pt');
 }
