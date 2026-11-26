@@ -6,19 +6,25 @@
 /*                                                                            */
 /*   File: estadisticas-de-github.test.mjs    Project: portfolio              */
 /*   Created: 2026/11/25 22:27:55  by claude                                  */
-/*   Updated: 2026/11/25 23:21:40  by vm                                      */
+/*   Updated: 2026/11/26 01:38:49  by vm                                      */
 /* ************************************************************************** */
 
-/** El resumen de las estadisticas del ultimo anio, y si incluye lo privado. */
+/** Las estadisticas: periodos, resumen de cada uno y el archivo que lee el sitio. */
 
 import { describe, expect, it } from 'vitest';
-import { haceUnAnio, resumir } from './estadisticas-de-github.mjs';
+import { armarArchivo, periodos, resumirPeriodo } from './estadisticas-de-github.mjs';
 
-const respuesta = (viewer) => ({
-  viewer: { login: viewer },
+const respuesta = {
+  viewer: { login: 'otro' },
   user: {
+    createdAt: '2023-06-07T13:06:11Z',
     contributionsCollection: {
       totalCommitContributions: 42,
+      commitContributionsByRepository: [
+        { repository: { nameWithOwner: 'a/uno' } },
+        { repository: { nameWithOwner: 'a/dos' } },
+      ],
+      pullRequestContributionsByRepository: [{ repository: { nameWithOwner: 'a/uno' } }],
       contributionCalendar: {
         totalContributions: 90,
         weeks: [
@@ -33,37 +39,43 @@ const respuesta = (viewer) => ({
   },
   prs: { issueCount: 7 },
   merges: { issueCount: 5 },
-});
+};
 
 describe('estadisticas de GitHub', () => {
-  it('cuenta los pull requests desde hace un anio', () => {
-    expect(haceUnAnio(new Date('2026-11-25T06:00:00Z'))).toBe('2025-11-25');
+  it('pide el ultimo anio y cada anio desde que existe la cuenta', () => {
+    const lista = periodos({ ahora: new Date('2026-11-25T06:00:00Z'), primerAnio: 2023 });
+    expect(lista.map((periodo) => periodo.clave)).toEqual([
+      'ultimo',
+      '2026',
+      '2025',
+      '2024',
+      '2023',
+    ]);
+    expect(lista[0].desde.toISOString().slice(0, 10)).toBe('2025-11-25');
+    expect(lista[2].hasta.toISOString().slice(0, 10)).toBe('2025-12-31');
   });
 
-  it('arma el archivo que lee el sitio', () => {
-    const resumen = resumir({
-      datos: respuesta('otro'),
-      usuario: 'FranDorrego',
-      ahora: new Date('2026-11-25T06:00:00Z'),
-    });
-    expect(resumen).toEqual({
-      username: 'FranDorrego',
-      updated_at: '2026-11-25',
-      includes_private: false,
+  it('resume un periodo y cuenta cada repositorio una sola vez', () => {
+    expect(resumirPeriodo(respuesta)).toEqual({
       total_contributions: 90,
       commits: 42,
       pull_requests: 7,
       merges: 5,
+      repos: 2,
       contributions: [{ date: '2026-11-24', count: 3, level: 2 }],
     });
   });
 
-  it('con el token del propio usuario incluye lo privado', () => {
-    const resumen = resumir({
-      datos: respuesta('frandorrego'),
+  it('arma el archivo con el ultimo anio arriba y todos los periodos adentro', () => {
+    const ultimo = resumirPeriodo(respuesta);
+    const archivo = armarArchivo({
       usuario: 'FranDorrego',
-      ahora: new Date(),
+      ahora: new Date('2026-11-25T06:00:00Z'),
+      incluyePrivados: false,
+      resumenes: { ultimo, 2026: ultimo },
     });
-    expect(resumen.includes_private).toBe(true);
+    expect(archivo.updated_at).toBe('2026-11-25');
+    expect(archivo.total_contributions).toBe(90);
+    expect(Object.keys(archivo.periods)).toEqual(['2026', 'ultimo']);
   });
 });

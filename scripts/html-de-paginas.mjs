@@ -4,21 +4,17 @@
 /*    / ___ \| |  | (_| | |_| | |  | | (_| |   <  __/ |                       */
 /*   /_/   \_\_|   \__,_|\__,_|_|  |_|\__,_|_|\_\___|_|                       */
 /*                                                                            */
-/*   File: pagina-en-portugues.mjs    Project: portfolio                      */
+/*   File: html-de-paginas.mjs    Project: portfolio                          */
 /*   Created: 2026/11/25 22:25:17  by claude                                  */
-/*   Updated: 2026/11/25 22:25:18  by claude                                  */
+/*   Updated: 2026/11/26 01:45:44  by vm                                      */
 /* ************************************************************************** */
 
 /**
- * Escribe dist/pt/index.html: la misma pagina con su direccion propia, y con el idioma, el titulo
- * y la descripcion ya en portugues en el HTML. Asi un buscador ve dos paginas distintas (/ y
- * /pt/) y no una sola en dos idiomas. Corre despues de `vite build`.
+ * Lo que se le hace al HTML compilado: ponerle la pagina dibujada adentro y armar la cabecera
+ * de la pagina en portugues: su direccion propia, el idioma, el titulo y la
+ * descripcion. Asi un buscador ve dos paginas distintas (/ y /pt/) y no una sola en dos
+ * idiomas. La usa scripts/prerender.mjs.
  */
-
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import path from 'node:path';
-
-const RAIZ = path.resolve(import.meta.dirname, '..');
 
 /** El titulo y la descripcion de un idioma, leidos de su archivo de textos. */
 export function metadatos(fuente) {
@@ -35,6 +31,7 @@ export function enPortugues({ html, es, pt }) {
     .replaceAll(es.description, pt.description)
     .replace('<html lang="es"', '<html lang="pt-PT"')
     .replace(/(<link rel="canonical" href="[^"]*?)"/, '$1pt/"')
+    .replace('<meta property="og:url" content="', '<meta property="og:url" content="')
     .replace(/(<meta property="og:url" content="[^"]*?)"/, '$1pt/"')
     .replace('property="og:locale" content="es"', 'property="og:locale" content="pt_PT"')
     .replace(
@@ -44,14 +41,9 @@ export function enPortugues({ html, es, pt }) {
     .replaceAll('="./', '="../');
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === import.meta.filename) {
-  const leer = (archivo) => readFileSync(path.join(RAIZ, archivo), 'utf8');
-  const html = enPortugues({
-    html: leer('dist/index.html'),
-    es: metadatos(leer('src/i18n/es.ts')),
-    pt: metadatos(leer('src/i18n/pt.ts')),
-  });
-  mkdirSync(path.join(RAIZ, 'dist/pt'), { recursive: true });
-  writeFileSync(path.join(RAIZ, 'dist/pt/index.html'), html);
-  console.log('pagina-en-portugues: dist/pt/index.html escrito');
+/** Pone el HTML dibujado adentro del contenedor vacio de la aplicacion. */
+export function conContenido(plantilla, contenido) {
+  const vacio = '<div id="root"></div>';
+  if (!plantilla.includes(vacio)) throw new Error('No se encontro <div id="root"></div>');
+  return plantilla.replace(vacio, `<div id="root">${contenido}</div>`);
 }

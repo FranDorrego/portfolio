@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build && node scripts/pagina-en-portugues.mjs && node scripts/sitemap.mjs",
+    "build": "tsc --noEmit && vite build && node scripts/prerender.mjs && node scripts/sitemap.mjs",
     "estadisticas": "node scripts/estadisticas-de-github.mjs",
     "lint": "eslint .",
     "preview": "vite preview",

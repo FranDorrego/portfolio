@@ -7,7 +7,7 @@
 <!--                                                                            -->
 <!--   File: index.html    Project: portfolio                                   -->
 <!--   Created: 2026/11/25 21:30:00  by claude                                  -->
-<!--   Updated: 2026/11/25 22:29:31  by vm                                      -->
+<!--   Updated: 2026/11/26 01:43:13  by vm                                      -->
 <!-- ************************************************************************** -->
 
 <html lang="es" class="dark">
@@ -16,72 +16,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#151619" />
     <meta name="color-scheme" content="dark light" />
-    <title>Franco Dorrego · Desarrollador Full Stack en Porto</title>
+    <title>Franco Dorrego · Developer Full Stack Web en Porto, Portugal</title>
     <meta
       name="description"
-      content="Desarrollador Full Stack (Python, Django, React, TypeScript, cloud e IA). Productos propios y proyectos para clientes internacionales. Disponible para oportunidades en Porto, Portugal."
+      content="Franco Dorrego, developer Full Stack Web en Porto, Portugal: Python, Django, React, TypeScript, cloud e IA. Más de 5 años con productos propios y clientes internacionales."
     />
     <meta name="author" content="Franco Dorrego" />
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/franco-dorrego.jpg" />
 
-    <!-- La direccion publica se escribe al compilar desde VITE_SITE_URL (ver README.md). -->
+    <!-- La direccion publica sale de VITE_SITE_URL (por defecto https://francodorrego.com). -->
     <link rel="canonical" href="%VITE_SITE_URL%/" />
     <link rel="alternate" hreflang="es" href="%VITE_SITE_URL%/" />
     <link rel="alternate" hreflang="pt-PT" href="%VITE_SITE_URL%/pt/" />
     <link rel="alternate" hreflang="x-default" href="%VITE_SITE_URL%/" />
+    <link
+      rel="alternate"
+      type="text/markdown"
+      title="Resumen para agentes de IA"
+      href="/llms.txt"
+    />
+
+    <!-- Lo primero que pide la pagina: la foto y la actividad de GitHub. -->
+    <link rel="preload" as="image" href="/franco-dorrego.webp" type="image/webp" />
+    <link rel="preload" as="fetch" href="/github-stats.json" crossorigin="anonymous" />
 
     <meta property="og:type" content="profile" />
     <meta property="og:site_name" content="Franco Dorrego" />
     <meta property="og:url" content="%VITE_SITE_URL%/" />
-    <meta property="og:title" content="Franco Dorrego · Desarrollador Full Stack en Porto" />
+    <meta
+      property="og:title"
+      content="Franco Dorrego · Developer Full Stack Web en Porto, Portugal"
+    />
     <meta
       property="og:description"
-      content="Desarrollador Full Stack (Python, Django, React, TypeScript, cloud e IA). Productos propios y proyectos para clientes internacionales. Disponible para oportunidades en Porto, Portugal."
+      content="Franco Dorrego, developer Full Stack Web en Porto, Portugal: Python, Django, React, TypeScript, cloud e IA. Más de 5 años con productos propios y clientes internacionales."
     />
-    <meta property="og:image" content="%VITE_SITE_URL%/franco-dorrego.jpg" />
+    <meta property="og:image" content="%VITE_SITE_URL%/og-franco-dorrego.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Franco Dorrego, developer Full Stack Web" />
     <meta property="og:locale" content="es" />
     <meta property="og:locale:alternate" content="pt_PT" />
     <meta property="profile:first_name" content="Franco" />
     <meta property="profile:last_name" content="Dorrego" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Franco Dorrego · Desarrollador Full Stack en Porto" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Franco Dorrego · Developer Full Stack Web en Porto, Portugal"
+    />
     <meta
       name="twitter:description"
-      content="Desarrollador Full Stack (Python, Django, React, TypeScript, cloud e IA). Productos propios y proyectos para clientes internacionales. Disponible para oportunidades en Porto, Portugal."
+      content="Franco Dorrego, developer Full Stack Web en Porto, Portugal: Python, Django, React, TypeScript, cloud e IA. Más de 5 años con productos propios y clientes internacionales."
     />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og-franco-dorrego.jpg" />
 
+    <!-- Quien es, para los buscadores: una pagina de perfil cuya entidad principal es la persona. -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Franco Dorrego",
-        "jobTitle": "Full Stack Developer",
-        "description": "Desarrollador Full Stack: Python, Django, React, TypeScript, infraestructura cloud y automatizaciones con IA.",
-        "url": "%VITE_SITE_URL%/",
-        "image": "%VITE_SITE_URL%/franco-dorrego.jpg",
-        "nationality": "Argentina",
-        "address": { "@type": "PostalAddress", "addressLocality": "Porto", "addressCountry": "PT" },
-        "knowsLanguage": ["es", "pt", "en"],
-        "knowsAbout": [
-          "Python",
-          "Django",
-          "React",
-          "TypeScript",
-          "Linux",
-          "Cloud",
-          "n8n",
-          "MCP",
-          "C"
-        ],
-        "alumniOf": { "@type": "EducationalOrganization", "name": "42 Porto" },
-        "worksFor": {
-          "@type": "Organization",
-          "name": "ArduMaker",
-          "url": "https://ardumaker.com"
-        },
-        "sameAs": ["https://github.com/FranDorrego", "https://www.linkedin.com/in/francodorrego/"]
+        "@graph": [
+          {
+            "@type": "ProfilePage",
+            "@id": "%VITE_SITE_URL%/#perfil",
+            "url": "%VITE_SITE_URL%/",
+            "name": "Franco Dorrego",
+            "inLanguage": ["es", "pt-PT"],
+            "mainEntity": { "@id": "%VITE_SITE_URL%/#persona" }
+          },
+          {
+            "@type": "Person",
+            "@id": "%VITE_SITE_URL%/#persona",
+            "name": "Franco Dorrego",
+            "alternateName": "Franco Nicolás Dorrego",
+            "givenName": "Franco",
+            "familyName": "Dorrego",
+            "jobTitle": "Developer Full Stack Web",
+            "description": "Developer Full Stack Web en Porto, Portugal: Python, Django, React, TypeScript, infraestructura cloud y automatizaciones con IA.",
+            "url": "%VITE_SITE_URL%/",
+            "image": "%VITE_SITE_URL%/franco-dorrego.jpg",
+            "nationality": { "@type": "Country", "name": "Argentina" },
+            "homeLocation": {
+              "@type": "Place",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Porto",
+                "addressCountry": "PT"
+              }
+            },
+            "knowsLanguage": ["es", "pt"],
+            "knowsAbout": [
+              "Python",
+              "Django",
+              "React",
+              "TypeScript",
+              "Linux",
+              "Cloud",
+              "n8n",
+              "MCP",
+              "C",
+              "C++"
+            ],
+            "alumniOf": [
+              { "@type": "EducationalOrganization", "name": "42 Porto" },
+              {
+                "@type": "CollegeOrUniversity",
+                "name": "Instituto Tecnológico de Buenos Aires (ITBA)"
+              },
+              { "@type": "CollegeOrUniversity", "name": "Universidad Tecnológica Nacional (UTN)" }
+            ],
+            "worksFor": {
+              "@type": "Organization",
+              "name": "ArduMaker",
+              "url": "https://ardumaker.com"
+            },
+            "sameAs": [
+              "https://github.com/FranDorrego",
+              "https://www.linkedin.com/in/francodorrego/"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "%VITE_SITE_URL%/#sitio",
+            "url": "%VITE_SITE_URL%/",
+            "name": "Franco Dorrego",
+            "publisher": { "@id": "%VITE_SITE_URL%/#persona" }
+          }
+        ]
       }
     </script>
+
     <!-- El tema antes del primer dibujo: el elegido, o el oscuro. Misma regla que src/lib/tema.ts. -->
     <script>
       (function () {

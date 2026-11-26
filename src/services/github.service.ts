@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: github.service.ts    Project: portfolio                            */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 23:21:38  by vm                                      */
+/*   Updated: 2026/11/26 01:39:12  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -20,7 +20,12 @@
  */
 
 import { recurso } from '@/lib/raiz';
-import type { ActividadDeGithub, DiaDeContribuciones, ProveedorDeActividad } from '@/types/github';
+import type {
+  ActividadDeGithub,
+  DiaDeContribuciones,
+  PeriodoDeGithub,
+  ProveedorDeActividad,
+} from '@/types/github';
 
 export const USUARIO_DE_GITHUB = 'FranDorrego';
 
@@ -73,23 +78,49 @@ export function leerContribuciones(crudo: unknown): DiaDeContribuciones[] {
     .sort((a, b) => a.date.localeCompare(b.date));
 }
 
+/** Las cifras y el mapa de un periodo. */
+export function leerPeriodo(clave: string, datos: Objeto): PeriodoDeGithub {
+  return {
+    clave,
+    total: numero(datos, ['total_contributions', 'totalContributions', 'total']),
+    commits: numero(datos, ['commits', 'total_commits', 'totalCommits']),
+    pullRequests: numero(datos, ['pull_requests', 'pullRequests', 'prs', 'total_prs']),
+    merges: numero(datos, ['merges', 'merged_pull_requests', 'mergedPullRequests', 'merged']),
+    repos: numero(datos, ['repos', 'repositories', 'total_repos']),
+    contributions: leerContribuciones(
+      datos.contributions ?? datos.heatmap ?? datos.contribution_calendar ?? datos.calendar,
+    ),
+  };
+}
+
+/** El ultimo anio primero y despues los anios, del mas nuevo al mas viejo. */
+function leerPeriodos(crudo: unknown, actual: PeriodoDeGithub): PeriodoDeGithub[] {
+  if (!esObjeto(crudo)) return [actual];
+  const anios = Object.keys(crudo)
+    .filter((clave) => /^\d{4}$/.test(clave) && esObjeto(crudo[clave]))
+    .sort((a, b) => b.localeCompare(a))
+    .map((clave) => leerPeriodo(clave, crudo[clave] as Objeto));
+  const ultimo = esObjeto(crudo.ultimo) ? leerPeriodo('ultimo', crudo.ultimo) : actual;
+  return [ultimo, ...anios];
+}
+
 /** Convierte la respuesta de la API en lo que usa la interfaz. Tira si no es un objeto. */
 export function interpretarActividad(cuerpo: unknown, usuario: string): ActividadDeGithub {
   if (!esObjeto(cuerpo)) throw new Error('respuesta-invalida');
   if (cuerpo.success === false) throw new Error('respuesta-con-error');
   const datos = esObjeto(cuerpo.data) ? cuerpo.data : cuerpo;
   const totales = esObjeto(datos.totals) ? { ...datos, ...datos.totals } : datos;
+  const actual = leerPeriodo('ultimo', totales);
   return {
     username: typeof datos.username === 'string' ? datos.username : usuario,
-    total: numero(totales, ['total_contributions', 'totalContributions', 'total']),
-    commits: numero(totales, ['commits', 'total_commits', 'totalCommits']),
-    pullRequests: numero(totales, ['pull_requests', 'pullRequests', 'prs', 'total_prs']),
-    merges: numero(totales, ['merges', 'merged_pull_requests', 'mergedPullRequests', 'merged']),
+    periodos: leerPeriodos(datos.periods, actual),
+    total: actual.total,
+    commits: actual.commits,
+    pullRequests: actual.pullRequests,
+    merges: actual.merges,
     includesPrivate: typeof datos.includes_private === 'boolean' ? datos.includes_private : null,
     updatedAt: typeof datos.updated_at === 'string' ? datos.updated_at : null,
-    contributions: leerContribuciones(
-      datos.contributions ?? datos.heatmap ?? datos.contribution_calendar ?? datos.calendar,
-    ),
+    contributions: actual.contributions,
   };
 }
 

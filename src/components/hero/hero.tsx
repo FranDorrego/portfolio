@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: hero.tsx    Project: portfolio                                     */
 /*   Created: 2026/11/25 22:27:55  by claude                                  */
-/*   Updated: 2026/11/25 23:32:42  by vm                                      */
+/*   Updated: 2026/11/26 01:41:25  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -33,8 +33,8 @@ export function Hero(): JSX.Element {
       id="inicio"
       aria-labelledby="inicio-titulo"
       className={cn(
-        'relative flex min-h-[calc(100svh-6.25rem)] flex-col overflow-hidden',
-        'md:min-h-[calc(100svh-3.5rem)]',
+        'relative flex min-h-[calc(75svh-6.25rem)] flex-col overflow-hidden',
+        'md:min-h-[75svh]',
       )}
     >
       <div

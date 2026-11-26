@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: github.service.test.ts    Project: portfolio                       */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:40:58  by vm                                      */
+/*   Updated: 2026/11/26 01:40:07  by vm                                      */
 /* ************************************************************************** */
 
 /** Como se lee la respuesta del proveedor: tolerante con la forma, estricto con los datos. */
@@ -40,7 +40,34 @@ describe('interpretarActividad', () => {
       contributions: [{ date: '2026-01-02', count: 5 }],
       updatedAt: null,
       includesPrivate: null,
+      periodos: [
+        {
+          clave: 'ultimo',
+          total: null,
+          commits: 10,
+          pullRequests: 4,
+          merges: 3,
+          repos: null,
+          contributions: [{ date: '2026-01-02', count: 5 }],
+        },
+      ],
     });
+  });
+
+  it('lee los periodos: el ultimo anio primero y los anios del mas nuevo al mas viejo', () => {
+    const actividad = interpretarActividad(
+      {
+        total_contributions: 9,
+        periods: {
+          2024: { total_contributions: 1, repos: 1 },
+          ultimo: { total_contributions: 9, repos: 3 },
+          2025: { total_contributions: 5, repos: 2 },
+        },
+      },
+      'FranDorrego',
+    );
+    expect(actividad.periodos.map((periodo) => periodo.clave)).toEqual(['ultimo', '2025', '2024']);
+    expect(actividad.periodos[1].repos).toBe(2);
   });
 
   it('lo que no viene queda en null: no se inventa un cero', () => {

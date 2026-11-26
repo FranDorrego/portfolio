@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: sitemap.mjs    Project: portfolio                                  */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/26 01:43:49  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -29,7 +29,7 @@ export function direccionDelSitio(entorno = process.env) {
     if (!existsSync(ruta)) continue;
     valor = readFileSync(ruta, 'utf8').match(/^VITE_SITE_URL=(.+)$/m)?.[1];
   }
-  return valor ? valor.trim().replace(/\/+$/, '') : null;
+  return (valor || 'https://francodorrego.com').trim().replace(/\/+$/, '');
 }
 
 export function sitemap(sitio, hoy) {

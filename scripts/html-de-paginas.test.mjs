@@ -4,7 +4,7 @@
 /*    / ___ \| |  | (_| | |_| | |  | | (_| |   <  __/ |                       */
 /*   /_/   \_\_|   \__,_|\__,_|_|  |_|\__,_|_|\_\___|_|                       */
 /*                                                                            */
-/*   File: pagina-en-portugues.test.mjs    Project: portfolio                 */
+/*   File: html-de-paginas.test.mjs    Project: portfolio                     */
 /*   Created: 2026/11/25 22:25:17  by claude                                  */
 /*   Updated: 2026/11/25 22:25:17  by claude                                  */
 /* ************************************************************************** */
@@ -12,7 +12,7 @@
 /** La pagina en portugues: idioma, textos, direccion canonica y rutas un nivel mas arriba. */
 
 import { describe, expect, it } from 'vitest';
-import { enPortugues, metadatos } from './pagina-en-portugues.mjs';
+import { conContenido, enPortugues, metadatos } from './html-de-paginas.mjs';
 
 const html = `<html lang="es"><head><title>Hola</title>
 <meta name="description" content="Una descripcion" />
@@ -42,5 +42,14 @@ describe('pagina en portugues', () => {
     expect(salida).toContain('property="og:url" content="https://sitio.test/pt/"');
     expect(salida).toContain('content="pt_PT"');
     expect(salida).toContain('src="../assets/a.js"');
+  });
+});
+
+describe('prerender', () => {
+  it('llena #root y falla si no lo encuentra', () => {
+    expect(conContenido('<body><div id="root"></div></body>', '<h1>Hola</h1>')).toBe(
+      '<body><div id="root"><h1>Hola</h1></div></body>',
+    );
+    expect(() => conContenido('<body></body>', 'x')).toThrow();
   });
 });

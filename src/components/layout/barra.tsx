@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: barra.tsx    Project: portfolio                                    */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 23:19:33  by vm                                      */
+/*   Updated: 2026/11/26 01:41:38  by vm                                      */
 /* ************************************************************************** */
 
 /** La barra de arriba: quien soy, donde estoy, si estoy disponible, idioma y accesos rapidos. */
@@ -31,7 +31,7 @@ function Navegacion({ className }: { className?: string }): JSX.Element {
   const activa = useSeccionActiva(IDS_DE_SECCIONES);
   return (
     <nav aria-label={t.barra.navegacion} className={className}>
-      <ul className="flex w-full items-center justify-between gap-1 md:w-auto md:justify-start">
+      <ul className="flex w-full items-center gap-1 lg:w-auto">
         {SECCIONES.map((seccion) => {
           const actual = activa === seccion.id;
           return (
@@ -78,13 +78,15 @@ export function Barra(): JSX.Element {
           </span>
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <Navegacion className="hidden md:block" />
+          <Navegacion className="hidden lg:block" />
           <SelectorDeIdioma />
           <SelectorDeTema />
         </div>
       </div>
-      <div className="border-t border-border md:hidden">
-        <Navegacion className={cn(CONTENEDOR_DE_PAGINA, 'flex h-11 items-center')} />
+      <div className="border-t border-border lg:hidden">
+        <Navegacion
+          className={cn(CONTENEDOR_DE_PAGINA, 'flex h-11 items-center overflow-x-auto')}
+        />
       </div>
     </header>
   );

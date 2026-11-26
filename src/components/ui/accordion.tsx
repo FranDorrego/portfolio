@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: accordion.tsx    Project: portfolio                                */
 /*   Created: 2026/11/25 22:18:47  by claude                                  */
-/*   Updated: 2026/11/25 22:18:47  by claude                                  */
+/*   Updated: 2026/11/26 01:42:30  by vm                                      */
 /* ************************************************************************** */
 
 /** El acordeon de las preguntas: Radix pone el teclado y los roles; aca va el aspecto. */
@@ -54,7 +54,8 @@ export const AccordionContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof Primitiva.Content>
 >(({ className, children, ...props }, ref) => (
-  <Primitiva.Content ref={ref} className={ENTRADA_DE_VISTA} {...props}>
+  // Siempre en la pagina (oculta si esta cerrada): asi la leen los buscadores y los agentes.
+  <Primitiva.Content ref={ref} forceMount className={ENTRADA_DE_VISTA} {...props}>
     <div className={cn('pb-6', className)}>{children}</div>
   </Primitiva.Content>
 ));

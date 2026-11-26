@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: pt.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/25 23:31:45  by vm                                      */
+/*   Updated: 2026/11/26 01:42:30  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en portugues de Portugal. Misma forma que `es.ts`. */
@@ -15,9 +15,9 @@ import type { Textos } from './es';
 
 export const pt: Textos = {
   meta: {
-    title: 'Franco Dorrego · Programador Full Stack no Porto',
+    title: 'Franco Dorrego · Developer Full Stack Web no Porto, Portugal',
     description:
-      'Programador Full Stack: Python, Django, React, TypeScript, cloud e IA. Produtos próprios e clientes internacionais. Disponível no Porto, Portugal.',
+      'Franco Dorrego, developer Full Stack Web no Porto, Portugal: Python, Django, React, TypeScript, cloud e IA. Mais de 5 anos com produtos próprios e clientes internacionais.',
   },
   comun: {
     saltar: 'Saltar para o conteúdo',
@@ -39,6 +39,8 @@ export const pt: Textos = {
   nav: {
     proyectos: 'Experiência',
     sobreMi: 'Sobre mim',
+    formacion: 'Formação',
+    tecnologias: 'Tecnologias',
     preguntas: 'Perguntas',
     contacto: 'Contacto',
   },
@@ -68,6 +70,13 @@ export const pt: Textos = {
     unDiaNinguna: 'Sem contribuições a {{fecha}}',
     ayudaDelMapa: 'Use as setas para percorrer os dias.',
     enElAnio: '{{total}} contribuições no último ano',
+    enUnAnio: '{{total}} contribuições em {{anio}}',
+    ultimoAnio: 'Último ano',
+    anios: 'Anos',
+    repos: 'Repositórios',
+    soloPublicos: 'Commits, pull requests, merges e repositórios: só os públicos.',
+    conIa:
+      'Trabalho em equipa: o planeamento e a planificação são meus; a execução e o código, com IA.',
     dias: ['seg', 'qua', 'sex'],
     menos: 'Menos',
     mas: 'Mais',
@@ -166,9 +175,25 @@ export const pt: Textos = {
       'Experiência em equipas consolidadas',
     ],
   },
+  formacion: {
+    titulo: 'Formação',
+    bajada: 'Estudei e continuo a estudar programação, tecnologia e engenharia em:',
+    enCurso: 'Em curso',
+  },
+  tecnologias: {
+    titulo: 'Tecnologias',
+    checkerTitulo: 'O meu próprio checker de código',
+    checker:
+      'Criei o ardumaker check, uma ferramenta que revê cada repositório antes de cada commit: assim trabalho sempre com o mesmo padrão. Este site passa sem erros nem avisos.',
+  },
   preguntas: {
     titulo: 'Perguntas frequentes',
     lista: [
+      {
+        pregunta: 'Sou um vibecoder?',
+        respuesta:
+          'Não. Uso a IA como complemento do meu trabalho: o que fazer, como fazer, como se liga, o design e a arquitetura são decididos por mim. O que já não me faz parar é como escrever um for ou se um contador leva int ou long. Trabalho lado a lado com a IA, partilhando conhecimento dos dois lados e com lógica razoável.',
+      },
       {
         pregunta: 'O que procuro?',
         respuesta:

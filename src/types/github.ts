@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: github.ts    Project: portfolio                                    */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 23:21:38  by vm                                      */
+/*   Updated: 2026/11/26 01:39:12  by vm                                      */
 /* ************************************************************************** */
 
 /** La actividad de GitHub tal como la usa la interfaz, sin importar de que proveedor salga. */
@@ -19,9 +19,24 @@ export interface DiaDeContribuciones {
   level?: 0 | 1 | 2 | 3 | 4;
 }
 
+/** Las cifras de un periodo (el ultimo anio o un anio calendario). `null`: no se informo. */
+export interface PeriodoDeGithub {
+  /** `ultimo` (los ultimos doce meses, como el perfil) o el anio: `2025`. */
+  clave: string;
+  total: number | null;
+  commits: number | null;
+  pullRequests: number | null;
+  merges: number | null;
+  /** En cuantos repositorios hubo commits o pull requests. */
+  repos: number | null;
+  contributions: DiaDeContribuciones[];
+}
+
 /** `null` en una cifra: el proveedor no la informo. Se muestra «no disponible», nunca un cero. */
 export interface ActividadDeGithub {
   username: string;
+  /** El ultimo anio primero y despues cada anio, del mas nuevo al mas viejo. */
+  periodos: PeriodoDeGithub[];
   /** Todas las contribuciones del periodo (incluye lo privado si el perfil lo muestra). */
   total: number | null;
   commits: number | null;

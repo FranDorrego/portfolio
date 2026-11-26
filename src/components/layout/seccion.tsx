@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: seccion.tsx    Project: portfolio                                  */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/25 23:32:42  by vm                                      */
+/*   Updated: 2026/11/26 01:44:51  by vm                                      */
 /* ************************************************************************** */
 
 /** El marco de una seccion: ancla, icono, titulo y aparicion al scrollear. */
@@ -30,7 +30,7 @@ export function Seccion({ id, titulo, Icono, junto, children }: Props): JSX.Elem
   const { ref, clase } = useAparecer<HTMLDivElement>();
   return (
     <section id={id} aria-labelledby={`${id}-titulo`} className="border-t border-border">
-      <div ref={ref} className={cn(CONTENEDOR_DE_PAGINA, 'py-14 sm:py-20', clase)}>
+      <div ref={ref} className={cn(CONTENEDOR_DE_PAGINA, 'py-12 sm:py-16', clase)}>
         <h2
           id={`${id}-titulo`}
           className="flex items-center gap-3 text-3xl font-semibold tracking-tight text-foreground"
@@ -56,7 +56,7 @@ export function Seccion({ id, titulo, Icono, junto, children }: Props): JSX.Elem
             </span>
           )}
         </h2>
-        <div className="mt-8">{children}</div>
+        <div className="mt-6">{children}</div>
       </div>
     </section>
   );

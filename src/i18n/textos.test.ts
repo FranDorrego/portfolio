@@ -6,13 +6,14 @@
 /*                                                                            */
 /*   File: textos.test.ts    Project: portfolio                               */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 23:31:45  by vm                                      */
+/*   Updated: 2026/11/26 01:41:37  by vm                                      */
 /* ************************************************************************** */
 
 /** Los dos idiomas tienen exactamente las mismas claves y ningun texto vacio. */
 
 import { describe, expect, it } from 'vitest';
 import { es } from './es';
+import { idiomaDelNavegador } from './idioma-inicial';
 import { pt } from './pt';
 
 function claves(valor: unknown, prefijo = ''): string[] {
@@ -61,5 +62,13 @@ describe('textos de la interfaz', () => {
       '42 Porto · Common Core',
       'Franco Dorrego · Software Developer · Porto, Portugal',
     ]);
+  });
+
+  it('elige el idioma por el del equipo: ingles y portugues van a portugues', () => {
+    expect(idiomaDelNavegador(['es-AR', 'en'])).toBe('es');
+    expect(idiomaDelNavegador(['pt-PT'])).toBe('pt');
+    expect(idiomaDelNavegador(['en-US', 'es'])).toBe('pt');
+    expect(idiomaDelNavegador(['fr-FR', 'de'])).toBe('es');
+    expect(idiomaDelNavegador([])).toBe('es');
   });
 });

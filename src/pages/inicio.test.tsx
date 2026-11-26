@@ -7,7 +7,7 @@
 /*                                                                            */
 /*   File: inicio.test.tsx    Project: portfolio                              */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 23:31:53  by vm                                      */
+/*   Updated: 2026/11/26 01:39:52  by vm                                      */
 /* ************************************************************************** */
 
 /** La pagina entera: idioma, catalogo, detalle y los estados del widget de GitHub. */
@@ -121,6 +121,26 @@ describe('actividad de GitHub', () => {
         contributions: [{ date: '2026-11-01', count: 2 }],
         updatedAt: '2026-11-25',
         includesPrivate: true,
+        periodos: [
+          {
+            clave: 'ultimo',
+            total: 90,
+            commits: 12,
+            pullRequests: 4,
+            merges: 3,
+            repos: 6,
+            contributions: [{ date: '2026-11-01', count: 2 }],
+          },
+          {
+            clave: '2025',
+            total: 40,
+            commits: 30,
+            pullRequests: 1,
+            merges: 1,
+            repos: 2,
+            contributions: [{ date: '2025-03-01', count: 5 }],
+          },
+        ],
       });
     dibujarWidget({ leer });
     expect(screen.getByRole('status', { name: /Cargando/ })).toBeTruthy();
@@ -130,10 +150,13 @@ describe('actividad de GitHub', () => {
     );
     expect(screen.getByRole('img', { name: /Mapa de contribuciones/ })).toBeTruthy();
     expect(screen.getByText('12')).toBeTruthy();
-    expect(screen.getByText('Pull requests')).toBeTruthy();
+    expect(screen.getByText('Repositorios')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: '2025' }));
+    expect(screen.getByText('40 contribuciones en 2025')).toBeTruthy();
+    expect(screen.getByText('30')).toBeTruthy();
   });
 
-  it('sin los repos privados no muestra commits, PRs ni merges', async () => {
+  it('sin los repos privados lo aclara', async () => {
     const leer = vi.fn<ProveedorDeActividad['leer']>().mockResolvedValue({
       username: 'FranDorrego',
       total: 90,
@@ -143,10 +166,21 @@ describe('actividad de GitHub', () => {
       contributions: [{ date: '2026-11-01', count: 2 }],
       updatedAt: '2026-11-25',
       includesPrivate: false,
+      periodos: [
+        {
+          clave: 'ultimo',
+          total: 90,
+          commits: 12,
+          pullRequests: 0,
+          merges: 0,
+          repos: 1,
+          contributions: [{ date: '2026-11-01', count: 2 }],
+        },
+      ],
     });
     dibujarWidget({ leer });
     expect(await screen.findByText('90 contribuciones en el último año')).toBeTruthy();
-    expect(screen.queryByText('Commits')).toBeNull();
+    expect(screen.getByText(/solo los públicos/)).toBeTruthy();
   });
 
   it('sin ningun dato muestra el estado vacio', async () => {
@@ -159,6 +193,7 @@ describe('actividad de GitHub', () => {
       contributions: [],
       updatedAt: null,
       includesPrivate: null,
+      periodos: [],
     });
     dibujarWidget({ leer });
 

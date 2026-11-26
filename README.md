@@ -6,7 +6,7 @@
 <!--                                                                            -->
 <!--   File: README.md    Project: portfolio                                    -->
 <!--   Created: 2026/11/25 22:17:56  by claude                                  -->
-<!--   Updated: 2026/11/25 23:23:21  by vm                                      -->
+<!--   Updated: 2026/11/26 01:45:31  by vm                                      -->
 <!-- ************************************************************************** -->
 
 # Portfolio · Franco Dorrego
@@ -14,12 +14,13 @@
 Programador Full Stack en Porto, Portugal. Quién soy, mi actividad en GitHub, mi experiencia, lo
 bueno y lo que tengo que mejorar, preguntas frecuentes y cómo contactarme.
 
-- 🌐 **Sitio:** <https://git-452.arducloud.com> (español) · <https://git-452.arducloud.com/pt/>
-  (portugués)
 - 📦 **Repositorio:** <https://github.com/FranDorrego/portfolio>
 - 🛠️ **Stack:** React · Vite · TypeScript · Tailwind CSS
 - 🎨 **Diseño:** el estilo de los fronts de ArduMaker, con tema claro y oscuro
-- 🌍 **Idiomas:** español (`/`) y portugués (`/pt/`)
+- 🌐 **Sitio:** <https://francodorrego.com> (español) · <https://francodorrego.com/pt/> (portugués)
+- 🌍 **Idiomas:** se elige solo según el equipo de la persona (español; portugués o inglés → portugués)
+- 🤖 **Agentes de IA:** el HTML sale pre-renderizado y hay
+  [`/llms.txt`](https://francodorrego.com/llms.txt) y `/llms-full.txt`
 - ✅ **Estándar:** revisado con el checker de [ArduMaker](https://ardumaker.com):
   `ardumaker check` sin errores ni advertencias
 
@@ -35,15 +36,15 @@ npm run dev
 
 | Comando | Qué hace |
 |---|---|
-| `npm run build` | Compila el sitio en `dist/`, con la página en portugués y el sitemap |
+| `npm run build` | Compila el sitio en `dist/`: pre-renderiza la página en los dos idiomas y escribe `llms.txt`, `llms-full.txt` y el sitemap |
 | `npm test` | Corre las pruebas |
 | `npm run lint` · `npm run typecheck` | Reglas de ESLint y tipos |
 | `npm run estadisticas` | Escribe `public/github-stats.json` (pide `GITHUB_TOKEN`) |
 
 ## Despliegue (deploy)
 
-Se despliega solo, en un VPS de [ArduMaker](https://ardumaker.com) como app de tipo git: cada
-`push` a `main` vuelve a compilar y publicar el sitio.
+Se despliega solo, en un VPS de [ArduMaker](https://ardumaker.com) como app de tipo git publicada
+en `francodorrego.com`: cada `push` a `main` vuelve a compilar y publicar el sitio.
 
 La acción [`sitio.yml`](.github/workflows/sitio.yml) verifica el código en cada `push` y, una vez
 por día, vuelve a leer la actividad de GitHub y guarda `public/github-stats.json` en el
@@ -51,19 +52,23 @@ repositorio. Ese commit dispara un despliegue nuevo, así las cifras están siem
 
 ### Estadísticas de GitHub
 
-Son del último año y nunca se inventan: si el archivo no está, el widget lo dice.
+Son del último año y de cada año desde 2023 (con selector, como en GitHub), y nunca se inventan:
+si el archivo no está, el widget lo dice.
 
-- Sin configurar nada se muestra el total de contribuciones y el mapa.
-- Con el secreto `GH_STATS_TOKEN` se suman commits, pull requests y merges, contando también
-  los repositorios privados. Es un token personal clásico con permisos `read:user` y `repo`.
+- Sin configurar nada, el total y el mapa incluyen lo privado, pero commits, pull requests,
+  merges y repositorios cuentan solo lo público (el sitio lo aclara).
+- Con el secreto `GH_STATS_TOKEN` esas cifras suman también los repositorios privados. Es un
+  token personal clásico con permisos `read:user` y `repo`.
 
 ## Qué editar
 
 | Para cambiar | Archivo |
 |---|---|
-| Proyectos del catálogo | `src/data/proyectos/` |
+| Proyectos del catálogo (un archivo por proyecto) | `src/data/proyectos/` y el orden en `src/data/proyectos.ts` |
 | Textos (español y portugués) | `src/i18n/es.ts` · `src/i18n/pt.ts` |
 | Contacto, foto y títulos que se escriben en el inicio | `src/data/perfil.ts` |
+| Formación | `src/data/formacion.ts` |
+| Tecnologías (con su ícono en `public/tecnologias/`) | `src/data/tecnologias.ts` |
 | Capturas de un proyecto | `public/proyectos/<slug>/` y el campo `screenshots` |
 | Diagrama de un proyecto | El campo `diagram`: tres a cinco pasos con icono |
 | CV | Dejar el PDF en `public/cv-franco-dorrego.pdf`: el botón aparece solo |
