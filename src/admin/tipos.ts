@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: tipos.ts    Project: portfolio                                     */
 /*   Created: 2026/11/26 21:08:08  by vm                                      */
-/*   Updated: 2026/11/26 21:10:28  by vm                                      */
+/*   Updated: 2026/11/26 23:06:35  by vm                                      */
 /* ************************************************************************** */
 
 /** Lo que devuelve la API del panel (admin-api/). */
@@ -72,8 +72,9 @@ export interface Cv {
   tiene_contenido: boolean;
   tiene_archivo: boolean;
   contenido?: ContenidoDelCv | null;
-  empresa?: string;
-  cargo?: string;
+  empresa?: string | null;
+  siglas?: string | null;
+  cargo?: string | null;
 }
 
 export interface Perfil {

@@ -6,16 +6,17 @@
 /*                                                                            */
 /*   File: cvs.tsx    Project: portfolio                                      */
 /*   Created: 2026/11/26 21:09:49  by vm                                      */
-/*   Updated: 2026/11/26 22:48:21  by vm                                      */
+/*   Updated: 2026/11/26 23:06:46  by vm                                      */
 /* ************************************************************************** */
 
 /**
- * La pestana de CV: los del sitio (automaticos), el base para ATS, los que subo en PDF y los que
- * armo el agente para cada vacante. Arriba, el agente.
+ * La pestana de CV, en este orden: el agente que adapta un CV a una vacante; los ultimos 6 CV
+ * (adaptados y subidos) con un buscador por empresa, cargo o nombre; subir un PDF; las bases para
+ * ATS y, al final, los automaticos del sitio.
  */
 
 import { useState, type FormEvent } from 'react';
-import { FileDown, FileText, Globe, Mail, Trash2, Upload } from 'lucide-react';
+import { FileDown, FileText, Globe, Mail, Search, Trash2, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/class-names';
 import { cvParaAts } from '@/data/perfil';
@@ -38,6 +39,24 @@ const FIJOS: { tipo: Cv['tipo']; titulo: string }[] = [
   { tipo: 'base', titulo: 'Bases para ATS' },
   { tipo: 'sitio', titulo: 'Automáticos del sitio' },
 ];
+
+const ULTIMOS = 6;
+
+/** Sin tildes ni mayusculas: «junior» encuentra «Júnior». */
+const normal = (texto: string): string =>
+  texto
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+
+/** Si el CV tiene todas las palabras buscadas en su empresa, siglas, cargo o nombre. */
+function coincide(cv: Cv, busqueda: string): boolean {
+  const donde = normal([cv.nombre, cv.empresa, cv.siglas, cv.cargo].filter(Boolean).join(' '));
+  return normal(busqueda)
+    .split(/\s+/)
+    .filter(Boolean)
+    .every((palabra) => donde.includes(palabra));
+}
 
 function Grilla({ cvs, alCambiar }: { cvs: Cv[]; alCambiar: () => void }): JSX.Element {
   return (
@@ -183,24 +202,70 @@ export function Cvs({
   alCambiar: () => void;
   alPostularse: (borrador: Borrador) => void;
 }): JSX.Element {
-  // Arriba, los mas nuevos: los adaptados y los subidos, del ultimo al primero.
-  const recientes = cvs
+  const [busqueda, setBusqueda] = useState('');
+  const propios = cvs
     .filter((cv) => cv.tipo === 'generado' || cv.tipo === 'subido')
     .sort((a, b) => b.creado.localeCompare(a.creado));
+  const encontrados = busqueda.trim()
+    ? propios.filter((cv) => coincide(cv, busqueda))
+    : propios.slice(0, ULTIMOS);
   return (
     <div className="flex flex-col gap-10">
       <Titulo
         Icono={FileText}
         titulo="CVs"
-        bajada="Los más nuevos arriba: los que adapta el agente y los que subo. Abajo, las bases y los del sitio."
+        bajada="Adaptar a una vacante, los últimos CV con buscador, subir, bases y los del sitio."
       />
-      {recientes.length > 0 && (
-        <section className="flex flex-col gap-3">
-          <Rotulo>Más recientes</Rotulo>
-          <Grilla cvs={recientes} alCambiar={alCambiar} />
-        </section>
-      )}
       <AdaptarCv cvs={cvs} alCrear={alCambiar} alPostularse={alPostularse} />
+
+      <section className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <Rotulo>
+            {busqueda.trim()
+              ? `${encontrados.length} de ${propios.length}`
+              : `Últimos ${Math.min(ULTIMOS, propios.length)} de ${propios.length}`}
+          </Rotulo>
+          <label className="relative w-full sm:w-80">
+            <span className="sr-only">Buscar por empresa, cargo o nombre</span>
+            <Search
+              aria-hidden
+              className={cn(
+                'pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2',
+                'text-muted-foreground',
+              )}
+            />
+            <input
+              type="search"
+              className={cn(ENTRADA, 'pl-9')}
+              placeholder="Empresa, cargo o nombre del PDF"
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+            />
+          </label>
+        </div>
+        {encontrados.length > 0 ? (
+          <Grilla cvs={encontrados} alCambiar={alCambiar} />
+        ) : (
+          <p
+            className={cn(
+              'rounded-xl border border-dashed border-border px-6 py-10 text-center',
+              'text-muted-foreground',
+            )}
+          >
+            {propios.length === 0
+              ? 'Todavía no hay CV adaptados ni subidos.'
+              : 'Ningún CV coincide.'}
+          </p>
+        )}
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <Rotulo>Subir un CV en PDF</Rotulo>
+        <div className="rounded-xl border border-dashed border-border p-4">
+          <SubirCv alSubir={alCambiar} />
+        </div>
+      </section>
+
       {FIJOS.map(({ tipo, titulo }) => {
         const grupo = cvs.filter((cv) => cv.tipo === tipo);
         if (grupo.length === 0) return null;
@@ -211,12 +276,6 @@ export function Cvs({
           </section>
         );
       })}
-      <section className="flex flex-col gap-3">
-        <Rotulo>Subir un CV en PDF</Rotulo>
-        <div className="rounded-xl border border-dashed border-border p-4">
-          <SubirCv alSubir={alCambiar} />
-        </div>
-      </section>
     </div>
   );
 }

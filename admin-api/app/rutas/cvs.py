@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: cvs.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:06:35  by vm                                      #
-#   Updated: 2026/11/26 22:39:14  by vm                                      #
+#   Updated: 2026/11/26 23:06:35  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -33,7 +33,7 @@ rutas = APIRouter(prefix="/api/cvs", tags=["cvs"], dependencies=[Depends(sesion)
 
 Idioma = Literal["es", "pt", "en"]
 COLUMNAS = (
-    "id, nombre, tipo, idioma, url, vacante, carta, notas, creado, "
+    "id, nombre, tipo, idioma, url, vacante, carta, notas, creado, empresa, siglas, cargo, "
     "(contenido IS NOT NULL) AS tiene_contenido, (archivo IS NOT NULL) AS tiene_archivo"
 )
 
