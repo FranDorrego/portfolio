@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: resume-json.ts    Project: portfolio                               */
 /*   Created: 2026/11/26 16:55:29  by vm                                      */
-/*   Updated: 2026/11/26 16:57:53  by vm                                      */
+/*   Updated: 2026/11/26 22:04:35  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -17,12 +17,12 @@
 
 import { FORMACION } from '@/data/formacion';
 import { PERFIL } from '@/data/perfil';
-import { PROYECTOS } from '@/data/proyectos';
 import { TESTIMONIOS } from '@/data/testimonios';
 import { GRUPOS_DE_TECNOLOGIAS } from '@/data/tecnologias';
 import { es } from '@/i18n/es';
 import type { Idioma } from '@/i18n/idiomas';
 import { pt } from '@/i18n/pt';
+import { PARA_EL_CURRICULUM } from './texto-para-agentes';
 
 export function resumeJson({ sitio, idioma }: { sitio: string; idioma: Idioma }): object {
   const t = idioma === 'pt' ? pt : es;
@@ -43,7 +43,7 @@ export function resumeJson({ sitio, idioma }: { sitio: string; idioma: Idioma })
         { network: 'LinkedIn', username: 'francodorrego', url: PERFIL.linkedin },
       ],
     },
-    projects: PROYECTOS.map((uno) => ({
+    projects: PARA_EL_CURRICULUM.map((uno) => ({
       name: uno.title,
       description: leer(uno.fullDescription),
       highlights: [

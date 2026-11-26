@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: texto-para-agentes.ts    Project: portfolio                        */
 /*   Created: 2026/11/26 01:43:49  by vm                                      */
-/*   Updated: 2026/11/26 21:35:01  by vm                                      */
+/*   Updated: 2026/11/26 22:04:35  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -80,6 +80,9 @@ const ROTULOS = {
 } as const;
 
 type Rotulos = (typeof ROTULOS)[Idioma];
+
+/** Los proyectos que van al curriculum (ver `enElCurriculum` en src/types/proyecto.ts). */
+export const PARA_EL_CURRICULUM = PROYECTOS.filter((uno) => uno.enElCurriculum !== false);
 
 function proyecto({
   uno,
@@ -190,7 +193,7 @@ export function textoParaAgentes({
     '',
     `## ${r.experiencia} (${t.proyectos.antiguedad})`,
     '',
-    ...PROYECTOS.map((uno) => proyecto({ uno, completo, idioma }) + '\n'),
+    ...PARA_EL_CURRICULUM.map((uno) => proyecto({ uno, completo, idioma }) + '\n'),
     ...clientes(r, t.clientes.titulo),
     `## ${t.preguntas.titulo}`,
     '',

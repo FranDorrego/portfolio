@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: java-academico.ts    Project: portfolio                            */
 /*   Created: 2026/11/26 01:37:20  by vm                                      */
-/*   Updated: 2026/11/26 01:37:20  by vm                                      */
+/*   Updated: 2026/11/26 22:04:35  by vm                                      */
 /* ************************************************************************** */
 
 /** Software de ventas en Java. */
@@ -46,5 +46,6 @@ export const JAVA_ACADEMICO: Proyecto = {
   ],
   repositoryUrl: 'https://github.com/FranDorrego/SoftwareVentas',
   featured: false,
+  enElCurriculum: false,
   visibility: 'publico',
 };

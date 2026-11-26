@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: pdf.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:04:28  by vm                                      #
-#   Updated: 2026/11/26 21:34:31  by vm                                      #
+#   Updated: 2026/11/26 22:05:10  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -20,9 +20,10 @@ from typing import Any
 from fpdf import FPDF
 
 FUENTES = Path(__file__).parent / "fuentes"
-GRIS = (90, 90, 90)
-NEGRO = (20, 20, 20)
-LINEA = (190, 190, 190)
+GRIS = (95, 99, 104)
+NEGRO = (24, 24, 27)
+ACENTO = (11, 87, 208)
+LINEA = (205, 208, 213)
 
 SECCIONES = {
     "es": {
@@ -60,49 +61,79 @@ def _enlace(texto: str) -> str | None:
     return None
 
 
+def _sin_marcas(texto: str) -> str:
+    """El texto va con negritas de markdown: un `**` suelto del contenido lo romperia."""
+    return texto.replace("**", "*").replace("__", "_")
+
+
 class _Documento(FPDF):
     """
-    Una pagina A4 con las piezas del CV. `escala` achica letra y renglones a la vez: con 1 es el
-    formato del CV para ATS; si el contenido no entra en una pagina, se prueba con menos.
+    Una pagina A4 con las piezas del CV. `escala` agranda o achica letra y renglones a la vez;
+    `aire` son los milimetros que se suman antes de cada seccion y entre bloques, para que el CV
+    ocupe la pagina entera en lugar de quedar apretado arriba.
     """
 
-    def __init__(self, escala: float = 1.0) -> None:
+    def __init__(self, escala: float = 1.0, aire: float = 0.0) -> None:
         super().__init__(format="A4")
         self.escala = escala
-        self.set_margins(16, 13, 16)
-        self.set_auto_page_break(auto=True, margin=13)
+        self.aire = aire
+        self.set_margins(17, 14, 17)
+        self.set_auto_page_break(auto=True, margin=14)
         self.add_font("Sans", "", str(FUENTES / "liberation-sans-regular.ttf"))
         self.add_font("Sans", "B", str(FUENTES / "liberation-sans-bold.ttf"))
         self.add_page()
 
-    def letra(self, tamano: float, *, negrita: bool = False) -> None:
-        self.set_font("Sans", "B" if negrita else "", tamano * self.escala)
+    @property
+    def ancho(self) -> float:
+        return self.w - self.l_margin - self.r_margin
 
     @property
     def renglon(self) -> float:
-        return 4.6 * self.escala
+        return 4.75 * self.escala
+
+    def letra(self, tamano: float, *, negrita: bool = False) -> None:
+        self.set_font("Sans", "B" if negrita else "", tamano * self.escala)
 
     def titulo_de_seccion(self, texto: str) -> None:
-        self.ln(2 * self.escala)
-        self.letra(13)
-        self.set_text_color(*NEGRO)
-        self.cell(0, 6.5 * self.escala, texto, new_x="LMARGIN", new_y="NEXT")
+        self.ln(3.2 * self.escala + self.aire)
+        self.letra(12.5, negrita=True)
+        self.set_text_color(*ACENTO)
+        self.cell(0, 6 * self.escala, texto.upper(), new_x="LMARGIN", new_y="NEXT")
+        self.set_draw_color(*LINEA)
+        self.set_line_width(0.2)
+        self.line(self.l_margin, self.get_y(), self.w - self.r_margin, self.get_y())
+        self.ln(1.6 * self.escala)
 
-    def entrada(self, partes: list[str]) -> None:
-        self.letra(9.5, negrita=True)
+    def entrada(self, titulo: str, rol: str, periodo: str) -> None:
+        """«Titulo | rol» a la izquierda y el periodo alineado a la derecha, en gris."""
+        self.letra(9.5)
+        ancho_del_periodo = self.get_string_width(periodo) + 2 if periodo else 0
+        arriba = self.get_y()
+        # Primero el titulo y despues el periodo: es el orden en que lo lee un ATS.
         self.set_text_color(*NEGRO)
-        self.multi_cell(0, self.renglon, " | ".join(p for p in partes if p), align="L",
-                        new_x="LMARGIN", new_y="NEXT")
+        texto = f"**{_sin_marcas(titulo)}**" + (f"  |  {_sin_marcas(rol)}" if rol else "")
+        self.multi_cell(self.ancho - ancho_del_periodo - 3, self.renglon, texto, markdown=True,
+                        align="L", new_x="LMARGIN", new_y="NEXT")
+        abajo = self.get_y()
+        if periodo:
+            self.set_text_color(*GRIS)
+            self.set_xy(self.w - self.r_margin - ancho_del_periodo, arriba)
+            self.cell(ancho_del_periodo, self.renglon, periodo, align="R")
+            self.set_xy(self.l_margin, abajo)
+        self.ln(0.5 * self.escala)
 
     def vineta(self, texto: str) -> None:
         self.letra(9.5)
         self.set_text_color(*NEGRO)
         izquierda = self.l_margin
-        self.set_x(izquierda + 1.5)
+        self.set_x(izquierda + 1)
+        self.set_text_color(*ACENTO)
         self.cell(4, self.renglon, "•")
-        self.set_left_margin(izquierda + 5.5)
+        self.set_text_color(*NEGRO)
+        self.set_left_margin(izquierda + 5)
         self.multi_cell(0, self.renglon, texto, align="L", new_x="LMARGIN", new_y="NEXT")
         self.set_left_margin(izquierda)
+        self.ln(0.35 * self.escala)
 
     def parrafo(self, texto: str) -> None:
         self.letra(9.5)
@@ -110,53 +141,50 @@ class _Documento(FPDF):
         self.multi_cell(0, self.renglon, texto, align="L", new_x="LMARGIN", new_y="NEXT")
 
     def rotulado(self, rotulo: str, texto: str) -> None:
-        """«Rotulo: texto», con el rotulo en negrita, en el mismo renglon."""
-        self.set_text_color(*NEGRO)
-        self.letra(9.5, negrita=True)
-        self.write(self.renglon, f"{rotulo}: ")
+        """«Rotulo: texto», con el rotulo en negrita, que sigue en el mismo renglon."""
         self.letra(9.5)
-        self.write(self.renglon, texto)
-        self.ln(self.renglon)
+        self.set_text_color(*NEGRO)
+        self.multi_cell(0, self.renglon, f"**{_sin_marcas(rotulo)}:** {_sin_marcas(texto)}",
+                        markdown=True, align="L", new_x="LMARGIN", new_y="NEXT")
+        self.ln(0.3 * self.escala)
 
 
 def _cabecera(documento: _Documento, cv: dict[str, Any], contacto: list[str]) -> None:
     escala = documento.escala
-    documento.letra(22)
+    documento.letra(24, negrita=True)
     documento.set_text_color(*NEGRO)
     documento.cell(0, 10 * escala, cv.get("nombre", ""), new_x="LMARGIN", new_y="NEXT")
-    documento.letra(12)
-    documento.set_text_color(*GRIS)
-    documento.cell(0, 6 * escala, cv.get("titulo", ""), new_x="LMARGIN", new_y="NEXT")
-    documento.letra(8.5)
+    documento.letra(12.5)
+    documento.set_text_color(*ACENTO)
+    documento.cell(0, 6.5 * escala, cv.get("titulo", ""), new_x="LMARGIN", new_y="NEXT")
+    documento.ln(1)
+    documento.letra(9)
     for indice, parte in enumerate(contacto):
         if indice:
-            documento.write(4.5 * escala, " | ")
+            documento.set_text_color(*LINEA)
+            documento.write(4.8 * escala, "   |   ")
         enlace = _enlace(parte)
         documento.set_text_color(*(NEGRO if enlace else GRIS))
-        documento.write(4.5 * escala, parte, link=enlace or "")
-        documento.set_text_color(*GRIS)
-    documento.ln(6 * escala)
-    documento.set_draw_color(*LINEA)
-    documento.line(documento.l_margin, documento.get_y(), documento.w - documento.r_margin,
-                   documento.get_y())
-    documento.ln(1)
+        documento.write(4.8 * escala, parte, link=enlace or "")
+    documento.ln(4.8 * escala)
 
 
 def _bloques(documento: _Documento, titulo: str, bloques: list[dict[str, Any]]) -> None:
     if not bloques:
         return
     documento.titulo_de_seccion(titulo)
-    for bloque in bloques:
-        documento.entrada([bloque.get("titulo", ""), bloque.get("rol", ""),
-                           bloque.get("periodo", "")])
+    for indice, bloque in enumerate(bloques):
+        if indice:
+            documento.ln(1.6 * documento.escala + documento.aire / 2)
+        documento.entrada(bloque.get("titulo", ""), bloque.get("rol", ""),
+                          bloque.get("periodo", ""))
         for punto in bloque.get("puntos", []):
             documento.vineta(punto)
-        documento.ln(documento.escala)
 
 
-def _dibujar(cv: dict[str, Any], contacto: list[str], escala: float) -> _Documento:
+def _dibujar(cv: dict[str, Any], contacto: list[str], escala: float, aire: float) -> _Documento:
     rotulos = SECCIONES.get(cv.get("idioma", "es"), SECCIONES["es"])
-    documento = _Documento(escala)
+    documento = _Documento(escala, aire)
     documento.set_title(f"{cv.get('nombre', '')} - CV")
     documento.set_author(cv.get("nombre", ""))
     _cabecera(documento, cv, contacto)
@@ -168,51 +196,89 @@ def _dibujar(cv: dict[str, Any], contacto: list[str], escala: float) -> _Documen
     if cv.get("formacion"):
         documento.titulo_de_seccion(rotulos["formacion"])
         for estudio in cv["formacion"]:
-            documento.letra(9.5, negrita=True)
-            documento.write(documento.renglon, estudio.get("institucion", ""))
-            documento.letra(9.5)
             resto = [estudio.get(dato, "") for dato in ("detalle", "lugar", "estado")]
-            documento.write(documento.renglon, "".join(f" | {parte}" for parte in resto if parte))
-            documento.ln(documento.renglon)
-    if cv.get("habilidades"):
+            documento.rotulado(estudio.get("institucion", ""),
+                               "  |  ".join(parte for parte in resto if parte))
+    if cv.get("habilidades") or cv.get("idiomas"):
         documento.titulo_de_seccion(rotulos["habilidades"])
-        for grupo in cv["habilidades"]:
+        for grupo in cv.get("habilidades", []):
             documento.rotulado(grupo.get("categoria", ""), grupo.get("items", ""))
-    if cv.get("idiomas"):
-        documento.ln(escala)
-        documento.rotulado(rotulos["idiomas"].upper(), cv["idiomas"])
+        if cv.get("idiomas"):
+            documento.rotulado(rotulos["idiomas"], cv["idiomas"])
     return documento
 
 
-# De la escala del CV para ATS a la mas chica que se sigue leyendo bien (9.5 pt -> 8.1 pt).
-ESCALAS = (1.0, 0.96, 0.92, 0.89, 0.86)
+def _huecos(cv: dict[str, Any]) -> float:
+    """Cuantos huecos reparten el aire: uno por seccion y medio entre bloques."""
+    secciones = sum(1 for clave in ("resumen", "formacion") if cv.get(clave))
+    secciones += 1 if cv.get("habilidades") or cv.get("idiomas") else 0
+    medios = 0
+    for clave in ("experiencia", "proyectos"):
+        bloques = cv.get(clave) or []
+        secciones += 1 if bloques else 0
+        medios += max(0, len(bloques) - 1)
+    return max(1.0, secciones + medios / 2)
+
+
+ESCALA_MAXIMA = 1.06
+# La mas chica que se sigue leyendo bien (9.5 pt -> 8.1 pt).
+ESCALA_MINIMA = 0.86
+AIRE_MAXIMO = 7.0
+
+
+def _entra(documento: _Documento) -> bool:
+    return documento.page == 1
 
 
 def cv_en_pdf(cv: dict[str, Any], perfil: dict[str, Any] | None = None) -> bytes:
     """
-    `cv` es el contenido estructurado (ver base_cv_es.json). Del `perfil` salen el telefono y el
-    email, que no viven en el repositorio publico. Si no entra en una pagina, se achica un poco;
-    si ni asi entra, queda en dos.
+    `cv` es el contenido estructurado (ver base_cv_es.json); del `perfil` salen telefono y email.
+    Una pagina y llena: la letra mas grande que entra (8,1 a 10 pt) y el espacio que sobra,
+    repartido entre las secciones. Si ni con la mas chica entra, dos paginas antes que ilegible.
     """
     perfil = perfil or {}
     contacto = [cv.get("ubicacion", "")]
     contacto += [perfil.get(dato, "") for dato in ("telefono", "email")]
     contacto += cv.get("enlaces", [])
     contacto = [parte for parte in contacto if parte]
-    for escala in ESCALAS:
-        documento = _dibujar(cv, contacto, escala)
-        if documento.page == 1:
-            break
+
+    if not _entra(_dibujar(cv, contacto, ESCALA_MINIMA, 0)):
+        return bytes(_dibujar(cv, contacto, ESCALA_MINIMA, 0).output())
+    chica, grande = ESCALA_MINIMA, ESCALA_MAXIMA
+    if _entra(_dibujar(cv, contacto, grande, 0)):
+        chica = grande
+    else:
+        for _ in range(7):
+            medio = (chica + grande) / 2
+            if _entra(_dibujar(cv, contacto, medio, 0)):
+                chica = medio
+            else:
+                grande = medio
+
+    documento = _dibujar(cv, contacto, chica, 0)
+    sobra = documento.h - documento.b_margin - documento.get_y()
+    aire = min(AIRE_MAXIMO, max(0.0, sobra - 1) / _huecos(cv))
+    while aire > 0.2:
+        con_aire = _dibujar(cv, contacto, chica, aire)
+        if _entra(con_aire):
+            return bytes(con_aire.output())
+        aire *= 0.85
     return bytes(documento.output())
 
 
 def carta_en_pdf(texto: str, nombre: str) -> bytes:
-    """La carta de presentacion, en una pagina simple."""
+    """La carta de presentacion: el nombre arriba, como el CV, y los parrafos con aire."""
     documento = _Documento()
     documento.set_title(f"{nombre} - Carta")
-    documento.letra(10.5)
+    documento.letra(20, negrita=True)
     documento.set_text_color(*NEGRO)
+    documento.cell(0, 10, nombre, new_x="LMARGIN", new_y="NEXT")
+    documento.set_draw_color(*LINEA)
+    documento.line(documento.l_margin, documento.get_y() + 1, documento.w - documento.r_margin,
+                   documento.get_y() + 1)
+    documento.ln(8)
+    documento.letra(10.5)
     for parrafo in texto.split("\n\n"):
-        documento.multi_cell(0, 5.5, parrafo.strip(), align="L", new_x="LMARGIN", new_y="NEXT")
-        documento.ln(3)
+        documento.multi_cell(0, 5.8, parrafo.strip(), align="L", new_x="LMARGIN", new_y="NEXT")
+        documento.ln(3.5)
     return bytes(documento.output())

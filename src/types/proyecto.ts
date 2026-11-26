@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: proyecto.ts    Project: portfolio                                  */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:43:44  by vm                                      */
+/*   Updated: 2026/11/26 22:04:35  by vm                                      */
 /* ************************************************************************** */
 
 /** El modelo de un proyecto del catalogo. Lo no confirmado es opcional: no se rellena. */
@@ -104,5 +104,11 @@ export interface Proyecto {
   repositoryUrl?: string;
   demoUrl?: string;
   featured: boolean;
+  /**
+   * false: el proyecto queda en el portafolio pero no va al curriculum (/cv/, PDF, JSON Resume,
+   * llms-full.txt), que es lo que lee el agente que adapta los CV. Para trabajos que no sirven
+   * en una candidatura real, como un trabajo practico de la facultad.
+   */
+  enElCurriculum?: false;
   visibility: Visibilidad;
 }
