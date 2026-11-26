@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: texto-para-agentes.ts    Project: portfolio                        */
 /*   Created: 2026/11/26 01:43:49  by vm                                      */
-/*   Updated: 2026/11/26 13:34:21  by vm                                      */
+/*   Updated: 2026/11/26 13:44:27  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -18,7 +18,7 @@
 import { FORMACION } from '@/data/formacion';
 import { PERFIL } from '@/data/perfil';
 import { PROYECTOS } from '@/data/proyectos';
-import { TESTIMONIOS, promedio } from '@/data/testimonios';
+import { TESTIMONIOS, calificados, promedio } from '@/data/testimonios';
 import { GRUPOS_DE_TECNOLOGIAS } from '@/data/tecnologias';
 import { es } from '@/i18n/es';
 import type { Proyecto } from '@/types/proyecto';
@@ -92,11 +92,11 @@ export function textoParaAgentes({
     `## Experiencia (${es.proyectos.antiguedad})`,
     '',
     ...PROYECTOS.map((uno) => proyecto({ uno, completo }) + '\n'),
-    `## Clientes (${promedio(TESTIMONIOS)} de 5 en ${TESTIMONIOS.length} trabajos en Workana)`,
+    `## Clientes (${promedio(TESTIMONIOS)} de 5 en ${calificados(TESTIMONIOS).length} trabajos en Workana)`,
     '',
     ...TESTIMONIOS.map(
       (uno) =>
-        `- ${uno.cliente} (${uno.calificacion}/5, ${uno.fecha}): ${uno.trabajo}` +
+        `- ${uno.cliente}${uno.calificacion ? ` (${uno.calificacion}/5, ${uno.fecha})` : ''}: ${uno.trabajo}` +
         (uno.comentario ? ` — “${uno.comentario}”` : ''),
     ),
     '',

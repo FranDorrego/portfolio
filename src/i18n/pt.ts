@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: pt.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 13:38:16  by vm                                      */
+/*   Updated: 2026/11/26 13:44:27  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en portugues de Portugal. Misma forma que `es.ts`. */
@@ -143,6 +143,7 @@ export const pt: Textos = {
   clientes: {
     titulo: 'Clientes',
     resumen: '{{cantidad}} trabalhos avaliados na Workana',
+    opiniones: '{{cantidad}} opiniões de clientes',
     estrellas: '{{valor}} de 5 estrelas',
     verProyecto: 'Ver o projeto',
     otros: 'Também trabalhei com',
@@ -194,12 +195,17 @@ export const pt: Textos = {
           'Uma posição Full Stack, Backend Python/Django ou de arquitetura de soluções, numa equipa consolidada.',
       },
       {
+        pregunta: 'Porquê a mudança de freelancer para programador numa empresa?',
+        respuesta:
+          'O mundo freelancer é agitado e muito divertido, e gosto dele. Mas vai estar sempre disponível: por agora quero ver o que mais existe, e por isso procuro trabalho em empresas médias ou grandes, para ampliar a minha experiência.',
+      },
+      {
         pregunta: 'Porquê uma empresa, se tenho produtos próprios?',
         respuesta:
           'Trabalhar sozinho tem um teto técnico. Quero ver sistemas a maior escala e aprender com equipas maduras.',
       },
       {
-        pregunta: 'Porque não me dedico só às minhas empresas?',
+        pregunta: 'Porque não me dedico às minhas empresas/projetos?',
         respuesta:
           'Escalar um negócio é vendas, marketing e administração. Eu quero dedicar-me ao desenvolvimento e à arquitetura.',
       },

@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: es.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 13:38:16  by vm                                      */
+/*   Updated: 2026/11/26 13:44:27  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en espanol. Su forma es el molde de los demas idiomas. */
@@ -141,6 +141,7 @@ export const es = {
   clientes: {
     titulo: 'Clientes',
     resumen: '{{cantidad}} trabajos calificados en Workana',
+    opiniones: '{{cantidad}} opiniones de clientes',
     estrellas: '{{valor}} de 5 estrellas',
     verProyecto: 'Ver el proyecto',
     otros: 'También trabajé con',
@@ -192,12 +193,17 @@ export const es = {
           'Un puesto Full Stack, Backend Python/Django o de arquitectura de soluciones, en un equipo consolidado.',
       },
       {
+        pregunta: '¿Por qué el cambio de freelancer a programador en una empresa?',
+        respuesta:
+          'El mundo freelancer es movido y muy divertido, y me gusta. Pero siempre va a estar disponible: por ahora quiero ver qué más hay, y por eso busco trabajo en empresas medianas o grandes, para ampliar mi experiencia.',
+      },
+      {
         pregunta: '¿Por qué una empresa, si tengo productos propios?',
         respuesta:
           'Trabajar solo tiene un techo técnico. Quiero ver sistemas a mayor escala y aprender de equipos maduros.',
       },
       {
-        pregunta: '¿Por qué no me dedico solo a mis empresas?',
+        pregunta: '¿Por qué no me dedico a mis empresas/proyectos?',
         respuesta:
           'Escalar un negocio es ventas, marketing y administración. Yo quiero dedicarme al desarrollo y la arquitectura.',
       },
