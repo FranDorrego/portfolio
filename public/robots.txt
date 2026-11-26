@@ -2,3 +2,5 @@
 # El sitemap lo escribe scripts/sitemap.mjs al compilar, con la direccion de VITE_SITE_URL.
 User-agent: *
 Allow: /
+# El panel privado no se indexa.
+Disallow: /admin/

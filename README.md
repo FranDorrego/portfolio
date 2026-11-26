@@ -6,7 +6,7 @@
 <!--                                                                            -->
 <!--   File: README.md    Project: portfolio                                    -->
 <!--   Created: 2026/11/25 22:17:56  by claude                                  -->
-<!--   Updated: 2026/11/26 02:19:42  by vm                                      -->
+<!--   Updated: 2026/11/26 21:12:46  by vm                                      -->
 <!-- ************************************************************************** -->
 
 # Portfolio · Franco Dorrego
@@ -77,10 +77,31 @@ si el archivo no está, el widget lo dice.
 | Tecnologías (con su ícono en `public/tecnologias/`) | `src/data/tecnologias.ts` |
 | Capturas de un proyecto | `public/proyectos/<slug>/` y el campo `screenshots` |
 | Diagrama de un proyecto | El campo `diagram`: tres a cinco pasos con icono |
-| CV | Dejar el PDF en `public/cv-franco-dorrego.pdf`: el botón aparece solo |
+| CV del sitio (HTML, PDF, JSON, Markdown) | Sale solo de los mismos datos; el PDF lo reimprime `scripts/imprimir-cv.mjs` |
 
 Reglas del contenido: cada texto existe en los dos idiomas o no compila; una métrica lleva su
 fuente; un proyecto con código privado no enlaza repositorio.
+
+## Panel privado `/admin/`
+
+Un panel para mí, con email y contraseña, en [`francodorrego.com/admin/`](https://francodorrego.com/admin/)
+(no se indexa):
+
+- **Candidaturas:** empresa, cargo, descripción, CV enviado, enlace e idioma. Todas empiezan
+  «Sin contacto»; después se marca si hubo contacto, videollamada, oferta o rechazo, con
+  historial, notas y el video de la llamada.
+- **CVs:** los dos automáticos del sitio, el CV base para ATS, los que subo en PDF y los que
+  arma un mini agente: se pega la vacante y devuelve el CV adaptado en PDF y una carta de
+  presentación, listos para registrar la candidatura.
+- **Sobre mí:** qué busco y quién soy, el contexto del agente; el teléfono y el email del CV.
+
+Son dos piezas:
+
+- `admin/index.html` y `src/admin/`: la página del panel (una entrada aparte de Vite; el sitio
+  no la carga).
+- `admin-api/`: la API en FastAPI con PostgreSQL, sesión por cookie y los PDF. Corre en el mismo
+  VPS como otra app git de ArduMaker, publicada en `api.francodorrego.com`. Ver
+  [`admin-api/README.md`](admin-api/README.md).
 
 ## Estructura
 
@@ -92,5 +113,8 @@ src/
   i18n/         español y portugués, con la misma forma
   services/     de dónde salen las estadísticas de GitHub
   utils/ lib/   filtros, mapa de contribuciones, textos y rutas
-scripts/        estadísticas de GitHub, página en portugués y sitemap
+  admin/        el panel privado /admin/
+scripts/        estadísticas de GitHub, página en portugués, CV y sitemap
+admin/          la página HTML del panel
+admin-api/      la API del panel (FastAPI + PostgreSQL)
 ```

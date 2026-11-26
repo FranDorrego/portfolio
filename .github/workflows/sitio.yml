@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: sitio.yml    Project: portfolio                                    #
 #   Created: 2026/11/25 22:27:55  by claude                                  #
-#   Updated: 2026/11/26 16:57:53  by vm                                      #
+#   Updated: 2026/11/26 21:12:57  by vm                                      #
 # ************************************************************************** #
 
 # Verifica el codigo en cada push y mantiene al dia las estadisticas de GitHub.
@@ -40,6 +40,35 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+
+  # La API del panel /admin/: sus pruebas corren contra un PostgreSQL de verdad.
+  api-del-panel:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: prueba
+          POSTGRES_PASSWORD: prueba
+          POSTGRES_DB: prueba
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U prueba" --health-interval 5s --health-timeout 5s
+          --health-retries 10
+    defaults:
+      run:
+        working-directory: admin-api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest -q
+        env:
+          TEST_DATABASE_URL: postgresql://prueba:prueba@localhost:5432/prueba
 
   # Vuelve a leer la actividad de GitHub y, si cambio, la guarda en el repositorio: ese commit
   # es el que hace que ArduMaker publique el sitio con las cifras nuevas.

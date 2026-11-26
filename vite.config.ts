@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: vite.config.ts    Project: portfolio                               */
 /*   Created: 2026/11/25 22:17:57  by claude                                  */
-/*   Updated: 2026/11/26 01:43:49  by vm                                      */
+/*   Updated: 2026/11/26 21:12:15  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -25,6 +25,8 @@ const commit = (process.env.GITHUB_SHA ?? 'local').slice(0, 7);
 
 // La direccion publica del sitio: la canonica, Open Graph y el sitemap la usan.
 process.env.VITE_SITE_URL ||= 'https://francodorrego.com';
+// La API del panel /admin/ (admin-api/).
+process.env.VITE_ADMIN_API ||= 'https://api.francodorrego.com';
 
 export default defineConfig({
   base: '/',
@@ -35,4 +37,10 @@ export default defineConfig({
     __VERSION__: JSON.stringify(`${paquete.version}+${commit}`),
   },
   resolve: { alias: { '@': path.join(aqui, 'src') } },
+  // Dos paginas: el sitio y el panel /admin/ (con su propio paquete; el sitio no lo carga).
+  build: {
+    rollupOptions: {
+      input: { sitio: path.join(aqui, 'index.html'), admin: path.join(aqui, 'admin/index.html') },
+    },
+  },
 });
