@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: configuracion.py    Project: portfolio                             #
 #   Created: 2026/11/26 21:03:43  by vm                                      #
-#   Updated: 2026/11/26 21:03:43  by vm                                      #
+#   Updated: 2026/11/26 21:14:55  by vm                                      #
 # ************************************************************************** #
 
 """La configuracion sale del entorno: la carga ArduMaker en el despliegue (nada va en el codigo)."""
@@ -30,7 +30,7 @@ class Configuracion:
     token_de_alta: str = field(default_factory=lambda: os.environ.get("SETUP_TOKEN", ""))
     clave_de_ia: str = field(default_factory=lambda: os.environ.get("OPENROUTER_API_KEY", ""))
     modelo: str = field(
-        default_factory=lambda: os.environ.get("LLM_MODEL", "anthropic/claude-sonnet-4.5")
+        default_factory=lambda: os.environ.get("LLM_MODEL", "anthropic/claude-sonnet-5.5")
     )
     url_de_ia: str = field(
         default_factory=lambda: os.environ.get(

@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: sitio.yml    Project: portfolio                                    #
 #   Created: 2026/11/25 22:27:55  by claude                                  #
-#   Updated: 2026/11/26 21:12:57  by vm                                      #
+#   Updated: 2026/11/26 21:14:55  by vm                                      #
 # ************************************************************************** #
 
 # Verifica el codigo en cada push y mantiene al dia las estadisticas de GitHub.
@@ -69,6 +69,21 @@ jobs:
       - run: python -m pytest -q
         env:
           TEST_DATABASE_URL: postgresql://prueba:prueba@localhost:5432/prueba
+
+  # La API del panel se despliega desde la rama `api` (ArduMaker no permite dos apps de la misma
+  # rama). Esta rama es un espejo de main: cuando las pruebas pasan, se adelanta hasta main y
+  # eso dispara el despliegue de la API.
+  rama-api:
+    needs: [verificar, api-del-panel]
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: git push origin HEAD:refs/heads/api --force
 
   # Vuelve a leer la actividad de GitHub y, si cambio, la guarda en el repositorio: ese commit
   # es el que hace que ArduMaker publique el sitio con las cifras nuevas.
