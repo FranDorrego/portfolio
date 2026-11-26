@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: index.css    Project: portfolio                                    */
 /*   Created: 2026/11/25 22:18:47  by claude                                  */
-/*   Updated: 2026/11/25 23:19:33  by vm                                      */
+/*   Updated: 2026/11/26 01:48:20  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -178,9 +178,19 @@ body {
   }
 }
 
+/* En el celular la ventana ocupa la pantalla y sube; en pantallas grandes crece desde el centro. */
 @keyframes abrir-ventana {
   from {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.97);
+    transform: translateY(24px);
+  }
+}
+
+@media (min-width: 640px) {
+  @keyframes abrir-ventana {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.97);
+    }
   }
 }

@@ -6,12 +6,12 @@
 /*                                                                            */
 /*   File: seccion-de-proyectos.tsx    Project: portfolio                     */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 23:31:45  by vm                                      */
+/*   Updated: 2026/11/26 01:48:20  by vm                                      */
 /* ************************************************************************** */
 
 /** La seccion de proyectos: buscador, filtros, cantidad de resultados, grilla y «ver mas». */
 
-import { Briefcase, ChevronDown, FilterX, SearchX } from 'lucide-react';
+import { Briefcase, ChevronDown, SearchX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Seccion } from '@/components/layout/seccion';
 import { useProyectos } from '@/hooks/use-proyectos';
@@ -26,8 +26,7 @@ import { cn } from '@/lib/class-names';
 export function SeccionDeProyectos(): JSX.Element {
   const { t } = useIdioma();
   const abrir = useAbrirProyecto();
-  const { criterios, cambiar, limpiar, filtrando, encontrados, visibles, quedan, verMas } =
-    useProyectos();
+  const { criterios, cambiar, limpiar, encontrados, visibles, quedan, verMas } = useProyectos();
 
   const cantidad =
     encontrados.length === 1
@@ -41,20 +40,19 @@ export function SeccionDeProyectos(): JSX.Element {
       junto={t.proyectos.antiguedad}
       Icono={Briefcase}
     >
-      <div className="space-y-5">
-        <BuscadorDeProyectos valor={criterios.texto} alCambiar={(texto) => cambiar({ texto })} />
-        <FiltrosDeProyectos criterios={criterios} alCambiar={cambiar} />
-        <div className="flex min-h-9 flex-wrap items-center justify-between gap-3">
-          <p role="status" className="font-mono text-sm text-muted-foreground">
+      <div className="space-y-3">
+        <div className="flex items-center gap-3">
+          <div className="min-w-0 flex-1">
+            <BuscadorDeProyectos
+              valor={criterios.texto}
+              alCambiar={(texto) => cambiar({ texto })}
+            />
+          </div>
+          <p role="status" className="shrink-0 font-mono text-sm text-muted-foreground">
             {cantidad}
           </p>
-          {filtrando && (
-            <Button variant="ghost" size="sm" onClick={limpiar}>
-              <FilterX aria-hidden />
-              {t.proyectos.limpiar}
-            </Button>
-          )}
         </div>
+        <FiltrosDeProyectos criterios={criterios} alCambiar={cambiar} alLimpiar={limpiar} />
       </div>
 
       {encontrados.length === 0 ? (

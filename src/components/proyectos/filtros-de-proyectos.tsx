@@ -5,101 +5,108 @@
 /*   /_/   \_\_|   \__,_|\__,_|_|  |_|\__,_|_|\_\___|_|                       */
 /*                                                                            */
 /*   File: filtros-de-proyectos.tsx    Project: portfolio                     */
-/*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:41:32  by vm                                      */
+/*   Created: 2026/11/25 22:27:55  by claude                                  */
+/*   Updated: 2026/11/26 01:47:41  by vm                                      */
 /* ************************************************************************** */
 
-/** Los dos grupos de filtros (tecnologia y categoria). Se combinan entre si y con la busqueda. */
+/**
+ * Los filtros rapidos, en una sola fila que se desliza: primero el tipo de trabajo y despues la
+ * tecnologia, separados por una raya. Se puede marcar uno de cada grupo; tocar el marcado lo
+ * desmarca. «Todos» vuelve a mostrar todo.
+ */
 
+import { Fragment } from 'react';
+import { X } from 'lucide-react';
 import { useIdioma } from '@/i18n';
 import { cn } from '@/lib/class-names';
 import { SOLAPA_PULSABLE } from '@/lib/movimiento';
 import type { CategoriaDeProyecto, FiltroDeTecnologia } from '@/types/proyecto';
-import type { CriteriosDeBusqueda } from '@/utils/filtros-de-proyectos';
+import { hayCriterios, type CriteriosDeBusqueda } from '@/utils/filtros-de-proyectos';
 
+const CATEGORIAS: CategoriaDeProyecto[] = ['cliente', 'propio', 'sistemas', 'educacion'];
 const TECNOLOGIAS: FiltroDeTecnologia[] = [
   'python',
   'django',
   'react',
   'typescript',
-  'cloud',
   'ia',
+  'cloud',
   'c',
 ];
-const CATEGORIAS: CategoriaDeProyecto[] = ['propio', 'cliente', 'sistemas', 'educacion'];
 
-interface PropsDeGrupo<T extends string> {
-  titulo: string;
-  opciones: { valor: T; texto: string }[];
-  elegida: T;
-  alElegir: (valor: T) => void;
+interface PropsDeChip {
+  marcado: boolean;
+  alTocar: () => void;
+  children: React.ReactNode;
 }
 
-function Grupo<T extends string>({
-  titulo,
-  opciones,
-  elegida,
-  alElegir,
-}: PropsDeGrupo<T>): JSX.Element {
+function Chip({ marcado, alTocar, children }: PropsDeChip): JSX.Element {
   return (
-    <fieldset className="min-w-0">
-      <legend className="mb-2 font-mono text-xs uppercase tracking-wider text-muted-foreground">
-        {titulo}
-      </legend>
-      <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
-        {opciones.map((opcion) => {
-          const marcada = opcion.valor === elegida;
-          return (
-            <button
-              key={opcion.valor}
-              type="button"
-              aria-pressed={marcada}
-              onClick={() => alElegir(opcion.valor)}
-              className={cn(
-                'shrink-0 rounded-md border px-3 py-1.5 text-sm',
-                SOLAPA_PULSABLE,
-                marcada
-                  ? 'border-primary/60 bg-primary/10 text-primary'
-                  : 'border-border bg-card text-muted-foreground hover:text-foreground',
-              )}
-            >
-              {opcion.texto}
-            </button>
-          );
-        })}
-      </div>
-    </fieldset>
+    <button
+      type="button"
+      aria-pressed={marcado}
+      onClick={alTocar}
+      className={cn(
+        'flex shrink-0 items-center gap-1 rounded-full border px-3 py-1.5 text-sm',
+        SOLAPA_PULSABLE,
+        marcado
+          ? 'border-primary/60 bg-primary/10 text-primary'
+          : 'border-border bg-card text-muted-foreground hover:text-foreground',
+      )}
+    >
+      {children}
+    </button>
   );
 }
 
 interface Props {
   criterios: CriteriosDeBusqueda;
   alCambiar: (cambio: Partial<CriteriosDeBusqueda>) => void;
+  alLimpiar: () => void;
 }
 
-export function FiltrosDeProyectos({ criterios, alCambiar }: Props): JSX.Element {
+export function FiltrosDeProyectos({ criterios, alCambiar, alLimpiar }: Props): JSX.Element {
   const { t } = useIdioma();
-  const todas = { valor: 'todas' as const, texto: t.proyectos.todas };
+  const grupos = [
+    CATEGORIAS.map((categoria) => (
+      <Chip
+        key={categoria}
+        marcado={criterios.categoria === categoria}
+        alTocar={() =>
+          alCambiar({ categoria: criterios.categoria === categoria ? 'todas' : categoria })
+        }
+      >
+        {t.proyectos.categorias[categoria]}
+      </Chip>
+    )),
+    TECNOLOGIAS.map((tecnologia) => (
+      <Chip
+        key={tecnologia}
+        marcado={criterios.tecnologia === tecnologia}
+        alTocar={() =>
+          alCambiar({ tecnologia: criterios.tecnologia === tecnologia ? 'todas' : tecnologia })
+        }
+      >
+        {t.proyectos.tecnologias[tecnologia]}
+      </Chip>
+    )),
+  ];
   return (
-    <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
-      <Grupo
-        titulo={t.proyectos.filtroTecnologia}
-        elegida={criterios.tecnologia}
-        alElegir={(tecnologia) => alCambiar({ tecnologia })}
-        opciones={[
-          todas,
-          ...TECNOLOGIAS.map((valor) => ({ valor, texto: t.proyectos.tecnologias[valor] })),
-        ]}
-      />
-      <Grupo
-        titulo={t.proyectos.filtroCategoria}
-        elegida={criterios.categoria}
-        alElegir={(categoria) => alCambiar({ categoria })}
-        opciones={[
-          todas,
-          ...CATEGORIAS.map((valor) => ({ valor, texto: t.proyectos.categorias[valor] })),
-        ]}
-      />
+    <div
+      role="group"
+      aria-label={t.proyectos.filtros}
+      className="-mx-4 flex items-center gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0"
+    >
+      <Chip marcado={!hayCriterios(criterios)} alTocar={alLimpiar}>
+        {hayCriterios(criterios) && <X aria-hidden className="h-3.5 w-3.5" />}
+        {t.proyectos.todas}
+      </Chip>
+      {grupos.map((grupo, indice) => (
+        <Fragment key={indice}>
+          <span aria-hidden className="h-5 w-px shrink-0 bg-border" />
+          {grupo}
+        </Fragment>
+      ))}
     </div>
   );
 }

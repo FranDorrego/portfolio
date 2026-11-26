@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: ventana-de-proyecto.tsx    Project: portfolio                      */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 22:43:44  by vm                                      */
+/*   Updated: 2026/11/26 01:48:20  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -82,6 +82,37 @@ function Periodo({ proyecto }: { proyecto: Proyecto }): JSX.Element | null {
   );
 }
 
+/** El repositorio y el sitio, si existen; si el codigo es privado, se dice. */
+function Enlaces({ proyecto }: { proyecto: Proyecto }): JSX.Element {
+  const { t } = useIdioma();
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      {proyecto.repositoryUrl && (
+        <Button asChild variant="outline">
+          <a href={proyecto.repositoryUrl} target="_blank" rel="noreferrer">
+            <Github aria-hidden />
+            {t.detalle.verRepositorio}
+          </a>
+        </Button>
+      )}
+      {proyecto.demoUrl && (
+        <Button asChild variant="outline">
+          <a href={proyecto.demoUrl} target="_blank" rel="noreferrer">
+            <ExternalLink aria-hidden />
+            {t.detalle.verSitio}
+          </a>
+        </Button>
+      )}
+      {proyecto.visibility === 'privado' && (
+        <p className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Lock aria-hidden className="h-4 w-4 shrink-0" />
+          {t.detalle.codigoPrivado}
+        </p>
+      )}
+    </div>
+  );
+}
+
 interface Props {
   proyecto: Proyecto | null;
   alCerrar: () => void;
@@ -103,7 +134,7 @@ export function VentanaDeProyecto({ proyecto, alCerrar, alDevolverFoco }: Props)
             alDevolverFoco();
           }}
         >
-          <header className="space-y-2 pr-8">
+          <header className="space-y-2 pr-10">
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
               <span className="font-mono text-xs text-primary">{categoria(proyecto)}</span>
               <EstadoDeProyecto estado={proyecto.status} />
@@ -113,21 +144,36 @@ export function VentanaDeProyecto({ proyecto, alCerrar, alDevolverFoco }: Props)
               {proyecto.title}
             </DialogTitle>
             <DialogDescription className="text-base leading-relaxed text-muted-foreground">
-              {leer(proyecto.fullDescription)}
+              {leer(proyecto.shortDescription)}
             </DialogDescription>
           </header>
 
-          {proyecto.screenshots.length > 0 && (
+          {proyecto.screenshots.length > 0 ? (
             <GaleriaDeProyecto key={proyecto.id} proyecto={proyecto} />
+          ) : (
+            proyecto.diagram && (
+              <DiagramaDeProyecto
+                pasos={proyecto.diagram}
+                className="rounded-lg border border-border"
+              />
+            )
           )}
-          {proyecto.diagram && (
+
+          <div className="space-y-3">
+            <p className="font-medium text-foreground">{leer(proyecto.role)}</p>
+            {proyecto.technologies.length > 0 && <Etiquetas valores={proyecto.technologies} />}
+            <Enlaces proyecto={proyecto} />
+          </div>
+
+          <p className="text-[0.95rem] leading-relaxed text-foreground/90">
+            {leer(proyecto.fullDescription)}
+          </p>
+
+          {proyecto.screenshots.length > 0 && proyecto.diagram && (
             <DiagramaDeProyecto
               pasos={proyecto.diagram}
               className="rounded-lg border border-border"
             />
-          )}
-          {proyecto.screenshots.length === 0 && !proyecto.diagram && (
-            <GaleriaDeProyecto key={proyecto.id} proyecto={proyecto} />
           )}
 
           <div className="grid gap-6 md:grid-cols-2">
@@ -139,30 +185,16 @@ export function VentanaDeProyecto({ proyecto, alCerrar, alDevolverFoco }: Props)
             )}
           </div>
 
-          <Bloque titulo={t.detalle.responsabilidad}>
-            <p className="mb-2 font-medium text-foreground">{leer(proyecto.role)}</p>
-            {proyecto.responsibilities && <Lista renglones={proyecto.responsibilities} />}
-          </Bloque>
+          {proyecto.responsibilities && (
+            <Bloque titulo={t.detalle.responsabilidad}>
+              <Lista renglones={proyecto.responsibilities} />
+            </Bloque>
+          )}
 
           {proyecto.architecture && (
             <Bloque titulo={t.detalle.arquitectura}>
               <Lista renglones={proyecto.architecture} />
             </Bloque>
-          )}
-
-          {(proyecto.languages.length > 0 || proyecto.technologies.length > 0) && (
-            <div className="grid gap-6 md:grid-cols-[auto_1fr]">
-              {proyecto.languages.length > 0 && (
-                <Bloque titulo={t.detalle.lenguajes}>
-                  <Etiquetas valores={proyecto.languages} />
-                </Bloque>
-              )}
-              {proyecto.technologies.length > 0 && (
-                <Bloque titulo={t.detalle.tecnologias}>
-                  <Etiquetas valores={proyecto.technologies} />
-                </Bloque>
-              )}
-            </div>
           )}
 
           {proyecto.metrics && (
@@ -191,31 +223,6 @@ export function VentanaDeProyecto({ proyecto, alCerrar, alDevolverFoco }: Props)
               <Lista renglones={proyecto.highlights} />
             </Bloque>
           )}
-
-          <div className="flex flex-wrap items-center gap-3 border-t border-border pt-4">
-            {proyecto.repositoryUrl && (
-              <Button asChild variant="outline">
-                <a href={proyecto.repositoryUrl} target="_blank" rel="noreferrer">
-                  <Github aria-hidden />
-                  {t.detalle.verRepositorio}
-                </a>
-              </Button>
-            )}
-            {proyecto.demoUrl && (
-              <Button asChild variant="outline">
-                <a href={proyecto.demoUrl} target="_blank" rel="noreferrer">
-                  <ExternalLink aria-hidden />
-                  {t.detalle.verSitio}
-                </a>
-              </Button>
-            )}
-            {proyecto.visibility === 'privado' && (
-              <p className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Lock aria-hidden className="h-4 w-4 shrink-0" />
-                {t.detalle.codigoPrivado}
-              </p>
-            )}
-          </div>
         </DialogContent>
       )}
     </Dialog>

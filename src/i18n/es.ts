@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: es.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 01:42:30  by vm                                      */
+/*   Updated: 2026/11/26 01:49:29  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en espanol. Su forma es el molde de los demas idiomas. */
@@ -83,11 +83,12 @@ export const es = {
     titulo: 'Experiencia',
     antiguedad: '+5 años',
     buscar: 'Buscar proyectos',
-    buscarEjemplo: 'Buscar: Django, WhatsApp, cliente…',
+    buscarEjemplo: 'Buscar proyecto o tecnología',
     borrarBusqueda: 'Borrar la búsqueda',
     filtroTecnologia: 'Tecnología',
     filtroCategoria: 'Categoría',
-    todas: 'Todas',
+    todas: 'Todos',
+    filtros: 'Filtros rápidos',
     tecnologias: {
       python: 'Python',
       django: 'Django',

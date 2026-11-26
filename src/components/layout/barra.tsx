@@ -6,13 +6,14 @@
 /*                                                                            */
 /*   File: barra.tsx    Project: portfolio                                    */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 01:41:38  by vm                                      */
+/*   Updated: 2026/11/26 01:47:16  by vm                                      */
 /* ************************************************************************** */
 
 /** La barra de arriba: quien soy, donde estoy, si estoy disponible, idioma y accesos rapidos. */
 
 import { MapPin } from 'lucide-react';
 import { IDS_DE_SECCIONES, SECCIONES } from '@/data/navegacion';
+import { useHaBajado } from '@/hooks/use-ha-bajado';
 import { useSeccionActiva } from '@/hooks/use-seccion-activa';
 import { useIdioma } from '@/i18n';
 import { cn } from '@/lib/class-names';
@@ -56,37 +57,55 @@ function Navegacion({ className }: { className?: string }): JSX.Element {
   );
 }
 
-export function Barra(): JSX.Element {
+/** Donde estoy y si estoy disponible. En el celular va en el inicio, no en la barra. */
+export function UbicacionYEstado({ className }: { className?: string }): JSX.Element {
   const { t } = useIdioma();
+  return (
+    <div
+      className={cn(
+        'flex min-w-0 flex-col leading-tight sm:flex-row sm:items-center sm:gap-3',
+        className,
+      )}
+    >
+      <span className="flex items-center gap-1 text-xs text-muted-foreground">
+        <MapPin aria-hidden className="h-3.5 w-3.5 shrink-0" />
+        <span className="truncate">{t.barra.ubicacion}</span>
+      </span>
+      <span className="flex items-center gap-1.5 text-xs text-foreground">
+        <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
+        <span className="truncate">{t.barra.estado}</span>
+      </span>
+    </div>
+  );
+}
+
+/**
+ * La barra de arriba. En escritorio esta siempre. En el celular el inicio ya muestra quien soy,
+ * asi que la barra aparece recien al bajar, en una sola fila: la foto y las secciones.
+ */
+export function Barra(): JSX.Element {
+  const bajo = useHaBajado(80);
   return (
     <header
       className={cn(
-        'sticky top-0 z-40 border-b border-border bg-background',
-        'lg:bg-background/95 lg:backdrop-blur',
+        'fixed inset-x-0 top-0 z-40 border-b border-border bg-background',
+        'transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]',
+        'lg:sticky lg:translate-y-0 lg:bg-background/95 lg:backdrop-blur',
+        bajo ? 'translate-y-0' : '-translate-y-full',
       )}
     >
-      <div className={cn(CONTENEDOR_DE_PAGINA, 'flex h-14 items-center gap-3')}>
+      <div className={cn(CONTENEDOR_DE_PAGINA, 'hidden h-14 items-center gap-3 lg:flex')}>
         <FotoDePerfil className="h-8 w-8" />
-        <div className="flex min-w-0 flex-col leading-tight sm:flex-row sm:items-center sm:gap-3">
-          <span className="flex items-center gap-1 text-xs text-muted-foreground">
-            <MapPin aria-hidden className="h-3.5 w-3.5 shrink-0" />
-            <span className="truncate">{t.barra.ubicacion}</span>
-          </span>
-          <span className="flex items-center gap-1.5 text-xs text-foreground">
-            <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
-            <span className="truncate">{t.barra.estado}</span>
-          </span>
-        </div>
+        <UbicacionYEstado />
         <div className="ml-auto flex items-center gap-2">
-          <Navegacion className="hidden lg:block" />
+          <Navegacion />
           <SelectorDeIdioma />
           <SelectorDeTema />
         </div>
       </div>
-      <div className="border-t border-border lg:hidden">
-        <Navegacion
-          className={cn(CONTENEDOR_DE_PAGINA, 'flex h-11 items-center overflow-x-auto')}
-        />
+      <div className={cn(CONTENEDOR_DE_PAGINA, 'flex h-12 items-center gap-2 lg:hidden')}>
+        <FotoDePerfil className="h-7 w-7" />
+        <Navegacion className="min-w-0 flex-1 overflow-x-auto" />
       </div>
     </header>
   );

@@ -6,12 +6,12 @@
 /*                                                                            */
 /*   File: galeria-de-proyecto.tsx    Project: portfolio                      */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/26 01:49:29  by vm                                      */
 /* ************************************************************************** */
 
 /** Las capturas de un proyecto, de a una, con anterior / siguiente y las flechas del teclado. */
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { recurso } from '@/lib/raiz';
@@ -25,6 +25,8 @@ import { cn } from '@/lib/class-names';
 export function GaleriaDeProyecto({ proyecto }: { proyecto: Proyecto }): JSX.Element {
   const { t, leer } = useIdioma();
   const [indice, setIndice] = useState(0);
+  // En el celular se pasa de imagen deslizando el dedo.
+  const inicioDelToque = useRef<number | null>(null);
   const capturas = proyecto.screenshots;
 
   if (capturas.length === 0) {
@@ -40,6 +42,16 @@ export function GaleriaDeProyecto({ proyecto }: { proyecto: Proyecto }): JSX.Ele
       role="group"
       aria-roledescription="carousel"
       aria-label={t.detalle.capturas}
+      onTouchStart={(evento) => {
+        inicioDelToque.current = evento.touches[0]?.clientX ?? null;
+      }}
+      onTouchEnd={(evento) => {
+        const desde = inicioDelToque.current;
+        const hasta = evento.changedTouches[0]?.clientX;
+        inicioDelToque.current = null;
+        if (desde === null || hasta === undefined || Math.abs(hasta - desde) < 40) return;
+        ir(hasta < desde ? 1 : -1);
+      }}
       onKeyDown={(evento) => {
         if (evento.key === 'ArrowLeft') ir(-1);
         if (evento.key === 'ArrowRight') ir(1);

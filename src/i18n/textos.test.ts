@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: textos.test.ts    Project: portfolio                               */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 01:41:37  by vm                                      */
+/*   Updated: 2026/11/26 01:49:07  by vm                                      */
 /* ************************************************************************** */
 
 /** Los dos idiomas tienen exactamente las mismas claves y ningun texto vacio. */
@@ -53,6 +53,7 @@ describe('textos de la interfaz', () => {
       'Porto, Portugal',
       'Developer Full Stack Web',
       'Pull requests',
+      'Filtros rápidos',
       'Cloud / Linux',
       'IA & n8n',
       'C / C++',

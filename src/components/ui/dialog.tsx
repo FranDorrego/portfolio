@@ -6,12 +6,13 @@
 /*                                                                            */
 /*   File: dialog.tsx    Project: portfolio                                   */
 /*   Created: 2026/11/25 22:18:47  by claude                                  */
-/*   Updated: 2026/11/25 23:23:21  by vm                                      */
+/*   Updated: 2026/11/26 01:48:20  by vm                                      */
 /* ************************************************************************** */
 
 /**
  * La ventana: Radix resuelve el foco, Escape y el clic afuera; aca va el aspecto. En el celular
- * no llega a los bordes y el alto se resuelve desplazando adentro, no moviendo la pagina.
+ * ocupa toda la pantalla; en pantallas grandes es una tarjeta centrada. El alto se resuelve
+ * desplazando adentro, no moviendo la pagina.
  */
 
 import * as React from 'react';
@@ -36,24 +37,30 @@ export const DialogContent = React.forwardRef<HTMLDivElement, Props>(
       <Primitiva.Content
         ref={ref}
         className={cn(
-          'entrada-de-ventana fixed left-1/2 top-1/2 z-50 grid max-h-[calc(100dvh-2rem)]',
-          'w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-6 overflow-y-auto',
-          'rounded-xl border border-border bg-card p-4 shadow-flotante sm:p-6 [&>*]:min-w-0',
+          'entrada-de-ventana fixed inset-0 z-50 grid content-start gap-6 overflow-y-auto',
+          'overscroll-contain bg-card p-4 [&>*]:min-w-0',
+          'sm:inset-auto sm:left-1/2 sm:top-1/2 sm:max-h-[calc(100dvh-2rem)] sm:w-[calc(100%-2rem)]',
+          'sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-xl sm:border sm:border-border',
+          'sm:p-6 sm:shadow-flotante',
           className,
         )}
         {...props}
       >
+        {/* La X queda a la vista aunque el contenido se desplace: una fila sin alto, pegada arriba. */}
+        <div className="pointer-events-none sticky top-0 z-20 order-first -mb-6 flex h-0 justify-end">
+          <Primitiva.Close
+            aria-label={textoDeCerrar}
+            className={cn(
+              'pointer-events-auto -mr-1 -mt-1 inline-flex h-9 w-9 items-center justify-center',
+              'rounded-full border border-border bg-card/90 text-muted-foreground shadow-flotante',
+              'transition-colors hover:bg-secondary hover:text-foreground',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+            )}
+          >
+            <X aria-hidden className="h-4 w-4" />
+          </Primitiva.Close>
+        </div>
         {children}
-        <Primitiva.Close
-          aria-label={textoDeCerrar}
-          className={cn(
-            'absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-md',
-            'bg-card/80 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-          )}
-        >
-          <X aria-hidden className="h-4 w-4" />
-        </Primitiva.Close>
       </Primitiva.Content>
     </Primitiva.Portal>
   ),

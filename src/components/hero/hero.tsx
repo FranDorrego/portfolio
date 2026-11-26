@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: hero.tsx    Project: portfolio                                     */
 /*   Created: 2026/11/25 22:27:55  by claude                                  */
-/*   Updated: 2026/11/26 01:41:25  by vm                                      */
+/*   Updated: 2026/11/26 01:47:16  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -22,6 +22,9 @@ import { useIdioma } from '@/i18n';
 import { cn } from '@/lib/class-names';
 import { CONTENEDOR_DE_PAGINA } from '@/lib/movimiento';
 import { recurso } from '@/lib/raiz';
+import { UbicacionYEstado } from '@/components/layout/barra';
+import { SelectorDeIdioma } from '@/components/layout/selector-de-idioma';
+import { SelectorDeTema } from '@/components/layout/selector-de-tema';
 import { ActividadDeGithub } from './actividad-de-github';
 import { FotoDePerfil } from './foto-de-perfil';
 import { MaquinaDeEscribir } from './maquina-de-escribir';
@@ -32,10 +35,7 @@ export function Hero(): JSX.Element {
     <section
       id="inicio"
       aria-labelledby="inicio-titulo"
-      className={cn(
-        'relative flex min-h-[calc(75svh-6.25rem)] flex-col overflow-hidden',
-        'md:min-h-[75svh]',
-      )}
+      className={cn('relative flex min-h-[75svh] flex-col overflow-hidden')}
     >
       <div
         aria-hidden
@@ -47,11 +47,19 @@ export function Hero(): JSX.Element {
       <div
         className={cn(
           CONTENEDOR_DE_PAGINA,
-          'relative grid flex-1 content-center gap-10 py-10 xl:items-center xl:gap-10',
+          'relative grid flex-1 content-center gap-10 pb-10 pt-5 lg:py-10 xl:items-center xl:gap-10',
           'xl:grid-cols-[minmax(0,1fr)_minmax(0,40rem)]',
         )}
       >
         <div>
+          {/* En el celular no hay barra arriba hasta que se baja: esto va aca. */}
+          <div className="mb-6 flex items-center justify-between gap-3 lg:hidden">
+            <UbicacionYEstado />
+            <div className="flex shrink-0 items-center gap-1">
+              <SelectorDeIdioma />
+              <SelectorDeTema />
+            </div>
+          </div>
           <FotoDePerfil className="h-24 w-24 sm:h-28 sm:w-28" />
           <h1
             id="inicio-titulo"

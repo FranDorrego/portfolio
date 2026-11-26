@@ -7,7 +7,7 @@
 /*                                                                            */
 /*   File: inicio.test.tsx    Project: portfolio                              */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 01:39:52  by vm                                      */
+/*   Updated: 2026/11/26 01:49:07  by vm                                      */
 /* ************************************************************************** */
 
 /** La pagina entera: idioma, catalogo, detalle y los estados del widget de GitHub. */
@@ -73,7 +73,7 @@ describe('pagina de inicio', () => {
 
   it('cambia todos los textos al pasar a portugues y lo recuerda', () => {
     dibujarPagina();
-    fireEvent.click(screen.getByRole('button', { name: 'Português' }));
+    fireEvent.click(screen.getAllByRole('button', { name: 'Português' })[0]);
     expect(screen.getByRole('heading', { level: 2, name: /Experiência/ })).toBeTruthy();
     expect(screen.getByRole('heading', { level: 2, name: /Sobre mim/ })).toBeTruthy();
     expect(screen.getByRole('heading', { level: 2, name: /Falamos\?/ })).toBeTruthy();

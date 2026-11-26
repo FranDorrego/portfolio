@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: pt.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 01:42:30  by vm                                      */
+/*   Updated: 2026/11/26 01:49:29  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en portugues de Portugal. Misma forma que `es.ts`. */
@@ -85,11 +85,12 @@ export const pt: Textos = {
     titulo: 'Experiência',
     antiguedad: '+5 anos',
     buscar: 'Pesquisar projetos',
-    buscarEjemplo: 'Pesquisar: Django, WhatsApp, cliente…',
+    buscarEjemplo: 'Pesquisar projeto ou tecnologia',
     borrarBusqueda: 'Limpar a pesquisa',
     filtroTecnologia: 'Tecnologia',
     filtroCategoria: 'Categoria',
-    todas: 'Todas',
+    todas: 'Todos',
+    filtros: 'Filtros rápidos',
     tecnologias: {
       python: 'Python',
       django: 'Django',
