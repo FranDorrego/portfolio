@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: seccion-de-clientes.tsx    Project: portfolio                      */
 /*   Created: 2026/11/26 13:38:39  by claude                                  */
-/*   Updated: 2026/11/26 13:44:47  by vm                                      */
+/*   Updated: 2026/11/26 13:56:14  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -24,7 +24,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { TESTIMONIOS, calificados, promedio, type Testimonio } from '@/data/testimonios';
+import { TESTIMONIOS, promedio, type Testimonio } from '@/data/testimonios';
 import { useIdioma } from '@/i18n';
 import { cn } from '@/lib/class-names';
 import { mesCorto, rellenar } from '@/utils/texto';
@@ -72,7 +72,7 @@ function Encabezado({ uno }: { uno: Testimonio }): JSX.Element {
       ) : (
         <span className={nombre}>{uno.cliente}</span>
       )}
-      {uno.calificacion !== undefined && <Estrellas valor={uno.calificacion} />}
+      <Estrellas valor={uno.calificacion} />
       {uno.fecha && (
         <span className="font-mono text-xs text-muted-foreground">
           {mesCorto(uno.fecha, idioma)}
@@ -165,7 +165,7 @@ export function SeccionDeClientes(): JSX.Element {
                 {valor.toLocaleString(idioma === 'pt' ? 'pt-PT' : 'es')}
               </span>
               <span className="text-muted-foreground">
-                {rellenar(t.clientes.resumen, { cantidad: calificados(TESTIMONIOS).length })}
+                {rellenar(t.clientes.resumen, { cantidad: TESTIMONIOS.length })}
                 {' · '}
                 {rellenar(t.clientes.opiniones, { cantidad: conOpinion })}
               </span>

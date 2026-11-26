@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: galeria-de-proyecto.tsx    Project: portfolio                      */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 01:49:29  by vm                                      */
+/*   Updated: 2026/11/26 13:56:51  by vm                                      */
 /* ************************************************************************** */
 
 /** Las capturas de un proyecto, de a una, con anterior / siguiente y las flechas del teclado. */
@@ -16,11 +16,9 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { recurso } from '@/lib/raiz';
 import { useIdioma } from '@/i18n';
-import { ENTRADA_DE_VISTA } from '@/lib/movimiento';
 import type { Proyecto } from '@/types/proyecto';
 import { rellenar } from '@/utils/texto';
 import { PortadaDeProyecto } from './portada-de-proyecto';
-import { cn } from '@/lib/class-names';
 
 export function GaleriaDeProyecto({ proyecto }: { proyecto: Proyecto }): JSX.Element {
   const { t, leer } = useIdioma();
@@ -61,12 +59,8 @@ export function GaleriaDeProyecto({ proyecto }: { proyecto: Proyecto }): JSX.Ele
         key={actual.src}
         src={recurso(actual.src)}
         alt={leer(actual.alt)}
-        loading="lazy"
-        decoding="async"
-        className={cn(
-          'aspect-[16/9] w-full rounded-lg border border-border bg-background object-contain',
-          ENTRADA_DE_VISTA,
-        )}
+        fetchPriority="high"
+        className="aspect-[16/9] w-full rounded-lg border border-border bg-background object-contain"
       />
       {total > 1 && (
         <div className="mt-3 flex items-center justify-between gap-3">

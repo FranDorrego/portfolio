@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: index.css    Project: portfolio                                    */
 /*   Created: 2026/11/25 22:18:47  by claude                                  */
-/*   Updated: 2026/11/26 13:36:13  by vm                                      */
+/*   Updated: 2026/11/26 13:56:38  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -76,8 +76,10 @@ html {
   scroll-padding-top: 5rem;
 }
 
+/* El desplazamiento suave va recien cuando la pagina termino de cargar (src/lib/ancla.ts): si no,
+   al entrar por /#clientes el navegador animaba el viaje entero y llegaba antes que las imagenes. */
 @media (prefers-reduced-motion: no-preference) {
-  html {
+  html.suave {
     scroll-behavior: smooth;
   }
 }
@@ -139,7 +141,7 @@ body {
 }
 
 .entrada-de-ventana {
-  animation: abrir-ventana 200ms cubic-bezier(0.23, 1, 0.32, 1);
+  animation: abrir-ventana 140ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {

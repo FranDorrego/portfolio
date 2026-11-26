@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: testimonios.ts    Project: portfolio                               */
 /*   Created: 2026/11/26 13:34:21  by vm                                      */
-/*   Updated: 2026/11/26 13:44:27  by vm                                      */
+/*   Updated: 2026/11/26 13:56:14  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -20,8 +20,8 @@ export interface Testimonio {
   enlaceDelTrabajo?: string;
   cliente: string;
   enlaceDelCliente?: string;
-  /** Estrellas, de 1 a 5. Solo las de Workana la tienen. */
-  calificacion?: number;
+  /** Estrellas, de 1 a 5 (5 es la mejor). */
+  calificacion: number;
   /** AAAA-MM, o solo AAAA cuando Workana dice «hace un año». */
   fecha?: string;
   comentario?: string;
@@ -132,10 +132,12 @@ export const TESTIMONIOS: Testimonio[] = [
     fecha: '2025',
     habilidades: ['HTML', 'WordPress', 'Responsive Web Design'],
   },
-  // Las que estaban en la pagina /dev de ArduMaker, sin calificacion ni fecha.
+  // Las que estaban en la pagina /dev de ArduMaker: reseñas anteriores, todas de 5 estrellas y sin
+  // fecha.
   {
     trabajo: 'Landing con Mercado Pago',
     cliente: 'Alejandro Solis',
+    calificacion: 5,
     comentario:
       'Tenía dudas sobre a quién elegir para mi proyecto, sin dudas elegí a la persona correcta. Profesional, rápido, entiende exactamente lo que uno desea.',
     habilidades: [],
@@ -143,6 +145,7 @@ export const TESTIMONIOS: Testimonio[] = [
   {
     trabajo: 'Soporte AWS',
     cliente: 'Hugo Ceriani',
+    calificacion: 5,
     comentario:
       'Franco A. Dorrego es muy profesional, hizo un excelente trabajo, cumplió en tiempo y en forma!',
     habilidades: [],
@@ -150,6 +153,7 @@ export const TESTIMONIOS: Testimonio[] = [
   {
     trabajo: 'Comandera',
     cliente: 'Juan Diego Arenas',
+    calificacion: 5,
     comentario:
       'Excelente profesional. El trabajo entregado fue muy profesional y en los tiempos indicados.',
     habilidades: [],
@@ -157,26 +161,22 @@ export const TESTIMONIOS: Testimonio[] = [
   {
     trabajo: 'Migración de hosting',
     cliente: 'Oscar Miguel Pardo',
+    calificacion: 5,
     comentario: 'Excelente servicio de parte de Franco, volvería a trabajar con él.',
     habilidades: [],
   },
   {
     trabajo: 'Migración de WordPress',
     cliente: 'Cliente de migración WordPress',
+    calificacion: 5,
     comentario: 'Muy claro en la comunicación. Todo funciona como dijeron.',
     habilidades: [],
   },
 ];
 
-/** Los que tienen estrellas: los trabajos calificados en Workana. */
-export function calificados(testimonios: readonly Testimonio[]): Testimonio[] {
-  return testimonios.filter((uno) => uno.calificacion !== undefined);
-}
-
-/** La calificacion promedio de los calificados, con un decimal. */
+/** La calificacion promedio, con un decimal. */
 export function promedio(testimonios: readonly Testimonio[]): number {
-  const conEstrellas = calificados(testimonios);
-  if (conEstrellas.length === 0) return 0;
-  const suma = conEstrellas.reduce((total, uno) => total + (uno.calificacion ?? 0), 0);
-  return Math.round((suma / conEstrellas.length) * 10) / 10;
+  if (testimonios.length === 0) return 0;
+  const suma = testimonios.reduce((total, uno) => total + uno.calificacion, 0);
+  return Math.round((suma / testimonios.length) * 10) / 10;
 }

@@ -6,23 +6,21 @@
 /*                                                                            */
 /*   File: proveedor-de-detalle.tsx    Project: portfolio                     */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/25 21:30:00  by claude                                  */
+/*   Updated: 2026/11/26 13:56:38  by vm                                      */
 /* ************************************************************************** */
 
 /**
  * Quien abre el detalle de un proyecto. Cualquier parte de la pagina (una tarjeta del catalogo,
- * un producto) llama a `abrir(id)`; la ventana se baja recien la primera vez que hace falta.
+ * un producto) llama a `abrir(id)`. La ventana va en el paquete principal (pesa 6 KB): bajarla
+ * recien al primer clic hacia esperar a la red justo cuando la persona espera que se abra.
  */
 
-import { Suspense, lazy, useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { PROYECTOS } from '@/data/proyectos';
 import type { Proyecto } from '@/types/proyecto';
 import { ContextoDeDetalle } from './use-abrir-proyecto';
-
-const VentanaDeProyecto = lazy(() =>
-  import('./ventana-de-proyecto').then((modulo) => ({ default: modulo.VentanaDeProyecto })),
-);
+import { VentanaDeProyecto } from './ventana-de-proyecto';
 
 export function ProveedorDeDetalle({ children }: { children: ReactNode }): JSX.Element {
   const [abierto, setAbierto] = useState<Proyecto | null>(null);
@@ -46,9 +44,7 @@ export function ProveedorDeDetalle({ children }: { children: ReactNode }): JSX.E
     <ContextoDeDetalle.Provider value={abrir}>
       {children}
       {pedida && (
-        <Suspense fallback={null}>
-          <VentanaDeProyecto proyecto={abierto} alCerrar={cerrar} alDevolverFoco={devolverFoco} />
-        </Suspense>
+        <VentanaDeProyecto proyecto={abierto} alCerrar={cerrar} alDevolverFoco={devolverFoco} />
       )}
     </ContextoDeDetalle.Provider>
   );

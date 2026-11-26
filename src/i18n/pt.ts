@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: pt.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 13:44:27  by vm                                      */
+/*   Updated: 2026/11/26 13:56:14  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en portugues de Portugal. Misma forma que `es.ts`. */
@@ -141,8 +141,8 @@ export const pt: Textos = {
     imagen: '{{actual}} / {{total}}',
   },
   clientes: {
-    titulo: 'Clientes',
-    resumen: '{{cantidad}} trabalhos avaliados na Workana',
+    titulo: 'Clientes / Empresas com quem já trabalhei',
+    resumen: '{{cantidad}} trabalhos avaliados',
     opiniones: '{{cantidad}} opiniões de clientes',
     estrellas: '{{valor}} de 5 estrelas',
     verProyecto: 'Ver o projeto',

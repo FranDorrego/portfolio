@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: tecnologias.ts    Project: portfolio                               */
 /*   Created: 2026/11/26 01:41:07  by vm                                      */
-/*   Updated: 2026/11/26 13:33:12  by vm                                      */
+/*   Updated: 2026/11/26 13:56:14  by vm                                      */
 /* ************************************************************************** */
 
 /** Las tecnologias que uso, agrupadas, con su icono (public/tecnologias/). Las marcas no se traducen. */
@@ -45,7 +45,6 @@ export const GRUPOS_DE_TECNOLOGIAS: GrupoDeTecnologias[] = [
     tecnologias: [
       t('Django', 'django.svg'),
       t('FastAPI', 'fastapi.svg'),
-      t('Flask', 'flask.svg'),
       t('React', 'react.svg'),
       t('Next.js', 'nextdotjs.svg'),
       t('Vite', 'vite.svg'),

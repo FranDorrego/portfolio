@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: es.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 13:44:27  by vm                                      */
+/*   Updated: 2026/11/26 13:56:14  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en espanol. Su forma es el molde de los demas idiomas. */
@@ -139,8 +139,8 @@ export const es = {
     imagen: '{{actual}} / {{total}}',
   },
   clientes: {
-    titulo: 'Clientes',
-    resumen: '{{cantidad}} trabajos calificados en Workana',
+    titulo: 'Clientes / Empresas con los que ya trabajé',
+    resumen: '{{cantidad}} trabajos calificados',
     opiniones: '{{cantidad}} opiniones de clientes',
     estrellas: '{{valor}} de 5 estrellas',
     verProyecto: 'Ver el proyecto',
