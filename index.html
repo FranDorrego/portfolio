@@ -7,7 +7,7 @@
 <!--                                                                            -->
 <!--   File: index.html    Project: portfolio                                   -->
 <!--   Created: 2026/11/25 21:30:00  by claude                                  -->
-<!--   Updated: 2026/11/26 02:16:26  by vm                                      -->
+<!--   Updated: 2026/11/26 02:19:57  by vm                                      -->
 <!-- ************************************************************************** -->
 
 <html lang="es" class="dark">
@@ -147,9 +147,9 @@
     </script>
 
     <!--
-      El idioma antes del primer dibujo: quien llega a la raiz con el equipo en portugues o en
-      ingles (o que ya eligio portugues) va a /pt/. Misma regla que idiomaPreferido() en
-      src/i18n/idioma-inicial.ts. Los buscadores y agentes se quedan en el espanol.
+      El idioma antes del primer dibujo: el portugues es el de por defecto. Quien llega a la raiz
+      va a /pt/, salvo que tenga el equipo en espanol o ya haya elegido espanol. Misma regla que
+      idiomaPreferido() en src/i18n/idioma-inicial.ts. Los buscadores y agentes se quedan en /.
     -->
     <script>
       (function () {
@@ -169,14 +169,17 @@
           }
           var idioma = guardado;
           if (idioma !== 'es' && idioma !== 'pt') {
-            idioma = 'es';
+            idioma = 'pt';
             var lista =
               navigator.languages && navigator.languages.length
                 ? navigator.languages
                 : [navigator.language || ''];
             for (var i = 0; i < lista.length; i++) {
               var c = String(lista[i]).toLowerCase();
-              if (c.indexOf('es') === 0) break;
+              if (c.indexOf('es') === 0) {
+                idioma = 'es';
+                break;
+              }
               if (c.indexOf('pt') === 0 || c.indexOf('en') === 0) {
                 idioma = 'pt';
                 break;

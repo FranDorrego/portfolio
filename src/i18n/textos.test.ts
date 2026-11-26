@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: textos.test.ts    Project: portfolio                               */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 02:16:53  by vm                                      */
+/*   Updated: 2026/11/26 02:19:31  by vm                                      */
 /* ************************************************************************** */
 
 /** Los dos idiomas tienen exactamente las mismas claves y ningun texto vacio. */
@@ -65,11 +65,11 @@ describe('textos de la interfaz', () => {
     ]);
   });
 
-  it('elige el idioma por el del equipo: ingles y portugues van a portugues', () => {
+  it('elige el idioma por el del equipo: solo el espanol va a espanol, el resto a portugues', () => {
     expect(idiomaDelNavegador(['es-AR', 'en'])).toBe('es');
     expect(idiomaDelNavegador(['pt-PT'])).toBe('pt');
     expect(idiomaDelNavegador(['en-US', 'es'])).toBe('pt');
-    expect(idiomaDelNavegador(['fr-FR', 'de'])).toBe('es');
-    expect(idiomaDelNavegador([])).toBe('es');
+    expect(idiomaDelNavegador(['fr-FR', 'de'])).toBe('pt');
+    expect(idiomaDelNavegador([])).toBe('pt');
   });
 });

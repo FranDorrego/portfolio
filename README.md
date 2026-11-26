@@ -6,7 +6,7 @@
 <!--                                                                            -->
 <!--   File: README.md    Project: portfolio                                    -->
 <!--   Created: 2026/11/25 22:17:56  by claude                                  -->
-<!--   Updated: 2026/11/26 01:45:31  by vm                                      -->
+<!--   Updated: 2026/11/26 02:19:42  by vm                                      -->
 <!-- ************************************************************************** -->
 
 # Portfolio · Franco Dorrego
@@ -18,7 +18,8 @@ bueno y lo que tengo que mejorar, preguntas frecuentes y cómo contactarme.
 - 🛠️ **Stack:** React · Vite · TypeScript · Tailwind CSS
 - 🎨 **Diseño:** el estilo de los fronts de ArduMaker, con tema claro y oscuro
 - 🌐 **Sitio:** <https://francodorrego.com> (español) · <https://francodorrego.com/pt/> (portugués)
-- 🌍 **Idiomas:** se elige solo según el equipo de la persona (español; portugués o inglés → portugués)
+- 🌍 **Idiomas:** portugués por defecto; español si el equipo de la persona está en español
+- 🌙 **Tema:** oscuro por defecto
 - 🤖 **Agentes de IA:** el HTML sale pre-renderizado y hay
   [`/llms.txt`](https://francodorrego.com/llms.txt) y `/llms-full.txt`
 - ✅ **Estándar:** revisado con el checker de [ArduMaker](https://ardumaker.com):

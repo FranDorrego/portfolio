@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: idioma-inicial.ts    Project: portfolio                            */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 02:16:09  by vm                                      */
+/*   Updated: 2026/11/26 02:19:31  by vm                                      */
 /* ************************************************************************** */
 
 /** Con que idioma arranca la visita: el de la ruta, el elegido antes o el espanol. */
@@ -30,9 +30,9 @@ function idiomaGuardado(): Idioma | null {
 const ROBOTS = /bot|crawl|spider|slurp|preview|lighthouse|headless|gptbot|claude|perplexity/i;
 
 /**
- * El idioma del equipo de la persona: espanol si lo tiene en espanol; portugues si lo tiene en
- * portugues o en ingles (el sitio no tiene ingles y la mayoria de esas visitas son de Portugal).
- * Se mira la lista entera de idiomas, en orden; si ninguno es de esos tres, espanol.
+ * El idioma del equipo de la persona: espanol solo si lo tiene en espanol; en cualquier otro caso
+ * portugues, que es el idioma por defecto para las personas (el sitio apunta a Portugal). Se mira
+ * la lista entera de idiomas, en orden, y manda el primero que sea espanol, portugues o ingles.
  */
 export function idiomaDelNavegador(idiomas: readonly string[]): Idioma {
   for (const idioma of idiomas) {
@@ -40,7 +40,7 @@ export function idiomaDelNavegador(idiomas: readonly string[]): Idioma {
     if (codigo.startsWith('es')) return 'es';
     if (codigo.startsWith('pt') || codigo.startsWith('en')) return 'pt';
   }
-  return IDIOMA_POR_DEFECTO;
+  return 'pt';
 }
 
 /**
