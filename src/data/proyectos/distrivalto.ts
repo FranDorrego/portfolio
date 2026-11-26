@@ -5,11 +5,11 @@
 /*   /_/   \_\_|   \__,_|\__,_|_|  |_|\__,_|_|\_\___|_|                       */
 /*                                                                            */
 /*   File: distrivalto.ts    Project: portfolio                               */
-/*   Created: 2026/11/25 22:24:26  by claude                                  */
-/*   Updated: 2026/11/25 23:34:20  by vm                                      */
+/*   Created: 2026/11/25 22:27:55  by claude                                  */
+/*   Updated: 2026/11/26 01:37:20  by vm                                      */
 /* ************************************************************************** */
 
-/** Distrivalto: el tercer destacado. */
+/** Distrivalto. */
 
 import type { Proyecto } from '@/types/proyecto';
 
