@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: candidaturas.tsx    Project: portfolio                             */
 /*   Created: 2026/11/26 21:09:19  by vm                                      */
-/*   Updated: 2026/11/26 21:42:38  by vm                                      */
+/*   Updated: 2026/11/26 22:48:21  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -177,10 +177,11 @@ export function Candidaturas({
             <FormularioDeCandidatura
               inicial={borrador}
               cvs={cvs}
-              alCrear={(creada) => {
+              alCrear={() => {
+                // Guardada, vuelve a la lista: la nueva aparece primera.
                 setBorrador(null);
+                setFiltro(null);
                 alCambiar();
-                setAbierta(creada);
               }}
             />
           )}

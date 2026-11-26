@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: detalle-de-candidatura.tsx    Project: portfolio                   */
 /*   Created: 2026/11/26 21:09:01  by vm                                      */
-/*   Updated: 2026/11/26 21:42:38  by vm                                      */
+/*   Updated: 2026/11/26 22:48:40  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -15,10 +15,11 @@
  */
 
 import { useState } from 'react';
-import { ExternalLink, FileText, Trash2, Upload } from 'lucide-react';
+import { FileText, Trash2, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/class-names';
 import { api } from './api';
+import { EnlaceCopiable } from './enlace-copiable';
 import { Aviso, Campo } from './campos';
 import { ENTRADA, fecha } from './formato';
 import { PuntoDeEstado, Rotulo } from './marco';
@@ -74,7 +75,7 @@ export function DetalleDeCandidatura({
       <dl
         className={cn(
           'grid gap-x-6 gap-y-2 rounded-lg border border-border bg-background/50 p-4 text-sm',
-          'sm:grid-cols-[auto_1fr]',
+          'sm:grid-cols-[auto_minmax(0,1fr)]',
         )}
       >
         <dt className="text-muted-foreground">Enviada</dt>
@@ -100,16 +101,8 @@ export function DetalleDeCandidatura({
         {candidatura.enlace && (
           <>
             <dt className="text-muted-foreground">Enlace</dt>
-            <dd>
-              <a
-                className="inline-flex items-center gap-1 break-all text-primary hover:underline"
-                href={candidatura.enlace}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {candidatura.enlace}
-                <ExternalLink aria-hidden className="h-3.5 w-3.5 shrink-0" />
-              </a>
+            <dd className="min-w-0">
+              <EnlaceCopiable url={candidatura.enlace} />
             </dd>
           </>
         )}

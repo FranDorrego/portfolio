@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: cvs.tsx    Project: portfolio                                      */
 /*   Created: 2026/11/26 21:09:49  by vm                                      */
-/*   Updated: 2026/11/26 22:39:14  by vm                                      */
+/*   Updated: 2026/11/26 22:48:21  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -26,12 +26,28 @@ import { Aviso, Campo, SelectorDeIdioma } from './campos';
 import { ENTRADA, fecha } from './formato';
 import { IDIOMAS, type Borrador, type Cv, type Idioma } from './tipos';
 
-const GRUPOS: { tipo: Cv['tipo']; titulo: string }[] = [
-  { tipo: 'sitio', titulo: 'Automáticos del sitio' },
+const TIPOS: Record<Cv['tipo'], string> = {
+  generado: 'Adaptado',
+  subido: 'Subido',
+  base: 'Base ATS',
+  sitio: 'Del sitio',
+};
+
+/** Los fijos van abajo, en este orden: primero las bases para ATS, despues los del sitio. */
+const FIJOS: { tipo: Cv['tipo']; titulo: string }[] = [
   { tipo: 'base', titulo: 'Bases para ATS' },
-  { tipo: 'generado', titulo: 'Adaptados a vacantes' },
-  { tipo: 'subido', titulo: 'Subidos' },
+  { tipo: 'sitio', titulo: 'Automáticos del sitio' },
 ];
+
+function Grilla({ cvs, alCambiar }: { cvs: Cv[]; alCambiar: () => void }): JSX.Element {
+  return (
+    <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {cvs.map((cv) => (
+        <TarjetaDeCv key={cv.id} cv={cv} alCambiar={alCambiar} />
+      ))}
+    </ul>
+  );
+}
 
 function SubirCv({ alSubir }: { alSubir: () => void }): JSX.Element {
   const [nombre, setNombre] = useState('');
@@ -103,6 +119,7 @@ function TarjetaDeCv({ cv, alCambiar }: { cv: Cv; alCambiar: () => void }): JSX.
         <span className="min-w-0">
           <span className="block font-medium leading-snug">{cv.nombre}</span>
           <span className="mt-1 flex flex-wrap gap-x-2 gap-y-1 font-mono text-xs text-muted-foreground">
+            <span>{TIPOS[cv.tipo]}</span>
             <span>{IDIOMAS[cv.idioma]}</span>
             <span>{fecha(cv.creado)}</span>
           </span>
@@ -166,35 +183,40 @@ export function Cvs({
   alCambiar: () => void;
   alPostularse: (borrador: Borrador) => void;
 }): JSX.Element {
+  // Arriba, los mas nuevos: los adaptados y los subidos, del ultimo al primero.
+  const recientes = cvs
+    .filter((cv) => cv.tipo === 'generado' || cv.tipo === 'subido')
+    .sort((a, b) => b.creado.localeCompare(a.creado));
   return (
     <div className="flex flex-col gap-10">
       <Titulo
         Icono={FileText}
         titulo="CVs"
-        bajada="Los del sitio, las bases para ATS, los que subo y los que adapta el agente a cada vacante."
+        bajada="Los más nuevos arriba: los que adapta el agente y los que subo. Abajo, las bases y los del sitio."
       />
+      {recientes.length > 0 && (
+        <section className="flex flex-col gap-3">
+          <Rotulo>Más recientes</Rotulo>
+          <Grilla cvs={recientes} alCambiar={alCambiar} />
+        </section>
+      )}
       <AdaptarCv cvs={cvs} alCrear={alCambiar} alPostularse={alPostularse} />
-      {GRUPOS.map(({ tipo, titulo }) => {
+      {FIJOS.map(({ tipo, titulo }) => {
         const grupo = cvs.filter((cv) => cv.tipo === tipo);
-        if (grupo.length === 0 && tipo !== 'subido') return null;
+        if (grupo.length === 0) return null;
         return (
           <section key={tipo} className="flex flex-col gap-3">
             <Rotulo>{titulo}</Rotulo>
-            {grupo.length > 0 && (
-              <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {grupo.map((cv) => (
-                  <TarjetaDeCv key={cv.id} cv={cv} alCambiar={alCambiar} />
-                ))}
-              </ul>
-            )}
-            {tipo === 'subido' && (
-              <div className="rounded-xl border border-dashed border-border p-4">
-                <SubirCv alSubir={alCambiar} />
-              </div>
-            )}
+            <Grilla cvs={grupo} alCambiar={alCambiar} />
           </section>
         );
       })}
+      <section className="flex flex-col gap-3">
+        <Rotulo>Subir un CV en PDF</Rotulo>
+        <div className="rounded-xl border border-dashed border-border p-4">
+          <SubirCv alSubir={alCambiar} />
+        </div>
+      </section>
     </div>
   );
 }
