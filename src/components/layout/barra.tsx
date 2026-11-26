@@ -6,10 +6,10 @@
 /*                                                                            */
 /*   File: barra.tsx    Project: portfolio                                    */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 02:15:26  by vm                                      */
+/*   Updated: 2026/11/26 13:33:22  by vm                                      */
 /* ************************************************************************** */
 
-/** La barra de arriba: quien soy, donde estoy, si estoy disponible, idioma y accesos rapidos. */
+/** La barra de arriba: quien soy, donde estoy, idioma y accesos rapidos. */
 
 import { MapPin } from 'lucide-react';
 import { IDS_DE_SECCIONES, SECCIONES } from '@/data/navegacion';
@@ -20,7 +20,6 @@ import { cn } from '@/lib/class-names';
 import { CONTENEDOR_DE_PAGINA } from '@/lib/movimiento';
 import { FotoDePerfil } from '@/components/hero/foto-de-perfil';
 import { SelectorDeIdioma } from './selector-de-idioma';
-import { SelectorDeTema } from './selector-de-tema';
 
 const ENLACE =
   'whitespace-nowrap rounded-md px-2 py-1.5 text-sm transition-colors duration-150 ' +
@@ -57,34 +56,14 @@ function Navegacion({ className }: { className?: string }): JSX.Element {
   );
 }
 
-/** Donde estoy y si estoy disponible. En el celular va en el inicio, no en la barra. */
-export function UbicacionYEstado({
-  className,
-  conEstado = true,
-}: {
-  className?: string;
-  /** Sin el punto de «disponible»: en el inicio del celular va solo la ciudad. */
-  conEstado?: boolean;
-}): JSX.Element {
+/** Donde estoy. En el celular va en el inicio, no en la barra. */
+export function Ubicacion({ className }: { className?: string }): JSX.Element {
   const { t } = useIdioma();
   return (
-    <div
-      className={cn(
-        'flex min-w-0 flex-col leading-tight sm:flex-row sm:items-center sm:gap-3',
-        className,
-      )}
-    >
-      <span className="flex items-center gap-1 text-xs text-muted-foreground">
-        <MapPin aria-hidden className="h-3.5 w-3.5 shrink-0" />
-        <span className="truncate">{t.barra.ubicacion}</span>
-      </span>
-      {conEstado && (
-        <span className="flex items-center gap-1.5 text-xs text-foreground">
-          <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
-          <span className="truncate">{t.barra.estado}</span>
-        </span>
-      )}
-    </div>
+    <span className={cn('flex items-center gap-1 text-xs text-muted-foreground', className)}>
+      <MapPin aria-hidden className="h-3.5 w-3.5 shrink-0" />
+      <span className="truncate">{t.barra.ubicacion}</span>
+    </span>
   );
 }
 
@@ -105,11 +84,10 @@ export function Barra(): JSX.Element {
     >
       <div className={cn(CONTENEDOR_DE_PAGINA, 'hidden h-14 items-center gap-3 lg:flex')}>
         <FotoDePerfil className="h-8 w-8" />
-        <UbicacionYEstado />
+        <Ubicacion />
         <div className="ml-auto flex items-center gap-2">
           <Navegacion />
           <SelectorDeIdioma />
-          <SelectorDeTema />
         </div>
       </div>
       <div className={cn(CONTENEDOR_DE_PAGINA, 'flex h-12 items-center gap-2 lg:hidden')}>

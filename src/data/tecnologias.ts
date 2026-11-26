@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: tecnologias.ts    Project: portfolio                               */
 /*   Created: 2026/11/26 01:41:07  by vm                                      */
-/*   Updated: 2026/11/26 01:45:31  by vm                                      */
+/*   Updated: 2026/11/26 13:33:12  by vm                                      */
 /* ************************************************************************** */
 
 /** Las tecnologias que uso, agrupadas, con su icono (public/tecnologias/). Las marcas no se traducen. */
@@ -52,7 +52,6 @@ export const GRUPOS_DE_TECNOLOGIAS: GrupoDeTecnologias[] = [
       t('Node.js', 'nodedotjs.svg'),
       t('Tailwind CSS', 'tailwindcss.svg'),
       t('HTML y CSS', 'html5.svg'),
-      t('Three.js', 'threedotjs.svg'),
     ],
   },
   {

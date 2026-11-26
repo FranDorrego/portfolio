@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: pt.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 02:17:55  by vm                                      */
+/*   Updated: 2026/11/26 13:38:16  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en portugues de Portugal. Misma forma que `es.ts`. */
@@ -26,7 +26,6 @@ export const pt: Textos = {
   },
   barra: {
     ubicacion: 'Porto, Portugal',
-    estado: 'Disponível',
     navegacion: 'Secções',
     idioma: 'Língua',
     idiomas: { es: 'Español', pt: 'Português' },
@@ -38,6 +37,7 @@ export const pt: Textos = {
   },
   nav: {
     proyectos: 'Experiência',
+    clientes: 'Clientes',
     sobreMi: 'Sobre mim',
     formacion: 'Formação',
     tecnologias: 'Tecnologias',
@@ -140,6 +140,13 @@ export const pt: Textos = {
     siguiente: 'Imagem seguinte',
     imagen: '{{actual}} / {{total}}',
   },
+  clientes: {
+    titulo: 'Clientes',
+    resumen: '{{cantidad}} trabalhos avaliados na Workana',
+    estrellas: '{{valor}} de 5 estrelas',
+    verProyecto: 'Ver o projeto',
+    otros: 'Também trabalhei com',
+  },
   sobreMi: {
     titulo: 'Sobre mim',
     resumen:
@@ -147,7 +154,6 @@ export const pt: Textos = {
     datos: {
       origen: 'Argentino',
       residencia: '3 anos em Portugal',
-      legal: 'Residência aprovada',
       idiomas: 'Espanhol e português fluentes',
       ingles: 'Não domino o inglês: estou a estudá-lo',
       formacion: '42 Porto · Common Core',

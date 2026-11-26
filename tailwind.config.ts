@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: tailwind.config.ts    Project: portfolio                           */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/25 22:29:31  by vm                                      */
+/*   Updated: 2026/11/26 13:36:13  by vm                                      */
 /* ************************************************************************** */
 
 /** Tailwind: los colores salen de las variables de src/index.css (claro y oscuro). */
@@ -38,6 +38,7 @@ export default {
         'action-foreground': color('action-foreground'),
         'action-hover': color('action-hover'),
         success: color('success'),
+        warning: color('warning'),
       },
       boxShadow: {
         flotante: '0 12px 32px -8px rgb(0 0 0 / 0.25), 0 4px 12px -4px rgb(0 0 0 / 0.15)',

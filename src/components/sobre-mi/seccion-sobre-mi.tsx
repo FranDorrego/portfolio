@@ -6,13 +6,12 @@
 /*                                                                            */
 /*   File: seccion-sobre-mi.tsx    Project: portfolio                         */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/25 22:21:17  by claude                                  */
+/*   Updated: 2026/11/26 13:33:12  by vm                                      */
 /* ************************************************************************** */
 
 /** Sobre mi, en una mirada: un parrafo, los datos con icono y lo bueno junto a lo que mejorar. */
 
 import {
-  BadgeCheck,
   Bot,
   Building2,
   ClipboardCheck,
@@ -74,7 +73,6 @@ export function SeccionSobreMi(): JSX.Element {
   const datos: [LucideIcon, string][] = [
     [Flag, t.sobreMi.datos.origen],
     [MapPin, t.sobreMi.datos.residencia],
-    [BadgeCheck, t.sobreMi.datos.legal],
     [Languages, t.sobreMi.datos.idiomas],
     [TrendingUp, t.sobreMi.datos.ingles],
     [GraduationCap, t.sobreMi.datos.formacion],

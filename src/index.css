@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: index.css    Project: portfolio                                    */
 /*   Created: 2026/11/25 22:18:47  by claude                                  */
-/*   Updated: 2026/11/26 02:15:26  by vm                                      */
+/*   Updated: 2026/11/26 13:36:13  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -34,6 +34,7 @@
   --action-foreground: 0 0% 100%;
   --action-hover: 214 100% 38%;
   --success: 118 55% 30%;
+  --warning: 40 95% 45%;
   --velo: 0.4;
   /* El mapa de contribuciones, con los mismos verdes que usa GitHub en cada tema. */
   --mapa-0: 210 13% 93%;
@@ -58,6 +59,7 @@
   --action-foreground: 0 0% 100%;
   --action-hover: 214 100% 40%;
   --success: 118 50% 62%;
+  --warning: 43 96% 56%;
   --velo: 0.8;
   --mapa-0: 215 21% 11%;
   --mapa-1: 150 66% 16%;

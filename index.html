@@ -7,7 +7,7 @@
 <!--                                                                            -->
 <!--   File: index.html    Project: portfolio                                   -->
 <!--   Created: 2026/11/25 21:30:00  by claude                                  -->
-<!--   Updated: 2026/11/26 02:19:57  by vm                                      -->
+<!--   Updated: 2026/11/26 13:33:12  by vm                                      -->
 <!-- ************************************************************************** -->
 
 <html lang="es" class="dark">
@@ -15,7 +15,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#151619" />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="color-scheme" content="dark" />
     <title>Franco Dorrego · Developer Full Stack Web en Porto, Portugal</title>
     <meta
       name="description"
@@ -193,20 +193,7 @@
       })();
     </script>
 
-    <!-- El tema antes del primer dibujo: el elegido, o el oscuro. Misma regla que src/lib/tema.ts. -->
-    <script>
-      (function () {
-        var tema = 'dark';
-        try {
-          if (localStorage.getItem('portfolio-tema') === 'light') tema = 'light';
-        } catch (e) {
-          /* sin almacenamiento: el oscuro */
-        }
-        document.documentElement.classList.toggle('dark', tema === 'dark');
-        var meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.setAttribute('content', tema === 'dark' ? '#151619' : '#ffffff');
-      })();
-    </script>
+    <!-- El sitio tiene un solo tema: el oscuro (class="dark" en <html>). -->
   </head>
 
   <body>

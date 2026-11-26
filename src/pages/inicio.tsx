@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: inicio.tsx    Project: portfolio                                   */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 01:42:30  by vm                                      */
+/*   Updated: 2026/11/26 13:34:21  by vm                                      */
 /* ************************************************************************** */
 
 /** La pagina: una sola experiencia vertical, seccion por seccion. */
@@ -16,6 +16,7 @@ import { Barra } from '@/components/layout/barra';
 import { Pie } from '@/components/layout/pie';
 import { ProveedorDeDetalle } from '@/components/proyectos/proveedor-de-detalle';
 import { SeccionDeProyectos } from '@/components/proyectos/seccion-de-proyectos';
+import { SeccionDeClientes } from '@/components/clientes/seccion-de-clientes';
 import { SeccionSobreMi } from '@/components/sobre-mi/seccion-sobre-mi';
 import { SeccionDeFormacion } from '@/components/formacion/seccion-de-formacion';
 import { SeccionDeTecnologias } from '@/components/tecnologias/seccion-de-tecnologias';
@@ -44,6 +45,7 @@ export function Inicio(): JSX.Element {
       <main id="contenido">
         <Hero />
         <SeccionDeProyectos />
+        <SeccionDeClientes />
         <SeccionSobreMi />
         <SeccionDeFormacion />
         <SeccionDeTecnologias />

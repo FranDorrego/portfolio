@@ -16,10 +16,10 @@ bueno y lo que tengo que mejorar, preguntas frecuentes y cómo contactarme.
 
 - 📦 **Repositorio:** <https://github.com/FranDorrego/portfolio>
 - 🛠️ **Stack:** React · Vite · TypeScript · Tailwind CSS
-- 🎨 **Diseño:** el estilo de los fronts de ArduMaker, con tema claro y oscuro
+- 🎨 **Diseño:** el estilo de los fronts de ArduMaker, en tema oscuro
 - 🌐 **Sitio:** <https://francodorrego.com> (español) · <https://francodorrego.com/pt/> (portugués)
 - 🌍 **Idiomas:** portugués por defecto; español si el equipo de la persona está en español
-- 🌙 **Tema:** oscuro por defecto
+- ⭐ **Clientes:** opiniones de Workana en `src/data/testimonios.ts`
 - 🤖 **Agentes de IA:** el HTML sale pre-renderizado y hay
   [`/llms.txt`](https://francodorrego.com/llms.txt) y `/llms-full.txt`
 - ✅ **Estándar:** revisado con el checker de [ArduMaker](https://ardumaker.com):

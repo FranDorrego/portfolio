@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: navegacion.ts    Project: portfolio                                */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 01:41:07  by vm                                      */
+/*   Updated: 2026/11/26 13:34:21  by vm                                      */
 /* ************************************************************************** */
 
 /** Las secciones de la pagina, en orden. El `id` es el ancla de cada una. */
@@ -20,6 +20,7 @@ export interface Seccion {
 
 export const SECCIONES: readonly Seccion[] = [
   { id: 'proyectos', texto: 'proyectos' },
+  { id: 'clientes', texto: 'clientes' },
   { id: 'sobre-mi', texto: 'sobreMi' },
   { id: 'formacion', texto: 'formacion' },
   { id: 'tecnologias', texto: 'tecnologias' },

@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: hero.tsx    Project: portfolio                                     */
 /*   Created: 2026/11/25 22:27:55  by claude                                  */
-/*   Updated: 2026/11/26 02:15:43  by vm                                      */
+/*   Updated: 2026/11/26 13:37:43  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -22,7 +22,7 @@ import { useIdioma } from '@/i18n';
 import { cn } from '@/lib/class-names';
 import { CONTENEDOR_DE_PAGINA } from '@/lib/movimiento';
 import { recurso } from '@/lib/raiz';
-import { UbicacionYEstado } from '@/components/layout/barra';
+import { Ubicacion } from '@/components/layout/barra';
 import { SelectorDeIdioma } from '@/components/layout/selector-de-idioma';
 import { ActividadDeGithub } from './actividad-de-github';
 import { FotoDePerfil } from './foto-de-perfil';
@@ -34,7 +34,7 @@ export function Hero(): JSX.Element {
     <section
       id="inicio"
       aria-labelledby="inicio-titulo"
-      className={cn('relative flex min-h-[75svh] flex-col overflow-hidden')}
+      className="relative flex min-h-[75svh] flex-col overflow-hidden lg:min-h-[90svh]"
     >
       <div
         aria-hidden
@@ -54,7 +54,7 @@ export function Hero(): JSX.Element {
         <div className="flex min-h-[calc(100svh-4rem)] flex-col lg:min-h-[calc(100svh-7.5rem)] xl:min-h-0">
           {/* En el celular no hay barra arriba hasta que se baja: la ciudad y el idioma van aca. */}
           <div className="flex items-center justify-between gap-3 lg:hidden">
-            <UbicacionYEstado conEstado={false} />
+            <Ubicacion />
             <SelectorDeIdioma />
           </div>
           <div className="my-auto py-6 xl:py-0">
