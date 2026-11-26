@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: formacion.ts    Project: portfolio                                 */
 /*   Created: 2026/11/26 01:41:07  by vm                                      */
-/*   Updated: 2026/11/26 02:16:25  by vm                                      */
+/*   Updated: 2026/11/26 22:20:03  by vm                                      */
 /* ************************************************************************** */
 
 /** Donde estudie y estudio. Los nombres de las instituciones no se traducen. */
@@ -21,6 +21,9 @@ export interface Estudio {
   sitio: string;
   titulo: Texto;
   lugar: Texto;
+  /** AAAA-MM. Sin fecha conocida, no se muestra ninguna. */
+  desde?: string;
+  hasta?: string;
   enCurso: boolean;
 }
 
@@ -34,6 +37,7 @@ export const FORMACION: Estudio[] = [
       pt: 'Linux, C/C++ e desenvolvimento de software',
     },
     lugar: { es: 'Porto, Portugal', pt: 'Porto, Portugal' },
+    desde: '2025-01',
     enCurso: true,
   },
   {
@@ -42,6 +46,8 @@ export const FORMACION: Estudio[] = [
     sitio: 'https://www.itba.edu.ar',
     titulo: { es: 'Desarrollo web Full Stack', pt: 'Desenvolvimento web Full Stack' },
     lugar: { es: 'Buenos Aires, Argentina', pt: 'Buenos Aires, Argentina' },
+    desde: '2023-08',
+    hasta: '2023-12',
     enCurso: false,
   },
   {
@@ -50,6 +56,8 @@ export const FORMACION: Estudio[] = [
     sitio: 'https://www.frc.utn.edu.ar',
     titulo: { es: 'Técnico en Mecatrónica', pt: 'Técnico de Mecatrónica' },
     lugar: { es: 'Córdoba, Argentina', pt: 'Córdoba, Argentina' },
+    desde: '2018-02',
+    hasta: '2019-01',
     enCurso: false,
   },
   {

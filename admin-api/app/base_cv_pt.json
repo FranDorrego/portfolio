@@ -51,10 +51,10 @@
     }
   ],
   "formacion": [
-    {"institucion": "42 Porto", "detalle": "Common Core: Linux, C, C++ e desenvolvimento de software", "lugar": "Porto, Portugal", "estado": "Em curso"},
-    {"institucion": "Instituto Tecnológico de Buenos Aires (ITBA)", "detalle": "Desenvolvimento Web Full Stack", "lugar": "Buenos Aires, Argentina", "estado": ""},
-    {"institucion": "Universidad de La Punta (ULP)", "detalle": "Full stack Java, Programação orientada a objetos", "lugar": "San Luis, Argentina", "estado": ""},
-    {"institucion": "Universidad Tecnológica Nacional (UTN)", "detalle": "Técnico em Mecatrónica", "lugar": "Córdoba, Argentina", "estado": ""}
+    {"institucion": "42 Porto", "detalle": "Common Core: Linux, C, C++ e desenvolvimento de software", "lugar": "Porto, Portugal", "periodo": "01/2025 – Atualidade"},
+    {"institucion": "Instituto Tecnológico de Buenos Aires (ITBA)", "detalle": "Desenvolvimento Web Full Stack", "lugar": "Buenos Aires, Argentina", "periodo": "08/2023 – 12/2023"},
+    {"institucion": "Universidad de La Punta (ULP)", "detalle": "Full stack Java, Programação orientada a objetos", "lugar": "San Luis, Argentina", "periodo": "12/2022 – 12/2023"},
+    {"institucion": "Universidad Tecnológica Nacional (UTN)", "detalle": "Técnico em Mecatrónica", "lugar": "Córdoba, Argentina", "periodo": "02/2018 – 01/2019"}
   ],
   "habilidades": [
     {"categoria": "Linguagens", "items": "Python, JavaScript, TypeScript, C, C++, Bash, SQL"},

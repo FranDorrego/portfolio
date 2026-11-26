@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: pt.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 21:35:01  by vm                                      */
+/*   Updated: 2026/11/26 22:20:11  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en portugues de Portugal. Misma forma que `es.ts`. */
@@ -177,6 +177,7 @@ export const pt: Textos = {
     ],
   },
   formacion: {
+    hoy: 'atualidade',
     titulo: 'Formação',
     enCurso: 'Em curso',
   },

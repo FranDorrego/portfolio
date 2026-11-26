@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: es.ts    Project: portfolio                                        */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 21:35:01  by vm                                      */
+/*   Updated: 2026/11/26 22:20:11  by vm                                      */
 /* ************************************************************************** */
 
 /** Los textos de la interfaz en espanol. Su forma es el molde de los demas idiomas. */
@@ -175,6 +175,7 @@ export const es = {
     ],
   },
   formacion: {
+    hoy: 'actualidad',
     titulo: 'Formación',
     enCurso: 'En curso',
   },

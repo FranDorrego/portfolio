@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: pdf.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:04:28  by vm                                      #
-#   Updated: 2026/11/26 22:16:13  by vm                                      #
+#   Updated: 2026/11/26 22:20:46  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -61,6 +61,11 @@ def _enlace(texto: str) -> str | None:
     return None
 
 
+def _fecha_entera(periodo: str) -> str:
+    """«12/2022 – 12/2023» no se corta entre dos renglones: los espacios pasan a no separables."""
+    return periodo.replace(" ", "\u00a0")
+
+
 def _sin_marcas(texto: str) -> str:
     """El texto va con negritas de markdown: un `**` suelto del contenido lo romperia."""
     return texto.replace("**", "*").replace("__", "_")
@@ -111,7 +116,7 @@ class _Documento(FPDF):
         """
         self.letra(9.5)
         self.set_text_color(*NEGRO)
-        partes = [f"**{_sin_marcas(titulo)}**", _sin_marcas(rol), _sin_marcas(periodo)]
+        partes = [f"**{_sin_marcas(titulo)}**", _sin_marcas(rol), _fecha_entera(periodo)]
         self.multi_cell(0, self.renglon, "  |  ".join(p for p in partes if p.strip("*")),
                         markdown=True, align="L", new_x="LMARGIN", new_y="NEXT")
         self.ln(0.5 * self.escala)
@@ -194,7 +199,8 @@ def _dibujar(cv: dict[str, Any], contacto: list[str], escala: float, aire: float
         documento.titulo_de_seccion(rotulos["formacion"])
         for estudio in cv["formacion"]:
             # La fecha (o «En curso») va al lado de cada estudio, como en la experiencia.
-            resto = [estudio.get(dato, "") for dato in ("detalle", "lugar", "periodo", "estado")]
+            resto = [estudio.get(dato, "") for dato in ("detalle", "lugar")]
+            resto += [_fecha_entera(estudio.get("periodo", "")), estudio.get("estado", "")]
             documento.rotulado(estudio.get("institucion", ""),
                                "  |  ".join(parte for parte in resto if parte))
     if cv.get("habilidades"):

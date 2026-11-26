@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: resume-json.ts    Project: portfolio                               */
 /*   Created: 2026/11/26 16:55:29  by vm                                      */
-/*   Updated: 2026/11/26 22:04:35  by vm                                      */
+/*   Updated: 2026/11/26 22:20:11  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -63,6 +63,8 @@ export function resumeJson({ sitio, idioma }: { sitio: string; idioma: Idioma })
       institution: estudio.institucion,
       url: estudio.sitio,
       area: leer(estudio.titulo),
+      ...(estudio.desde && { startDate: estudio.desde }),
+      ...(estudio.hasta && { endDate: estudio.hasta }),
     })),
     skills: GRUPOS_DE_TECNOLOGIAS.map((grupo) => ({
       name: leer(grupo.titulo),

@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: texto-para-agentes.ts    Project: portfolio                        */
 /*   Created: 2026/11/26 01:43:49  by vm                                      */
-/*   Updated: 2026/11/26 22:04:35  by vm                                      */
+/*   Updated: 2026/11/26 22:20:11  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -16,7 +16,7 @@
  * Sale de los mismos datos que la pagina, asi que nunca se desactualiza.
  */
 
-import { FORMACION } from '@/data/formacion';
+import { FORMACION, type Estudio } from '@/data/formacion';
 import { PERFIL, cvParaAts } from '@/data/perfil';
 import { PROYECTOS } from '@/data/proyectos';
 import { TESTIMONIOS, promedio } from '@/data/testimonios';
@@ -80,6 +80,13 @@ const ROTULOS = {
 } as const;
 
 type Rotulos = (typeof ROTULOS)[Idioma];
+
+/** «MM/AAAA – MM/AAAA» de un estudio, o vacio si no se sabe cuando fue. */
+function periodoDe(estudio: Estudio, hoy: string): string {
+  const mes = (fecha: string): string => fecha.split('-').reverse().join('/');
+  if (!estudio.desde) return '';
+  return `${mes(estudio.desde)} – ${estudio.hasta ? mes(estudio.hasta) : hoy}`;
+}
 
 /** Los proyectos que van al curriculum (ver `enElCurriculum` en src/types/proyecto.ts). */
 export const PARA_EL_CURRICULUM = PROYECTOS.filter((uno) => uno.enElCurriculum !== false);
@@ -179,7 +186,9 @@ export function textoParaAgentes({
     ...FORMACION.map(
       (estudio) =>
         `- ${estudio.institucion}: ${leer(estudio.titulo)} ` +
-        `(${leer(estudio.lugar)}${estudio.enCurso ? `, ${r.enCurso}` : ''})`,
+        `(${[leer(estudio.lugar), periodoDe(estudio, r.hoy), estudio.enCurso ? r.enCurso : '']
+          .filter(Boolean)
+          .join(', ')})`,
     ),
     '',
     `## ${r.tecnologias}`,
