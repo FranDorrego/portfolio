@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: pdf.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:04:28  by vm                                      #
-#   Updated: 2026/11/26 21:04:58  by vm                                      #
+#   Updated: 2026/11/26 21:15:10  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -65,8 +65,8 @@ class _Documento(FPDF):
         super().__init__(format="A4")
         self.set_margins(16, 13, 16)
         self.set_auto_page_break(auto=True, margin=13)
-        self.add_font("Sans", "", str(FUENTES / "LiberationSans-Regular.ttf"))
-        self.add_font("Sans", "B", str(FUENTES / "LiberationSans-Bold.ttf"))
+        self.add_font("Sans", "", str(FUENTES / "liberation-sans-regular.ttf"))
+        self.add_font("Sans", "B", str(FUENTES / "liberation-sans-bold.ttf"))
         self.add_page()
 
     def titulo_de_seccion(self, texto: str) -> None:
