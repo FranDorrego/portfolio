@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: base_de_datos.py    Project: portfolio                             #
 #   Created: 2026/11/26 21:04:03  by vm                                      #
-#   Updated: 2026/11/26 21:04:03  by vm                                      #
+#   Updated: 2026/11/26 22:38:16  by vm                                      #
 # ************************************************************************** #
 
 """La conexion a PostgreSQL y el esquema. El esquema se crea solo al arrancar (sin borrar nada)."""
@@ -79,6 +79,10 @@ CREATE TABLE IF NOT EXISTS historial (
     nota TEXT NOT NULL DEFAULT '',
     fecha TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+ALTER TABLE cvs ADD COLUMN IF NOT EXISTS empresa TEXT;
+ALTER TABLE cvs ADD COLUMN IF NOT EXISTS siglas TEXT;
+ALTER TABLE cvs ADD COLUMN IF NOT EXISTS cargo TEXT;
 
 INSERT INTO perfil (id) VALUES (1) ON CONFLICT DO NOTHING;
 """

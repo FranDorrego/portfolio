@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: adaptar-cv.tsx    Project: portfolio                               */
 /*   Created: 2026/11/26 21:09:49  by vm                                      */
-/*   Updated: 2026/11/26 21:42:38  by vm                                      */
+/*   Updated: 2026/11/26 22:39:14  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -125,13 +125,13 @@ export function AdaptarCv({
           )}
           <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline">
-              <a href={api.urlDelPdf(resultado.id)} target="_blank" rel="noreferrer">
+              <a href={api.descargaDelPdf(resultado.id)}>
                 <FileDown aria-hidden />
                 CV en PDF
               </a>
             </Button>
             <Button asChild variant="outline">
-              <a href={api.urlDeLaCarta(resultado.id)} target="_blank" rel="noreferrer">
+              <a href={api.descargaDeLaCarta(resultado.id)}>
                 <FileDown aria-hidden />
                 Carta en PDF
               </a>

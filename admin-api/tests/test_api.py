@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_api.py    Project: portfolio                                  #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/26 21:37:30  by vm                                      #
+#   Updated: 2026/11/26 22:38:16  by vm                                      #
 # ************************************************************************** #
 
 """El panel de punta a punta: cuenta, candidaturas, video, CV y «Sobre mi»."""
@@ -116,7 +116,13 @@ def test_adaptar_guarda_el_cv_y_la_carta(
     cuerpo = hecho.json()
     assert cuerpo["nombre"] == "Acme · Backend Django" and cuerpo["tipo"] == "generado"
     assert cuerpo["contenido"]["resumen"] == "Adaptado"
-    assert con_sesion.get(f"/api/cvs/{cuerpo['id']}/carta.pdf").content[:4] == b"%PDF"
+    carta = con_sesion.get(f"/api/cvs/{cuerpo['id']}/carta.pdf", params={"descargar": True})
+    assert carta.content[:4] == b"%PDF"
+    assert 'attachment; filename="Acme - Backend Django - Franco Dorrego - Carta.pdf"' in (
+        carta.headers["content-disposition"])
+    cv = con_sesion.get(f"/api/cvs/{cuerpo['id']}/pdf", params={"descargar": True})
+    assert 'filename="Acme - Backend Django - Franco Dorrego.pdf"' in (
+        cv.headers["content-disposition"])
     assert json.dumps(cuerpo["contenido"])
 
 

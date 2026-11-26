@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: cvs.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:06:35  by vm                                      #
-#   Updated: 2026/11/26 21:37:30  by vm                                      #
+#   Updated: 2026/11/26 22:39:14  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -26,6 +26,7 @@ from app.archivos import extension, guardar_trozo, ruta_segura, terminar
 from app.base_de_datos import BaseDeDatos
 from app.configuracion import Configuracion
 from app.dependencias import base, config, sesion
+from app.nombres import disposicion, nombre_de_archivo, siglas
 from app.pdf import carta_en_pdf, cv_en_pdf
 
 rutas = APIRouter(prefix="/api/cvs", tags=["cvs"], dependencies=[Depends(sesion)])
@@ -131,33 +132,51 @@ async def subir(id_: int, parte: int, final: bool, nombre: str, request: Request
     return _uno(bd, id_)
 
 
+def _archivo(fila: dict[str, Any], *, extra: str = "") -> str:
+    """
+    «<siglas> - <cargo> - Franco Dorrego.pdf». Los CV adaptados guardan empresa y cargo; los
+    anteriores los sacan de su nombre («Empresa · Cargo»); el resto usa su nombre.
+    """
+    empresa, cargo = fila.get("empresa"), fila.get("cargo")
+    if not empresa and fila.get("tipo") == "generado" and " · " in fila["nombre"]:
+        empresa, cargo = fila["nombre"].split(" · ", 1)
+    if empresa:
+        return nombre_de_archivo(sigla=fila.get("siglas") or siglas(empresa), cargo=cargo or "",
+                                 extra=extra)
+    return nombre_de_archivo(sigla="CV", cargo=fila["nombre"], extra=extra)
+
+
+_FILA = "SELECT nombre, tipo, url, archivo, contenido, carta, empresa, siglas, cargo FROM cvs"
+
+
 @rutas.get("/{id_}/pdf", response_model=None)
-def pdf(id_: int, bd: BaseDeDatos = Depends(base),
+def pdf(id_: int, *, descargar: bool = False, bd: BaseDeDatos = Depends(base),
         configuracion: Configuracion = Depends(config)) -> Response:
-    fila = bd.uno("SELECT nombre, url, archivo, contenido FROM cvs WHERE id = %s", (id_,))
+    """El CV en PDF; con ?descargar=true baja como archivo con su nombre."""
+    fila = bd.uno(f"{_FILA} WHERE id = %s", (id_,))
     if not fila:
         raise HTTPException(404, "No existe ese CV")
+    cabecera = {"Content-Disposition": disposicion(_archivo(fila), descargar=descargar)}
     if fila["archivo"]:
         return FileResponse(ruta_segura(configuracion.datos, fila["archivo"]),
-                            media_type="application/pdf", content_disposition_type="inline",
-                            filename=f"{fila['nombre']}.pdf")
+                            media_type="application/pdf", headers=cabecera)
     if fila["contenido"]:
         documento = cv_en_pdf(fila["contenido"], _perfil(bd))
-        return Response(documento, media_type="application/pdf",
-                        headers={"Content-Disposition": "inline; filename=cv.pdf"})
+        return Response(documento, media_type="application/pdf", headers=cabecera)
     if fila["url"]:
         return RedirectResponse(fila["url"])
     raise HTTPException(404, "Este CV no tiene PDF")
 
 
 @rutas.get("/{id_}/carta.pdf")
-def carta(id_: int, bd: BaseDeDatos = Depends(base)) -> Response:
-    fila = bd.uno("SELECT carta, contenido FROM cvs WHERE id = %s", (id_,))
+def carta(id_: int, *, descargar: bool = False, bd: BaseDeDatos = Depends(base)) -> Response:
+    fila = bd.uno(f"{_FILA} WHERE id = %s", (id_,))
     if not fila or not fila["carta"]:
         raise HTTPException(404, "Este CV no tiene carta")
     nombre = (fila["contenido"] or {}).get("nombre", "Franco Dorrego")
+    cabecera = disposicion(_archivo(fila, extra="Carta"), descargar=descargar)
     return Response(carta_en_pdf(fila["carta"], nombre), media_type="application/pdf",
-                    headers={"Content-Disposition": "inline; filename=carta.pdf"})
+                    headers={"Content-Disposition": cabecera})
 
 
 @rutas.post("/adaptar", status_code=201)
@@ -180,11 +199,13 @@ def adaptar_a_vacante(pedido: PedidoAlAgente, bd: BaseDeDatos = Depends(base),
     except ErrorDelAgente as error:
         raise HTTPException(502, str(error)) from error
     nombre = " · ".join(p for p in (resultado["empresa"], resultado["cargo"]) if p) or "Vacante"
+    sigla = resultado.get("siglas") or siglas(resultado["empresa"])
     fila = bd.uno(
-        "INSERT INTO cvs (nombre, tipo, idioma, contenido, vacante, carta, notas) "
-        "VALUES (%s, 'generado', %s, %s, %s, %s, %s) RETURNING id",
+        "INSERT INTO cvs (nombre, tipo, idioma, contenido, vacante, carta, notas, empresa, "
+        "siglas, cargo) VALUES (%s, 'generado', %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id",
         (nombre, pedido.idioma, json.dumps(resultado["cv"], ensure_ascii=False), pedido.vacante,
-         resultado["carta"], resultado["notas"]),
+         resultado["carta"], resultado["notas"], resultado["empresa"], sigla,
+         resultado["cargo"]),
     )
     assert fila
     return {**_uno(bd, fila["id"]), "empresa": resultado["empresa"], "cargo": resultado["cargo"]}

@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: agente.py    Project: portfolio                                    #
 #   Created: 2026/11/26 21:05:20  by vm                                      #
-#   Updated: 2026/11/26 22:25:07  by vm                                      #
+#   Updated: 2026/11/26 22:38:16  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -57,6 +57,7 @@ Reglas, sin excepciones:
 Respondé SOLO con un JSON con esta forma:
 {{
   "empresa": "nombre de la empresa, o vacío si no aparece",
+  "siglas": "como se conoce a la empresa, corto: sus siglas o su marca (NTT DATA, BPI, EDP)",
   "cargo": "nombre del puesto",
   "cv": {{ mismas claves que el CV base: idioma, nombre, titulo, ubicacion, enlaces, resumen,
           experiencia, proyectos, formacion, habilidades, idiomas }},
@@ -119,6 +120,7 @@ def leer_respuesta(texto: str, idioma: str) -> dict[str, Any]:
             cv[clave] = []
     return {
         "empresa": str(datos.get("empresa") or ""),
+        "siglas": str(datos.get("siglas") or ""),
         "cargo": str(datos.get("cargo") or ""),
         "cv": cv,
         "carta": datos["carta"].strip(),

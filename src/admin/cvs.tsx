@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: cvs.tsx    Project: portfolio                                      */
 /*   Created: 2026/11/26 21:09:49  by vm                                      */
-/*   Updated: 2026/11/26 21:42:38  by vm                                      */
+/*   Updated: 2026/11/26 22:39:14  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -124,14 +124,14 @@ function TarjetaDeCv({ cv, alCambiar }: { cv: Cv; alCambiar: () => void }): JSX.
       )}
       <div className="mt-auto flex flex-wrap gap-2">
         <Button asChild size="sm" variant="outline">
-          <a href={api.urlDelPdf(cv.id)} target="_blank" rel="noreferrer">
+          <a href={api.descargaDelPdf(cv.id)}>
             <FileDown aria-hidden />
             PDF
           </a>
         </Button>
         {cv.carta && (
           <Button asChild size="sm" variant="outline">
-            <a href={api.urlDeLaCarta(cv.id)} target="_blank" rel="noreferrer">
+            <a href={api.descargaDeLaCarta(cv.id)}>
               <Mail aria-hidden />
               Carta
             </a>
