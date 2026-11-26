@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_agente.py    Project: portfolio                               #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/26 21:07:25  by vm                                      #
+#   Updated: 2026/11/26 22:25:07  by vm                                      #
 # ************************************************************************** #
 
 """Lo que el agente acepta como respuesta."""
@@ -34,5 +34,6 @@ def test_los_mensajes_llevan_el_contexto_y_la_vacante() -> None:
     lista = mensajes(vacante="Vaga X", idioma="pt", base={"nombre": "F"},
                      perfil={"que_busco": "Backend"}, catalogo="### ViveNadando")
     assert "portugués de Portugal" in lista[0]["content"]
+    assert "no conoce los proyectos" in lista[0]["content"]
     assert "Backend" in lista[1]["content"] and "ViveNadando" in lista[1]["content"]
     assert lista[2]["content"].endswith("Vaga X")

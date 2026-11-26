@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: agente.py    Project: portfolio                                    #
 #   Created: 2026/11/26 21:05:20  by vm                                      #
-#   Updated: 2026/11/26 22:16:13  by vm                                      #
+#   Updated: 2026/11/26 22:25:07  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -40,6 +40,13 @@ Reglas, sin excepciones:
 - Inglés: Franco no lo maneja. No digas lo contrario.
 - La carta de presentación: directa, 150 a 220 palabras, 3 o 4 párrafos separados por una línea
   en blanco, sin frases hechas, firmada «Franco Dorrego». Dirigida a la empresa y al cargo.
+- Quien lee la carta no conoce los proyectos de Franco: un nombre suelto (ArduCloud,
+  ViveNadando, Minishell, ITBANK...) no le dice nada. Contá QUÉ es y QUÉ hizo Franco, en
+  palabras que entienda cualquiera: «una plataforma cloud para freelancers, con su propia API en
+  Django», «el sistema de atención por WhatsApp de una academia de natación», «una shell tipo
+  bash escrita en C». El nombre propio va como mucho entre paréntesis, y solo si suma (un cliente
+  o un producto real). Nada de jerga interna ni de métricas sin contexto: «97 % de los commits»
+  se dice «fui el autor principal del backend».
 - Todo el CV y la carta en {idioma}, incluidos los títulos de los puestos cuando corresponda.
 - El CV tiene que entrar en una página A4.
 - Compatible con cualquier ATS: cada bloque de experiencia y de proyecto lleva su período con el
