@@ -6,11 +6,11 @@
 #                                                                            #
 #   File: cvs.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:06:35  by vm                                      #
-#   Updated: 2026/11/26 21:07:34  by vm                                      #
+#   Updated: 2026/11/26 21:37:30  by vm                                      #
 # ************************************************************************** #
 
 """
-Los CV: los dos del sitio (automaticos), el base para ATS, los que subo yo en PDF y los que
+Los CV: los dos del sitio (automaticos), los base para ATS (espanol y portugues), los que subo yo en PDF y los que
 arma el agente para cada vacante. Los que tienen contenido estructurado se imprimen al pedirlos.
 """
 
@@ -164,12 +164,14 @@ def carta(id_: int, bd: BaseDeDatos = Depends(base)) -> Response:
 def adaptar_a_vacante(pedido: PedidoAlAgente, bd: BaseDeDatos = Depends(base),
                       configuracion: Configuracion = Depends(config)) -> dict[str, Any]:
     """El agente arma un CV y una carta para la vacante, y los guarda como un CV nuevo."""
-    origen = bd.uno(
-        "SELECT contenido FROM cvs WHERE contenido IS NOT NULL AND "
-        + ("id = %s" if pedido.base_id else "tipo = 'base'")
-        + " ORDER BY id LIMIT 1",
-        (pedido.base_id,) if pedido.base_id else None,
-    )
+    if pedido.base_id:
+        origen = bd.uno("SELECT contenido FROM cvs WHERE id = %s AND contenido IS NOT NULL",
+                        (pedido.base_id,))
+    else:
+        # Sin base elegida, la del idioma pedido (para ingles, la de espanol).
+        idioma_base = pedido.idioma if pedido.idioma in ("es", "pt") else "es"
+        origen = bd.uno("SELECT contenido FROM cvs WHERE tipo = 'base' AND idioma = %s "
+                        "ORDER BY id LIMIT 1", (idioma_base,))
     if not origen:
         raise HTTPException(400, "Ese CV no tiene contenido para adaptar")
     try:

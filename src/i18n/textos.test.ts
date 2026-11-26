@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: textos.test.ts    Project: portfolio                               */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 02:19:31  by vm                                      */
+/*   Updated: 2026/11/26 21:35:34  by vm                                      */
 /* ************************************************************************** */
 
 /** Los dos idiomas tienen exactamente las mismas claves y ningun texto vacio. */
@@ -62,6 +62,8 @@ describe('textos de la interfaz', () => {
       '{{actual}} / {{total}}',
       '42 Porto · Common Core',
       'Franco Dorrego · Software Developer · Porto, Portugal',
+      'PDF para ATS',
+      'PDF completo',
     ]);
   });
 

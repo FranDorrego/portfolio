@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: detalle-de-candidatura.tsx    Project: portfolio                   */
 /*   Created: 2026/11/26 21:09:01  by vm                                      */
-/*   Updated: 2026/11/26 21:10:29  by vm                                      */
+/*   Updated: 2026/11/26 21:42:38  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -17,9 +17,11 @@
 import { useState } from 'react';
 import { ExternalLink, FileText, Trash2, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/class-names';
 import { api } from './api';
 import { Aviso, Campo } from './campos';
 import { ENTRADA, fecha } from './formato';
+import { PuntoDeEstado, Rotulo } from './marco';
 import { ESTADOS, IDIOMAS, type Candidatura, type Estado } from './tipos';
 
 export function DetalleDeCandidatura({
@@ -69,7 +71,12 @@ export function DetalleDeCandidatura({
 
   return (
     <div className="flex flex-col gap-5">
-      <dl className="grid gap-x-6 gap-y-1 text-sm sm:grid-cols-[auto_1fr]">
+      <dl
+        className={cn(
+          'grid gap-x-6 gap-y-2 rounded-lg border border-border bg-background/50 p-4 text-sm',
+          'sm:grid-cols-[auto_1fr]',
+        )}
+      >
         <dt className="text-muted-foreground">Enviada</dt>
         <dd>{fecha(candidatura.creada)}</dd>
         <dt className="text-muted-foreground">Idioma</dt>
@@ -146,7 +153,7 @@ export function DetalleDeCandidatura({
       </div>
 
       <section className="flex flex-col gap-3">
-        <h3 className="text-sm font-medium text-muted-foreground">Video de la videollamada</h3>
+        <Rotulo>Video de la videollamada</Rotulo>
         {candidatura.tiene_video && (
           <video
             key={candidatura.actualizada}
@@ -189,15 +196,22 @@ export function DetalleDeCandidatura({
 
       {candidatura.historial && candidatura.historial.length > 0 && (
         <section>
-          <h3 className="text-sm font-medium text-muted-foreground">Historial</h3>
-          <ol className="mt-2 space-y-1 text-sm">
+          <Rotulo>Historial</Rotulo>
+          <ol className="mt-3 space-y-3 text-sm">
             {candidatura.historial.map((cambio) => (
-              <li key={`${cambio.fecha}-${cambio.estado}`}>
-                <span className="font-mono text-xs text-muted-foreground">
-                  {fecha(cambio.fecha)}
-                </span>{' '}
-                {ESTADOS[cambio.estado]}
-                {cambio.nota && <span className="text-muted-foreground"> · {cambio.nota}</span>}
+              <li key={`${cambio.fecha}-${cambio.estado}`} className="flex gap-3">
+                <span className="mt-1.5">
+                  <PuntoDeEstado estado={cambio.estado} />
+                </span>
+                <span>
+                  <span className="font-medium">{ESTADOS[cambio.estado]}</span>
+                  <span className="ml-2 font-mono text-xs text-muted-foreground">
+                    {fecha(cambio.fecha)}
+                  </span>
+                  {cambio.nota && (
+                    <span className="block text-muted-foreground">{cambio.nota}</span>
+                  )}
+                </span>
               </li>
             ))}
           </ol>

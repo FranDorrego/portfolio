@@ -1,0 +1,68 @@
+{
+  "idioma": "pt",
+  "nombre": "Franco Dorrego",
+  "titulo": "Developer Full Stack Web",
+  "ubicacion": "Porto, Portugal",
+  "enlaces": ["github.com/FranDorrego", "linkedin.com/in/francodorrego"],
+  "resumen": "Programador Full Stack Web com mais de 5 anos de experiência a criar produtos digitais, aplicações web e automações para clientes e projetos próprios. Experiência em Python, Django, PostgreSQL, Vite e Next.js, principalmente ligados por REST API e arquiteturas modulares e de microsserviços. Fundador de várias empresas com aplicações específicas.",
+  "experiencia": [
+    {
+      "titulo": "ArduCloud",
+      "rol": "Fundador e Developer Full Stack",
+      "periodo": "06/2025 – Atualidade",
+      "puntos": [
+        "Desenhei e desenvolvi uma plataforma cloud e SaaS para freelancers e equipas de desenvolvimento: miniVPS Linux, domínios e DNS, deploys a partir do GitHub, bases de dados, email e WhatsApp.",
+        "Desenvolvi a API central em Django e Django REST Framework com PostgreSQL, organizada numa app por domínio de negócio.",
+        "Arquitetei um sistema distribuído em 3 camadas (API central em Django, agentes FastAPI em cada host e em cada miniVPS) sobre contentores LXD.",
+        "Construí um servidor MCP público com OAuth 2.1 e PKCE, com cerca de 80 módulos de ferramentas para agentes de IA.",
+        "Administrei a infraestrutura de deploy: Linux, Nginx, systemd, SSL e Docker."
+      ]
+    },
+    {
+      "titulo": "Academia ArduMaker",
+      "rol": "Fundador e Formador",
+      "periodo": "2019 – 2023",
+      "puntos": [
+        "Fundei uma academia de programação, Arduino, C e eletrónica básica.",
+        "Criei os cursos, o material didático próprio e os kits físicos de prática."
+      ]
+    }
+  ],
+  "proyectos": [
+    {
+      "titulo": "ViveNadando",
+      "rol": "Arquitetura e desenvolvimento Full Stack",
+      "periodo": "10/2025 – 09/2026",
+      "puntos": [
+        "Plataforma de apoio ao cliente para uma academia de natação: chatbot de WhatsApp, gestão de alunos, calendários e painel interno.",
+        "Liderei o desenvolvimento do backend (97 % dos commits) e integrei a API do JackRabbit com sincronização contínua de famílias, alunos, aulas e inscrições.",
+        "Motor único de disponibilidade de horários para inscrição, aula experimental, reposição e lista de espera."
+      ]
+    },
+    {
+      "titulo": "Distrivalto",
+      "rol": "Arquitetura, desenvolvimento e integrações",
+      "periodo": "03/2026 – Atualidade",
+      "puntos": [
+        "Chat de suporte com IA na web e no WhatsApp, com equipa de agentes humanos e painel de administração do catálogo, manuais e perguntas frequentes.",
+        "Autor principal do backend: HTTP e WebSocket em processos separados, com Redis como bus e n8n como orquestrador da IA.",
+        "Extração de texto de manuais PDF em três passos: leitura direta, OCR e modelo de visão."
+      ]
+    }
+  ],
+  "formacion": [
+    {"institucion": "42 Porto", "detalle": "Common Core: Linux, C, C++ e desenvolvimento de software", "lugar": "Porto, Portugal", "estado": "Em curso"},
+    {"institucion": "Instituto Tecnológico de Buenos Aires (ITBA)", "detalle": "Desenvolvimento Web Full Stack", "lugar": "Buenos Aires, Argentina", "estado": ""},
+    {"institucion": "Universidad de La Punta (ULP)", "detalle": "Full stack Java, Programação orientada a objetos", "lugar": "San Luis, Argentina", "estado": ""},
+    {"institucion": "Universidad Tecnológica Nacional (UTN)", "detalle": "Técnico em Mecatrónica", "lugar": "Córdoba, Argentina", "estado": ""}
+  ],
+  "habilidades": [
+    {"categoria": "Linguagens", "items": "Python, JavaScript, TypeScript, C, C++, Bash, SQL"},
+    {"categoria": "Tecnologias", "items": "Django, FastAPI, Node.js, REST API, WebSockets, React, Next.js, Vite, HTML, CSS"},
+    {"categoria": "Bases de dados", "items": "PostgreSQL, MySQL, SQLite, Redis"},
+    {"categoria": "Infraestrutura", "items": "Linux, Docker, Nginx, systemd, LXD, redes, DNS, deploy e manutenção"},
+    {"categoria": "Automação e IA", "items": "n8n, MCP, integração de modelos de IA, OCR, WhatsApp API"},
+    {"categoria": "Ferramentas", "items": "Git, GitHub, GitHub Actions, Claude, OpenRouter"}
+  ],
+  "idiomas": "Espanhol: nativo | Português: B2 (fluente)"
+}

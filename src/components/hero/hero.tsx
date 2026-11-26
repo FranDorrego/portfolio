@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: hero.tsx    Project: portfolio                                     */
 /*   Created: 2026/11/25 22:27:55  by claude                                  */
-/*   Updated: 2026/11/26 16:56:24  by vm                                      */
+/*   Updated: 2026/11/26 21:35:15  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -17,11 +17,10 @@
 
 import { ChevronDown, Download, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { HAY_CV, TITULOS_DEL_HERO, rutaDelCv } from '@/data/perfil';
+import { TITULOS_DEL_HERO, cvParaAts } from '@/data/perfil';
 import { useIdioma } from '@/i18n';
 import { cn } from '@/lib/class-names';
 import { CONTENEDOR_DE_PAGINA } from '@/lib/movimiento';
-import { recurso } from '@/lib/raiz';
 import { Ubicacion } from '@/components/layout/barra';
 import { SelectorDeIdioma } from '@/components/layout/selector-de-idioma';
 import { ActividadDeGithub } from './actividad-de-github';
@@ -84,14 +83,12 @@ export function Hero(): JSX.Element {
                   {t.hero.contactar}
                 </a>
               </Button>
-              {HAY_CV && (
-                <Button asChild size="lg" variant="outline">
-                  <a href={recurso(rutaDelCv(idioma))} download>
-                    <Download aria-hidden />
-                    {t.hero.descargarCv}
-                  </a>
-                </Button>
-              )}
+              <Button asChild size="lg" variant="outline">
+                <a href={cvParaAts(idioma)} target="_blank" rel="noreferrer">
+                  <Download aria-hidden />
+                  {t.hero.descargarCv}
+                </a>
+              </Button>
             </div>
           </div>
         </div>

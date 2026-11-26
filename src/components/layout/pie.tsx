@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: pie.tsx    Project: portfolio                                      */
 /*   Created: 2026/11/25 22:17:56  by claude                                  */
-/*   Updated: 2026/11/26 16:57:53  by vm                                      */
+/*   Updated: 2026/11/26 21:35:01  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -14,7 +14,7 @@
  * PDF, JSON Resume (APIs) y Markdown (agentes de IA). Los escribe scripts/prerender.mjs.
  */
 
-import { HAY_CV, rutaDelCv } from '@/data/perfil';
+import { HAY_CV, cvParaAts, rutaDelCv } from '@/data/perfil';
 import { useIdioma } from '@/i18n';
 import { cn } from '@/lib/class-names';
 import { CONTENEDOR_DE_PAGINA } from '@/lib/movimiento';
@@ -24,8 +24,9 @@ function Formatos(): JSX.Element {
   const { t, idioma } = useIdioma();
   const pt = idioma === 'pt';
   const enlaces = [
+    { texto: t.pie.ats, href: cvParaAts(idioma) },
     { texto: 'HTML', href: recurso(pt ? 'pt/cv/' : 'cv/') },
-    ...(HAY_CV ? [{ texto: 'PDF', href: recurso(rutaDelCv(idioma)) }] : []),
+    ...(HAY_CV ? [{ texto: t.pie.completo, href: recurso(rutaDelCv(idioma)) }] : []),
     { texto: 'JSON Resume', href: recurso(pt ? 'resume-pt.json' : 'resume.json') },
     { texto: 'Markdown', href: recurso(pt ? 'pt/llms-full.txt' : 'llms-full.txt') },
   ];

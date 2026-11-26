@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: texto-para-agentes.ts    Project: portfolio                        */
 /*   Created: 2026/11/26 01:43:49  by vm                                      */
-/*   Updated: 2026/11/26 16:57:53  by vm                                      */
+/*   Updated: 2026/11/26 21:35:01  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -17,7 +17,7 @@
  */
 
 import { FORMACION } from '@/data/formacion';
-import { PERFIL } from '@/data/perfil';
+import { PERFIL, cvParaAts } from '@/data/perfil';
 import { PROYECTOS } from '@/data/proyectos';
 import { TESTIMONIOS, promedio } from '@/data/testimonios';
 import { GRUPOS_DE_TECNOLOGIAS } from '@/data/tecnologias';
@@ -197,6 +197,7 @@ export function textoParaAgentes({
     ...t.preguntas.lista.map((item) => `**${item.pregunta}** ${item.respuesta}\n`),
     `## ${r.otros}`,
     '',
+    `- CV (PDF para ATS, una página): ${cvParaAts(idioma)}`,
     `- CV (HTML): ${sitio}${prefijo}/cv/`,
     `- CV (PDF): ${sitio}/cv-franco-dorrego${idioma === 'pt' ? '-pt' : ''}.pdf`,
     `- JSON Resume: ${sitio}/resume${idioma === 'pt' ? '-pt' : ''}.json`,

@@ -7,7 +7,7 @@
 /*                                                                            */
 /*   File: inicio.test.tsx    Project: portfolio                              */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 16:58:15  by vm                                      */
+/*   Updated: 2026/11/26 21:35:15  by vm                                      */
 /* ************************************************************************** */
 
 /** La pagina entera: idioma, catalogo, detalle y los estados del widget de GitHub. */
@@ -18,7 +18,6 @@ import { ActividadDeGithub } from '@/components/hero/actividad-de-github';
 import { ProveedorDeIdioma } from '@/i18n';
 import type { ProveedorDeActividad } from '@/types/github';
 import { Inicio } from './inicio';
-import { HAY_CV } from '@/data/perfil';
 
 function dibujarPagina(): void {
   render(
@@ -94,11 +93,10 @@ describe('pagina de inicio', () => {
     expect(within(ventana).getByText('Código privado')).toBeTruthy();
   });
 
-  it('ofrece el CV en PDF solo si el archivo existe', () => {
+  it('el boton CV baja el CV para ATS del idioma de la pagina', () => {
     dibujarPagina();
-    const boton = screen.queryByRole('link', { name: 'CV' });
-    if (HAY_CV) expect(boton?.getAttribute('href')).toMatch(/\/cv-franco-dorrego\.pdf$/);
-    else expect(boton).toBeNull();
+    const boton = screen.getByRole('link', { name: 'CV' });
+    expect(boton.getAttribute('href')).toMatch(/\/api\/publico\/cv-ats-es\.pdf$/);
   });
 });
 

@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: adaptar-cv.tsx    Project: portfolio                               */
 /*   Created: 2026/11/26 21:09:49  by vm                                      */
-/*   Updated: 2026/11/26 21:10:38  by vm                                      */
+/*   Updated: 2026/11/26 21:42:38  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -17,6 +17,7 @@
 import { useState } from 'react';
 import { Copy, FileDown, Send, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/class-names';
 import { api } from './api';
 import { Aviso, Campo, SelectorDeIdioma } from './campos';
 import { ENTRADA } from './formato';
@@ -55,11 +56,28 @@ export function AdaptarCv({
   };
 
   return (
-    <section className="flex flex-col gap-4 rounded-xl border border-border bg-card p-5">
-      <h2 className="flex items-center gap-2 text-lg font-semibold">
-        <Sparkles aria-hidden className="h-5 w-5 text-primary" />
-        Adaptar a una vacante
-      </h2>
+    <section
+      className={cn(
+        'relative flex flex-col gap-4 overflow-hidden rounded-xl border border-primary/40',
+        'bg-card p-5 sm:p-6',
+      )}
+    >
+      <div
+        aria-hidden
+        className={cn(
+          'pointer-events-none absolute inset-x-0 top-0 h-24',
+          'bg-gradient-to-b from-primary/10 to-transparent',
+        )}
+      />
+      <div className="relative">
+        <h2 className="flex items-center gap-2 text-lg font-semibold">
+          <Sparkles aria-hidden className="h-5 w-5 text-primary" />
+          Adaptar a una vacante
+        </h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Pegá la vacante: el agente arma el CV en PDF y una carta, sin inventar nada.
+        </p>
+      </div>
       <Campo etiqueta="Texto de la vacante">
         <textarea
           className={`${ENTRADA} min-h-40`}
@@ -78,7 +96,7 @@ export function AdaptarCv({
             value={baseId ?? ''}
             onChange={(e) => setBaseId(e.target.value ? Number(e.target.value) : null)}
           >
-            <option value="">CV base para ATS</option>
+            <option value="">Base para ATS del idioma elegido</option>
             {bases.map((cv) => (
               <option key={cv.id} value={cv.id}>
                 {cv.nombre}

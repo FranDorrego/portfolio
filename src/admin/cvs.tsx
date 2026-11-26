@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: cvs.tsx    Project: portfolio                                      */
 /*   Created: 2026/11/26 21:09:49  by vm                                      */
-/*   Updated: 2026/11/26 21:10:38  by vm                                      */
+/*   Updated: 2026/11/26 21:42:38  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -15,17 +15,20 @@
  */
 
 import { useState, type FormEvent } from 'react';
-import { FileDown, FileText, Trash2, Upload } from 'lucide-react';
+import { FileDown, FileText, Globe, Mail, Trash2, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/class-names';
+import { cvParaAts } from '@/data/perfil';
 import { api } from './api';
 import { AdaptarCv } from './adaptar-cv';
+import { Rotulo, Titulo } from './marco';
 import { Aviso, Campo, SelectorDeIdioma } from './campos';
 import { ENTRADA, fecha } from './formato';
 import { IDIOMAS, type Borrador, type Cv, type Idioma } from './tipos';
 
 const GRUPOS: { tipo: Cv['tipo']; titulo: string }[] = [
   { tipo: 'sitio', titulo: 'Automáticos del sitio' },
-  { tipo: 'base', titulo: 'Base para ATS' },
+  { tipo: 'base', titulo: 'Bases para ATS' },
   { tipo: 'generado', titulo: 'Adaptados a vacantes' },
   { tipo: 'subido', titulo: 'Subidos' },
 ];
@@ -82,6 +85,78 @@ function SubirCv({ alSubir }: { alSubir: () => void }): JSX.Element {
   );
 }
 
+function TarjetaDeCv({ cv, alCambiar }: { cv: Cv; alCambiar: () => void }): JSX.Element {
+  const borrable = cv.tipo === 'subido' || cv.tipo === 'generado';
+  const publico = cv.tipo === 'base' && (cv.idioma === 'es' || cv.idioma === 'pt');
+  return (
+    <li className="flex flex-col gap-4 rounded-xl border border-border bg-card p-4">
+      <div className="flex items-start gap-3">
+        <span
+          aria-hidden
+          className={cn(
+            'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border',
+            'bg-background text-primary',
+          )}
+        >
+          <FileText className="h-5 w-5" />
+        </span>
+        <span className="min-w-0">
+          <span className="block font-medium leading-snug">{cv.nombre}</span>
+          <span className="mt-1 flex flex-wrap gap-x-2 gap-y-1 font-mono text-xs text-muted-foreground">
+            <span>{IDIOMAS[cv.idioma]}</span>
+            <span>{fecha(cv.creado)}</span>
+          </span>
+        </span>
+      </div>
+      {publico && (
+        <a
+          href={cvParaAts(cv.idioma as 'es' | 'pt')}
+          target="_blank"
+          rel="noreferrer"
+          className={cn(
+            'inline-flex w-fit items-center gap-1.5 rounded-full border border-success/40',
+            'bg-success/10 px-2.5 py-0.5 text-xs text-success hover:underline',
+          )}
+        >
+          <Globe aria-hidden className="h-3.5 w-3.5" />
+          Pública en el sitio
+        </a>
+      )}
+      <div className="mt-auto flex flex-wrap gap-2">
+        <Button asChild size="sm" variant="outline">
+          <a href={api.urlDelPdf(cv.id)} target="_blank" rel="noreferrer">
+            <FileDown aria-hidden />
+            PDF
+          </a>
+        </Button>
+        {cv.carta && (
+          <Button asChild size="sm" variant="outline">
+            <a href={api.urlDeLaCarta(cv.id)} target="_blank" rel="noreferrer">
+              <Mail aria-hidden />
+              Carta
+            </a>
+          </Button>
+        )}
+        {borrable && (
+          <Button
+            size="sm"
+            variant="ghost"
+            className="ml-auto"
+            aria-label={`Borrar ${cv.nombre}`}
+            onClick={async () => {
+              if (!window.confirm(`¿Borrar «${cv.nombre}»?`)) return;
+              await api.borrarCv(cv.id);
+              alCambiar();
+            }}
+          >
+            <Trash2 aria-hidden />
+          </Button>
+        )}
+      </div>
+    </li>
+  );
+}
+
 export function Cvs({
   cvs,
   alCambiar,
@@ -92,58 +167,31 @@ export function Cvs({
   alPostularse: (borrador: Borrador) => void;
 }): JSX.Element {
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-10">
+      <Titulo
+        Icono={FileText}
+        titulo="CVs"
+        bajada="Los del sitio, las bases para ATS, los que subo y los que adapta el agente a cada vacante."
+      />
       <AdaptarCv cvs={cvs} alCrear={alCambiar} alPostularse={alPostularse} />
       {GRUPOS.map(({ tipo, titulo }) => {
         const grupo = cvs.filter((cv) => cv.tipo === tipo);
         if (grupo.length === 0 && tipo !== 'subido') return null;
         return (
           <section key={tipo} className="flex flex-col gap-3">
-            <h2 className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
-              {titulo}
-            </h2>
+            <Rotulo>{titulo}</Rotulo>
             {grupo.length > 0 && (
-              <ul className="divide-y divide-border rounded-xl border border-border bg-card">
+              <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {grupo.map((cv) => (
-                  <li key={cv.id} className="flex flex-wrap items-center gap-3 px-4 py-3">
-                    <span className="min-w-0 flex-1">
-                      <span className="font-medium">{cv.nombre}</span>
-                      <span className="block text-xs text-muted-foreground">
-                        {IDIOMAS[cv.idioma]} · {fecha(cv.creado)}
-                      </span>
-                    </span>
-                    <Button asChild size="sm" variant="outline">
-                      <a href={api.urlDelPdf(cv.id)} target="_blank" rel="noreferrer">
-                        <FileDown aria-hidden />
-                        PDF
-                      </a>
-                    </Button>
-                    {cv.carta && (
-                      <Button asChild size="sm" variant="outline">
-                        <a href={api.urlDeLaCarta(cv.id)} target="_blank" rel="noreferrer">
-                          Carta
-                        </a>
-                      </Button>
-                    )}
-                    {(tipo === 'subido' || tipo === 'generado') && (
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        aria-label={`Borrar ${cv.nombre}`}
-                        onClick={async () => {
-                          if (!window.confirm(`¿Borrar «${cv.nombre}»?`)) return;
-                          await api.borrarCv(cv.id);
-                          alCambiar();
-                        }}
-                      >
-                        <Trash2 aria-hidden />
-                      </Button>
-                    )}
-                  </li>
+                  <TarjetaDeCv key={cv.id} cv={cv} alCambiar={alCambiar} />
                 ))}
               </ul>
             )}
-            {tipo === 'subido' && <SubirCv alSubir={alCambiar} />}
+            {tipo === 'subido' && (
+              <div className="rounded-xl border border-dashed border-border p-4">
+                <SubirCv alSubir={alCambiar} />
+              </div>
+            )}
           </section>
         );
       })}

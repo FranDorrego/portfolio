@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: pdf.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:04:28  by vm                                      #
-#   Updated: 2026/11/26 21:19:06  by vm                                      #
+#   Updated: 2026/11/26 21:34:31  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -190,7 +190,7 @@ ESCALAS = (1.0, 0.96, 0.92, 0.89, 0.86)
 
 def cv_en_pdf(cv: dict[str, Any], perfil: dict[str, Any] | None = None) -> bytes:
     """
-    `cv` es el contenido estructurado (ver base_cv.json). Del `perfil` salen el telefono y el
+    `cv` es el contenido estructurado (ver base_cv_es.json). Del `perfil` salen el telefono y el
     email, que no viven en el repositorio publico. Si no entra en una pagina, se achica un poco;
     si ni asi entra, queda en dos.
     """

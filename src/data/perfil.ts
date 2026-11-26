@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: perfil.ts    Project: portfolio                                    */
 /*   Created: 2026/11/25 21:30:00  by claude                                  */
-/*   Updated: 2026/11/26 16:57:59  by vm                                      */
+/*   Updated: 2026/11/26 21:35:01  by vm                                      */
 /* ************************************************************************** */
 
 /** Los datos de contacto. Son los que el autor ya publica en su perfil de GitHub. */
@@ -28,6 +28,13 @@ export const PERFIL = {
 export const rutaDelCv = (idioma: 'es' | 'pt'): string =>
   idioma === 'pt' ? 'cv-franco-dorrego-pt.pdf' : 'cv-franco-dorrego.pdf';
 export const HAY_CV: boolean = __HAY_CV__;
+
+/**
+ * El CV de una pagina, pensado para ATS, en espanol o en portugues. Lo imprime la API del panel
+ * (admin-api/) desde el CV base, con el telefono y el email de «Sobre mi».
+ */
+export const cvParaAts = (idioma: 'es' | 'pt'): string =>
+  `${String(import.meta.env.VITE_ADMIN_API ?? '').replace(/\/+$/, '')}/api/publico/cv-ats-${idioma}.pdf`;
 
 /** Los titulos que la maquina de escribir del inicio va sumando. No se traducen. */
 export const TITULOS_DEL_HERO = [

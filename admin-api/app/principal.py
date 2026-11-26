@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: principal.py    Project: portfolio                                 #
 #   Created: 2026/11/26 21:06:51  by vm                                      #
-#   Updated: 2026/11/26 21:06:51  by vm                                      #
+#   Updated: 2026/11/26 21:34:31  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -23,10 +23,11 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.base_de_datos import BaseDeDatos
 from app.configuracion import Configuracion, configuracion
-from app.rutas import candidaturas, cvs, perfil, sesion
+from app.rutas import candidaturas, cvs, perfil, publico, sesion
 from app.seguridad import Freno
 
-BASE_CV = Path(__file__).parent / "base_cv.json"
+CARPETA = Path(__file__).parent
+BASES = {"es": "Base ATS · Español", "pt": "Base ATS · Português"}
 
 QUE_BUSCO = (
     "Un puesto Full Stack, Backend Python/Django o de arquitectura de soluciones, en un equipo "
@@ -42,16 +43,23 @@ SOBRE_MI = (
 )
 
 def sembrar(bd: BaseDeDatos, sitio: str) -> None:
-    """Lo que tiene que existir siempre: los dos CV del sitio, el CV base y un «Sobre mi»."""
+    """Lo que tiene que existir siempre: los CV del sitio, los CV base y un «Sobre mi»."""
     for idioma, sufijo, nombre in (("es", "", "Sitio · Español"), ("pt", "-pt", "Sitio · Português")):
         if not bd.uno("SELECT 1 AS hay FROM cvs WHERE tipo = 'sitio' AND idioma = %s", (idioma,)):
             bd.ejecutar("INSERT INTO cvs (nombre, tipo, idioma, url) VALUES (%s, 'sitio', %s, %s)",
                         (nombre, idioma, f"{sitio}/cv-franco-dorrego{sufijo}.pdf"))
-    if not bd.uno("SELECT 1 AS hay FROM cvs WHERE tipo = 'base'"):
-        bd.ejecutar(
-            "INSERT INTO cvs (nombre, tipo, idioma, contenido) VALUES (%s, 'base', 'es', %s)",
-            ("Base ATS · Español", BASE_CV.read_text(encoding="utf-8")),
-        )
+    # Los CV base para ATS salen de base_cv_<idioma>.json: el archivo manda, asi que al
+    # arrancar se crean si faltan y se actualizan si cambiaron.
+    for idioma, nombre in BASES.items():
+        contenido = (CARPETA / f"base_cv_{idioma}.json").read_text(encoding="utf-8")
+        existe = bd.uno("SELECT id FROM cvs WHERE tipo = 'base' AND idioma = %s", (idioma,))
+        if existe:
+            bd.ejecutar("UPDATE cvs SET contenido = %s WHERE id = %s", (contenido, existe["id"]))
+        else:
+            bd.ejecutar(
+                "INSERT INTO cvs (nombre, tipo, idioma, contenido) VALUES (%s, 'base', %s, %s)",
+                (nombre, idioma, contenido),
+            )
     bd.ejecutar(
         "UPDATE perfil SET que_busco = %s, sobre_mi = %s "
         "WHERE id = 1 AND que_busco = '' AND sobre_mi = ''",
@@ -81,7 +89,7 @@ def crear_app(ajustes: Configuracion | None = None) -> FastAPI:
         allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE"],
         allow_headers=["Content-Type"],
     )
-    for modulo in (sesion, candidaturas, cvs, perfil):
+    for modulo in (sesion, candidaturas, cvs, perfil, publico):
         app.include_router(modulo.rutas)
 
     @app.get("/api/salud")

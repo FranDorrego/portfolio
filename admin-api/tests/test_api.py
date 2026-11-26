@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_api.py    Project: portfolio                                  #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/26 21:07:25  by vm                                      #
+#   Updated: 2026/11/26 21:37:30  by vm                                      #
 # ************************************************************************** #
 
 """El panel de punta a punta: cuenta, candidaturas, video, CV y «Sobre mi»."""
@@ -49,7 +49,7 @@ def test_entrar_salir_y_freno(con_sesion: TestClient) -> None:
 
 def test_candidatura_estado_e_historial(con_sesion: TestClient) -> None:
     cvs = con_sesion.get("/api/cvs").json()
-    assert [cv["tipo"] for cv in cvs] == ["sitio", "sitio", "base"]
+    assert [cv["tipo"] for cv in cvs] == ["sitio", "sitio", "base", "base"]
     nueva = con_sesion.post("/api/candidaturas", json={
         "empresa": "Acme", "cargo": "Backend", "descripcion": "Python", "cv_id": cvs[2]["id"],
         "enlace": "https://acme.pt/vaga", "idioma": "pt"}).json()
@@ -103,7 +103,7 @@ def test_adaptar_guarda_el_cv_y_la_carta(
         _config: object, *, vacante: str, idioma: str, base: dict[str, Any],
         perfil: dict[str, Any],
     ) -> dict[str, Any]:
-        assert "Django" in vacante and base["nombre"] == "Franco Dorrego"
+        assert "Django" in vacante and base["idioma"] == "pt"
         return {"empresa": "Acme", "cargo": "Backend Django",
                 "cv": {**base, "idioma": idioma, "resumen": "Adaptado"},
                 "carta": "Hola.\n\nSaludos, Franco Dorrego", "notas": "Destaque Django"}
@@ -118,3 +118,11 @@ def test_adaptar_guarda_el_cv_y_la_carta(
     assert cuerpo["contenido"]["resumen"] == "Adaptado"
     assert con_sesion.get(f"/api/cvs/{cuerpo['id']}/carta.pdf").content[:4] == b"%PDF"
     assert json.dumps(cuerpo["contenido"])
+
+
+def test_los_cv_para_ats_son_publicos(cliente: TestClient) -> None:
+    for idioma in ("es", "pt"):
+        pdf = cliente.get(f"/api/publico/cv-ats-{idioma}.pdf")
+        assert pdf.status_code == 200 and pdf.content[:4] == b"%PDF"
+        assert f"CV-{idioma.upper()}.pdf" in pdf.headers["content-disposition"]
+    assert cliente.get("/api/publico/cv-ats-en.pdf").status_code == 422
