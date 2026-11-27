@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: pdf.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:04:28  by vm                                      #
-#   Updated: 2026/11/27 11:27:35  by vm                                      #
+#   Updated: 2026/11/27 11:30:32  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -14,6 +14,7 @@ El CV en PDF con el formato del CV para ATS: una columna, texto real (no imagene
 claros y vinetas. Los ATS lo leen de arriba abajo, asi que no hay tablas ni columnas.
 """
 
+import re
 from pathlib import Path
 from typing import Any
 
@@ -67,6 +68,16 @@ def _enlace(texto: str) -> str | None:
     if "." in texto.split("/")[0] and not texto.replace("+", "").replace(".", "").isdigit():
         return f"https://{texto}"
     return None
+
+
+def _telefono(numero: str) -> str:
+    """Un movil portugues sin formato («351962310060») se escribe «+351 962 310 060»."""
+    digitos = re.sub(r"\D", "", numero)
+    if len(digitos) == 12 and digitos.startswith("351"):
+        return f"+351 {digitos[3:6]} {digitos[6:9]} {digitos[9:]}"
+    if len(digitos) == 9 and digitos[0] in "29":
+        return f"+351 {digitos[:3]} {digitos[3:6]} {digitos[6:]}"
+    return numero.strip()
 
 
 def _fecha_entera(periodo: str) -> str:
@@ -166,7 +177,8 @@ def _cabecera(documento: _Documento, cv: dict[str, Any], contacto: list[str]) ->
     documento.set_text_color(*ACENTO)
     documento.cell(0, 6.5 * escala, cv.get("titulo", ""), new_x="LMARGIN", new_y="NEXT")
     documento.ln(1)
-    documento.letra(9)
+    # Tamano fijo, sin escala: el contacto entra en un solo renglon aunque la letra crezca.
+    documento.set_font("Sans", "", 9)
     alto, separador = 4.8 * escala, "  |  "
     borde = documento.w - documento.r_margin
     for indice, parte in enumerate(contacto):
@@ -209,7 +221,8 @@ def _metadatos(documento: _Documento, cv: dict[str, Any], contacto: list[str]) -
     documento.set_author(nombre)
     documento.set_creator(f"{nombre} · {PORTAFOLIO}")
     documento.set_lang({"pt": "pt-PT", "en": "en"}.get(cv.get("idioma", "es"), "es"))
-    documento.set_subject(" | ".join(p for p in [titulo, *contacto, cv.get("resumen", ""),
+    documento.set_subject(" | ".join(p for p in [titulo, cv.get("ubicacion", ""), *contacto,
+                                                 cv.get("resumen", ""),
                                                  cv.get("idiomas", "")] if p))
     claves = [titulo, *habilidades, *empresas, *estudios, cv.get("ubicacion", "")]
     vistas: set[str] = set()
@@ -275,8 +288,9 @@ def cv_en_pdf(cv: dict[str, Any], perfil: dict[str, Any] | None = None) -> bytes
     repartido entre las secciones. Si ni con la mas chica entra, dos paginas antes que ilegible.
     """
     perfil = perfil or {}
-    contacto = [cv.get("ubicacion", "")]
-    contacto += [perfil.get(dato, "") for dato in ("telefono", "email")]
+    # La ubicacion no va en la cabecera (asi el contacto entra en un renglon); si va en los
+    # metadatos del PDF.
+    contacto = [_telefono(perfil.get("telefono", "")), perfil.get("email", "")]
     # El portafolio va siempre, junto a GitHub y LinkedIn (tambien en los CV ya adaptados).
     enlaces = [e for e in cv.get("enlaces", []) if e]
     if not any(PORTAFOLIO in enlace for enlace in enlaces):

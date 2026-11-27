@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_pdf.py    Project: portfolio                                  #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/27 11:27:21  by vm                                      #
+#   Updated: 2026/11/27 11:30:32  by vm                                      #
 # ************************************************************************** #
 
 """El PDF del CV: una pagina, texto extraible y los datos de contacto del perfil."""
@@ -50,3 +50,12 @@ def test_los_metadatos_llevan_lo_relevante() -> None:
         assert dato.encode("utf-16-be").hex().upper().encode() in pdf.upper() or (
             dato.encode() in pdf
         ), dato
+
+
+def test_el_telefono_portugues_con_formato() -> None:
+    from app.pdf import _telefono
+
+    assert _telefono("351962310060") == "+351 962 310 060"
+    assert _telefono("+351 962310060") == "+351 962 310 060"
+    assert _telefono("962310060") == "+351 962 310 060"
+    assert _telefono("+54 9 351 123 4567") == "+54 9 351 123 4567"
