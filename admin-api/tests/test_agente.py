@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_agente.py    Project: portfolio                               #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/26 22:25:07  by vm                                      #
+#   Updated: 2026/11/27 10:39:32  by vm                                      #
 # ************************************************************************** #
 
 """Lo que el agente acepta como respuesta."""
@@ -37,3 +37,10 @@ def test_los_mensajes_llevan_el_contexto_y_la_vacante() -> None:
     assert "no conoce los proyectos" in lista[0]["content"]
     assert "Backend" in lista[1]["content"] and "ViveNadando" in lista[1]["content"]
     assert lista[2]["content"].endswith("Vaga X")
+
+
+def test_rehacer_lleva_la_version_actual_y_la_indicacion() -> None:
+    lista = mensajes(vacante="Vaga X", idioma="es", base={}, perfil={}, catalogo="",
+                     rehacer={"cv": {"resumen": "Viejo"}, "carta": "Hola", "indicacion": "Mas corto"})
+    assert len(lista) == 4
+    assert "Viejo" in lista[3]["content"] and "Mas corto" in lista[3]["content"]

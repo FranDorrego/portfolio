@@ -3,7 +3,7 @@
   "nombre": "Franco Dorrego",
   "titulo": "Developer Full Stack Web",
   "ubicacion": "Porto, Portugal",
-  "enlaces": ["github.com/FranDorrego", "linkedin.com/in/francodorrego"],
+  "enlaces": ["francodorrego.com", "github.com/FranDorrego", "linkedin.com/in/francodorrego"],
   "resumen": "Desarrollador Full Stack Web con más de 5 años de experiencia creando productos digitales, aplicaciones web y automatizaciones para clientes y proyectos propios. Experiencia en Python, Django, PostgreSQL, Vite y Next.js principalmente conectados por REST API y arquitecturas modulares y de microservicios. Fundador de varias empresas con aplicaciones puntuales.",
   "experiencia": [
     {

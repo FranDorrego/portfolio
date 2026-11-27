@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: cvs.tsx    Project: portfolio                                      */
 /*   Created: 2026/11/26 21:09:49  by vm                                      */
-/*   Updated: 2026/11/26 23:06:46  by vm                                      */
+/*   Updated: 2026/11/27 10:40:44  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -22,6 +22,7 @@ import { cn } from '@/lib/class-names';
 import { cvParaAts } from '@/data/perfil';
 import { api } from './api';
 import { AdaptarCv } from './adaptar-cv';
+import { RehacerCv } from './rehacer-cv';
 import { Rotulo, Titulo } from './marco';
 import { Aviso, Campo, SelectorDeIdioma } from './campos';
 import { ENTRADA, fecha } from './formato';
@@ -173,6 +174,7 @@ function TarjetaDeCv({ cv, alCambiar }: { cv: Cv; alCambiar: () => void }): JSX.
             </a>
           </Button>
         )}
+        {cv.tipo === 'generado' && <RehacerCv cv={cv} alRehacer={alCambiar} />}
         {borrable && (
           <Button
             size="sm"

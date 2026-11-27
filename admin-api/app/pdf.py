@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: pdf.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:04:28  by vm                                      #
-#   Updated: 2026/11/26 22:20:46  by vm                                      #
+#   Updated: 2026/11/27 10:40:15  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -53,11 +53,19 @@ SECCIONES = {
 }
 
 
+PORTAFOLIO = "francodorrego.com"
+
+
 def _enlace(texto: str) -> str | None:
-    if "@" in texto and " " not in texto:
+    """Un email, una web o un perfil del contacto, como enlace que se puede tocar en el PDF."""
+    if " " in texto:
+        return None
+    if "@" in texto:
         return f"mailto:{texto}"
-    if texto.startswith(("github.com", "linkedin.com", "http", "www.")):
-        return texto if texto.startswith("http") else f"https://{texto}"
+    if texto.startswith("http"):
+        return texto
+    if "." in texto.split("/")[0] and not texto.replace("+", "").replace(".", "").isdigit():
+        return f"https://{texto}"
     return None
 
 
@@ -158,14 +166,19 @@ def _cabecera(documento: _Documento, cv: dict[str, Any], contacto: list[str]) ->
     documento.cell(0, 6.5 * escala, cv.get("titulo", ""), new_x="LMARGIN", new_y="NEXT")
     documento.ln(1)
     documento.letra(9)
+    alto, separador = 4.8 * escala, "  |  "
+    borde = documento.w - documento.r_margin
     for indice, parte in enumerate(contacto):
-        if indice:
+        # Cada dato entra entero en su renglon: un enlace nunca se corta por la mitad.
+        if indice and documento.get_x() + documento.get_string_width(separador + parte) > borde:
+            documento.ln(alto)
+        elif indice:
             documento.set_text_color(*LINEA)
-            documento.write(4.8 * escala, "   |   ")
+            documento.write(alto, separador)
         enlace = _enlace(parte)
         documento.set_text_color(*(NEGRO if enlace else GRIS))
-        documento.write(4.8 * escala, parte, link=enlace or "")
-    documento.ln(4.8 * escala)
+        documento.write(alto, parte, link=enlace or "")
+    documento.ln(alto)
 
 
 def _bloques(documento: _Documento, titulo: str, bloques: list[dict[str, Any]]) -> None:
@@ -245,7 +258,11 @@ def cv_en_pdf(cv: dict[str, Any], perfil: dict[str, Any] | None = None) -> bytes
     perfil = perfil or {}
     contacto = [cv.get("ubicacion", "")]
     contacto += [perfil.get(dato, "") for dato in ("telefono", "email")]
-    contacto += cv.get("enlaces", [])
+    # El portafolio va siempre, junto a GitHub y LinkedIn (tambien en los CV ya adaptados).
+    enlaces = [e for e in cv.get("enlaces", []) if e]
+    if not any(PORTAFOLIO in enlace for enlace in enlaces):
+        enlaces = [PORTAFOLIO, *enlaces]
+    contacto += enlaces
     contacto = [parte for parte in contacto if parte]
 
     if not _entra(_dibujar(cv, contacto, ESCALA_MINIMA, 0)):

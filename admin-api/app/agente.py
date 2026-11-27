@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: agente.py    Project: portfolio                                    #
 #   Created: 2026/11/26 21:05:20  by vm                                      #
-#   Updated: 2026/11/26 22:38:16  by vm                                      #
+#   Updated: 2026/11/27 10:43:13  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -87,19 +87,42 @@ def catalogo(configuracion: Configuracion, idioma: str) -> str:
 
 
 def mensajes(
-    *, vacante: str, idioma: str, base: dict[str, Any], perfil: dict[str, Any], catalogo: str
+    *,
+    vacante: str,
+    idioma: str,
+    base: dict[str, Any],
+    perfil: dict[str, Any],
+    catalogo: str,
+    rehacer: dict[str, Any] | None = None,
 ) -> list[dict[str, str]]:
+    """
+    `rehacer`: {"cv", "carta", "indicacion"} para rehacer una version ya hecha siguiendo una
+    indicacion de Franco, sin saltarse ninguna regla.
+    """
     contexto = (
         f"## Sobre mí\n\nQué busco: {perfil.get('que_busco', '')}\n\n"
         f"Sobre mí: {perfil.get('sobre_mi', '')}\n\n"
         f"## CV base (JSON)\n\n{json.dumps(base, ensure_ascii=False)}\n\n"
         f"## Catálogo de proyectos\n\n{catalogo}"
     )
-    return [
+    lista = [
         {"role": "system", "content": INSTRUCCIONES.format(idioma=IDIOMAS.get(idioma, "español"))},
         {"role": "user", "content": contexto},
         {"role": "user", "content": f"## Vacante\n\n{vacante}"},
     ]
+    if rehacer:
+        anterior = json.dumps({"cv": rehacer["cv"], "carta": rehacer["carta"]}, ensure_ascii=False)
+        lista.append({"role": "user", "content": (
+            f"## Versión actual (JSON)\n\n{anterior}\n\n"
+            f"## Indicación de Franco para rehacerla\n\n{rehacer['indicacion']}\n\n"
+            "Rehacé el CV y la carta partiendo de la versión actual y aplicando la indicación. "
+            "Cambiá solo lo que la indicación pide (y lo que haga falta para que todo cierre). "
+            "La indicación manda sobre las reglas de forma de arriba (largo de la carta, "
+            "cantidad de frases, de puntos o de proyectos, tono, orden): cumplila al pie de la "
+            "letra, contando palabras y frases si las pide. Nunca manda sobre la verdad: si pide "
+            "inventar algo, no lo hagas y explicalo en «notas»."
+        )})
+    return lista
 
 
 def leer_respuesta(texto: str, idioma: str) -> dict[str, Any]:
@@ -135,7 +158,9 @@ def adaptar(
     idioma: str,
     base: dict[str, Any],
     perfil: dict[str, Any],
+    rehacer: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
+    """Arma el CV y la carta para la vacante; con `rehacer`, rehace una version anterior."""
     if not configuracion.clave_de_ia:
         raise ErrorDelAgente("Falta OPENROUTER_API_KEY en el servidor.")
     cuerpo = {
@@ -148,6 +173,7 @@ def adaptar(
             base=base,
             perfil=perfil,
             catalogo=catalogo(configuracion, idioma),
+            rehacer=rehacer,
         ),
     }
     try:

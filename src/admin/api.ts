@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: api.ts    Project: portfolio                                       */
 /*   Created: 2026/11/26 21:08:08  by vm                                      */
-/*   Updated: 2026/11/26 22:39:14  by vm                                      */
+/*   Updated: 2026/11/27 10:40:44  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -119,6 +119,8 @@ export const api = {
   adaptar: (datos: { vacante: string; idioma: string; base_id: number | null }) =>
     pedir<Cv>('/api/cvs/adaptar', json('POST', datos)),
   /** Para ver en el navegador. */
+  rehacer: (id: number, indicacion: string) =>
+    pedir<Cv>(`/api/cvs/${id}/rehacer`, json('POST', { indicacion })),
   urlDelPdf: (id: number) => `${API}/api/cvs/${id}/pdf`,
   /** Para bajar como «<siglas> - <cargo> - Franco Dorrego.pdf». */
   descargaDelPdf: (id: number) => `${API}/api/cvs/${id}/pdf?descargar=true`,

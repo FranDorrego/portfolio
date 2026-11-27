@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: adaptar-cv.tsx    Project: portfolio                               */
 /*   Created: 2026/11/26 21:09:49  by vm                                      */
-/*   Updated: 2026/11/26 22:39:14  by vm                                      */
+/*   Updated: 2026/11/27 10:40:52  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/class-names';
 import { api } from './api';
 import { Aviso, Campo, SelectorDeIdioma } from './campos';
+import { RehacerCv } from './rehacer-cv';
 import { ENTRADA } from './formato';
 import type { Borrador, Cv, Idioma } from './tipos';
 
@@ -136,6 +137,17 @@ export function AdaptarCv({
                 Carta en PDF
               </a>
             </Button>
+            <RehacerCv
+              cv={resultado}
+              alRehacer={(nuevo) => {
+                setPedido({
+                  trabajando: false,
+                  resultado: { ...resultado, ...nuevo },
+                  aviso: null,
+                });
+                alCrear();
+              }}
+            />
             <Button
               variant="outline"
               onClick={() => navigator.clipboard.writeText(resultado.carta ?? '')}

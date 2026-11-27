@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: cvs.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:06:35  by vm                                      #
-#   Updated: 2026/11/26 23:06:35  by vm                                      #
+#   Updated: 2026/11/27 10:39:32  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -47,6 +47,10 @@ class Cambios(BaseModel):
     nombre: str | None = Field(default=None, min_length=1, max_length=200)
     contenido: dict[str, Any] | None = None
     carta: str | None = Field(default=None, max_length=20000)
+
+
+class Indicacion(BaseModel):
+    indicacion: str = Field(min_length=3, max_length=4000)
 
 
 class PedidoAlAgente(BaseModel):
@@ -209,3 +213,35 @@ def adaptar_a_vacante(pedido: PedidoAlAgente, bd: BaseDeDatos = Depends(base),
     )
     assert fila
     return {**_uno(bd, fila["id"]), "empresa": resultado["empresa"], "cargo": resultado["cargo"]}
+
+
+@rutas.post("/{id_}/rehacer")
+def rehacer(id_: int, pedido: Indicacion, bd: BaseDeDatos = Depends(base),
+            configuracion: Configuracion = Depends(config)) -> dict[str, Any]:
+    """
+    Rehace un CV adaptado y su carta con una indicacion («mas corto», «destaca Docker»...). Queda
+    en el mismo CV: misma empresa, cargo y nombre de archivo.
+    """
+    fila = bd.uno("SELECT tipo, idioma, contenido, carta, vacante FROM cvs WHERE id = %s", (id_,))
+    if not fila:
+        raise HTTPException(404, "No existe ese CV")
+    if fila["tipo"] != "generado" or not fila["contenido"] or not fila["vacante"]:
+        raise HTTPException(400, "Solo se rehacen los CV adaptados a una vacante")
+    idioma_base = fila["idioma"] if fila["idioma"] in ("es", "pt") else "es"
+    origen = bd.uno("SELECT contenido FROM cvs WHERE tipo = 'base' AND idioma = %s "
+                    "ORDER BY id LIMIT 1", (idioma_base,))
+    try:
+        resultado = adaptar(
+            configuracion, vacante=fila["vacante"], idioma=fila["idioma"],
+            base=(origen or {}).get("contenido") or fila["contenido"], perfil=_perfil(bd),
+            rehacer={"cv": fila["contenido"], "carta": fila["carta"] or "",
+                     "indicacion": pedido.indicacion},
+        )
+    except ErrorDelAgente as error:
+        raise HTTPException(502, str(error)) from error
+    bd.ejecutar(
+        "UPDATE cvs SET contenido = %s, carta = %s, notas = %s WHERE id = %s",
+        (json.dumps(resultado["cv"], ensure_ascii=False), resultado["carta"], resultado["notas"],
+         id_),
+    )
+    return _uno(bd, id_)

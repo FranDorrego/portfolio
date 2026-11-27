@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_api.py    Project: portfolio                                  #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/26 22:38:16  by vm                                      #
+#   Updated: 2026/11/27 10:39:32  by vm                                      #
 # ************************************************************************** #
 
 """El panel de punta a punta: cuenta, candidaturas, video, CV y «Sobre mi»."""
@@ -132,3 +132,33 @@ def test_los_cv_para_ats_son_publicos(cliente: TestClient) -> None:
         assert pdf.status_code == 200 and pdf.content[:4] == b"%PDF"
         assert f"CV-{idioma.upper()}.pdf" in pdf.headers["content-disposition"]
     assert cliente.get("/api/publico/cv-ats-en.pdf").status_code == 422
+
+
+def test_rehacer_con_una_indicacion(con_sesion: TestClient,
+                                    monkeypatch: pytest.MonkeyPatch) -> None:
+    llamadas: list[dict[str, Any]] = []
+
+    def falso(
+        _config: object, *, vacante: str, idioma: str, base: dict[str, Any],
+        perfil: dict[str, Any], rehacer: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        llamadas.append({"rehacer": rehacer})
+        resumen = "Mas corto" if rehacer else "Primero"
+        return {"empresa": "Acme", "cargo": "Backend", "siglas": "ACME",
+                "cv": {**base, "resumen": resumen}, "carta": f"Carta {resumen}", "notas": "n"}
+
+    monkeypatch.setattr(rutas_de_cvs, "adaptar", falso)
+    hecho = con_sesion.post("/api/cvs/adaptar", json={
+        "vacante": "Buscamos backend con Django y PostgreSQL en Porto, híbrido.", "idioma": "es",
+    }).json()
+    rehecho = con_sesion.post(f"/api/cvs/{hecho['id']}/rehacer",
+                              json={"indicacion": "Hacelo mas corto"})
+    assert rehecho.status_code == 200
+    cuerpo = rehecho.json()
+    assert cuerpo["id"] == hecho["id"] and cuerpo["contenido"]["resumen"] == "Mas corto"
+    assert cuerpo["carta"] == "Carta Mas corto" and cuerpo["siglas"] == "ACME"
+    assert llamadas[1]["rehacer"]["indicacion"] == "Hacelo mas corto"
+    assert llamadas[1]["rehacer"]["cv"]["resumen"] == "Primero"
+    base = next(cv for cv in con_sesion.get("/api/cvs").json() if cv["tipo"] == "base")
+    assert con_sesion.post(f"/api/cvs/{base['id']}/rehacer",
+                           json={"indicacion": "algo"}).status_code == 400
