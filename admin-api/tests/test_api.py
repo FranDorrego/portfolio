@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_api.py    Project: portfolio                                  #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/27 10:39:32  by vm                                      #
+#   Updated: 2026/11/27 11:33:30  by vm                                      #
 # ************************************************************************** #
 
 """El panel de punta a punta: cuenta, candidaturas, video, CV y «Sobre mi»."""
@@ -162,3 +162,16 @@ def test_rehacer_con_una_indicacion(con_sesion: TestClient,
     base = next(cv for cv in con_sesion.get("/api/cvs").json() if cv["tipo"] == "base")
     assert con_sesion.post(f"/api/cvs/{base['id']}/rehacer",
                            json={"indicacion": "algo"}).status_code == 400
+
+
+def test_el_titulo_del_cv_es_siempre_el_de_siempre(cliente: TestClient) -> None:
+    from app.principal import sembrar
+
+    base = cliente.app.state.base  # type: ignore[attr-defined]
+    base.ejecutar(
+        "INSERT INTO cvs (nombre, tipo, idioma, contenido) VALUES ('X', 'generado', 'pt', %s)",
+        ('{"titulo": "Software Developer Júnior | Full Stack Web", "resumen": "r"}',),
+    )
+    sembrar(base, "https://francodorrego.com")
+    fila = base.uno("SELECT contenido FROM cvs WHERE nombre = 'X'")
+    assert fila and fila["contenido"]["titulo"] == "Developer Full Stack Web"

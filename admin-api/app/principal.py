@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: principal.py    Project: portfolio                                 #
 #   Created: 2026/11/26 21:06:51  by vm                                      #
-#   Updated: 2026/11/26 21:34:31  by vm                                      #
+#   Updated: 2026/11/27 11:33:30  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -21,6 +21,7 @@ from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.agente import TITULO
 from app.base_de_datos import BaseDeDatos
 from app.configuracion import Configuracion, configuracion
 from app.rutas import candidaturas, cvs, perfil, publico, sesion
@@ -44,6 +45,13 @@ SOBRE_MI = (
 
 def sembrar(bd: BaseDeDatos, sitio: str) -> None:
     """Lo que tiene que existir siempre: los CV del sitio, los CV base y un «Sobre mi»."""
+    # Los CV adaptados llevan el titulo de siempre, aunque el agente lo haya cambiado antes.
+    bd.ejecutar(
+        "UPDATE cvs SET contenido = jsonb_set(contenido, '{titulo}', to_jsonb(%s::text)) "
+        "WHERE tipo = 'generado' AND contenido IS NOT NULL "
+        "AND contenido->>'titulo' IS DISTINCT FROM %s",
+        (TITULO, TITULO),
+    )
     for idioma, sufijo, nombre in (("es", "", "Sitio · Español"), ("pt", "-pt", "Sitio · Português")):
         if not bd.uno("SELECT 1 AS hay FROM cvs WHERE tipo = 'sitio' AND idioma = %s", (idioma,)):
             bd.ejecutar("INSERT INTO cvs (nombre, tipo, idioma, url) VALUES (%s, 'sitio', %s, %s)",

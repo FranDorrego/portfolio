@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: agente.py    Project: portfolio                                    #
 #   Created: 2026/11/26 21:05:20  by vm                                      #
-#   Updated: 2026/11/27 10:43:13  by vm                                      #
+#   Updated: 2026/11/27 11:33:30  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -23,6 +23,9 @@ import httpx
 
 from app.configuracion import Configuracion
 
+# Como se presenta Franco en todos sus CV, sea cual sea la vacante.
+TITULO = "Developer Full Stack Web"
+
 IDIOMAS = {"es": "español", "pt": "portugués de Portugal", "en": "inglés"}
 
 INSTRUCCIONES = """Sos un asistente que adapta el CV de Franco Dorrego a una vacante concreta.
@@ -31,6 +34,8 @@ Reglas, sin excepciones:
 - Usá SOLO la información del CV base, de «Sobre mí» y del catálogo de proyectos. No inventes
   empresas, cargos, fechas, cifras, tecnologías ni logros. Si la vacante pide algo que Franco no
   tiene, no lo agregues.
+- El título del CV («titulo») es siempre «Developer Full Stack Web», igual que en el CV base,
+  sea cual sea el puesto de la vacante: no lo cambies ni le agregues nada.
 - Reescribí el resumen (3 a 4 frases) enfocado en lo que pide la vacante.
 - Mantené la experiencia laboral del CV base: podés reordenar y reformular un poco los puntos
   para destacar lo relevante, sin cambiar los hechos. Máximo 5 puntos por bloque.
@@ -187,4 +192,7 @@ def adaptar(
         texto = respuesta.json()["choices"][0]["message"]["content"]
     except (httpx.HTTPError, KeyError, IndexError, ValueError) as error:
         raise ErrorDelAgente(f"No respondio el modelo: {error}") from error
-    return leer_respuesta(texto, idioma)
+    resultado = leer_respuesta(texto, idioma)
+    # El titulo del CV no se adapta: es siempre el del CV base.
+    resultado["cv"]["titulo"] = base.get("titulo") or TITULO
+    return resultado

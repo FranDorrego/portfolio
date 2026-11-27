@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_agente.py    Project: portfolio                               #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/27 10:39:32  by vm                                      #
+#   Updated: 2026/11/27 11:33:45  by vm                                      #
 # ************************************************************************** #
 
 """Lo que el agente acepta como respuesta."""
@@ -44,3 +44,29 @@ def test_rehacer_lleva_la_version_actual_y_la_indicacion() -> None:
                      rehacer={"cv": {"resumen": "Viejo"}, "carta": "Hola", "indicacion": "Mas corto"})
     assert len(lista) == 4
     assert "Viejo" in lista[3]["content"] and "Mas corto" in lista[3]["content"]
+
+
+def test_el_titulo_no_se_adapta(monkeypatch: pytest.MonkeyPatch) -> None:
+    import json
+
+    import app.agente as agente
+    from app.configuracion import Configuracion
+
+    respuesta_del_modelo = json.dumps({
+        "empresa": "NTT DATA", "cargo": "Software Developer Júnior",
+        "cv": {"titulo": "Software Developer Júnior | Full Stack Web", "resumen": "R"},
+        "carta": "C",
+    })
+
+    class Respuesta:
+        def raise_for_status(self) -> None:
+            return None
+
+        def json(self) -> dict[str, object]:
+            return {"choices": [{"message": {"content": respuesta_del_modelo}}]}
+
+    monkeypatch.setattr(agente.httpx, "post", lambda *a, **k: Respuesta())
+    monkeypatch.setattr(agente, "catalogo", lambda *a: "")
+    hecho = agente.adaptar(Configuracion(clave_de_ia="x"), vacante="V", idioma="pt",
+                           base={"titulo": "Developer Full Stack Web"}, perfil={})
+    assert hecho["cv"]["titulo"] == "Developer Full Stack Web"
