@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: pdf.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:04:28  by vm                                      #
-#   Updated: 2026/11/27 10:40:15  by vm                                      #
+#   Updated: 2026/11/27 11:27:35  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -90,8 +90,9 @@ class _Documento(FPDF):
         super().__init__(format="A4")
         self.escala = escala
         self.aire = aire
-        self.set_margins(17, 14, 17)
-        self.set_auto_page_break(auto=True, margin=14)
+        # 1 cm en los cuatro lados: mas ancho para el texto, y la letra puede ser mas grande.
+        self.set_margins(10, 10, 10)
+        self.set_auto_page_break(auto=True, margin=10)
         self.add_font("Sans", "", str(FUENTES / "liberation-sans-regular.ttf"))
         self.add_font("Sans", "B", str(FUENTES / "liberation-sans-bold.ttf"))
         self.add_page()
@@ -102,7 +103,7 @@ class _Documento(FPDF):
 
     @property
     def renglon(self) -> float:
-        return 4.75 * self.escala
+        return 4.45 * self.escala
 
     def letra(self, tamano: float, *, negrita: bool = False) -> None:
         self.set_font("Sans", "B" if negrita else "", tamano * self.escala)
@@ -194,14 +195,32 @@ def _bloques(documento: _Documento, titulo: str, bloques: list[dict[str, Any]]) 
             documento.vineta(punto)
 
 
+def _metadatos(documento: _Documento, cv: dict[str, Any], contacto: list[str]) -> None:
+    """
+    Todo lo relevante tambien en las propiedades del PDF, que leen algunos ATS y buscadores:
+    puesto, contacto, enlaces, resumen, empresas, habilidades e idiomas.
+    """
+    nombre, titulo = cv.get("nombre", ""), cv.get("titulo", "")
+    empresas = [b.get("titulo", "") for b in cv.get("experiencia", []) + cv.get("proyectos", [])]
+    estudios = [e.get("institucion", "") for e in cv.get("formacion", [])]
+    habilidades = [i.strip() for g in cv.get("habilidades", [])
+                   for i in g.get("items", "").split(",") if i.strip()]
+    documento.set_title(f"{nombre} - CV - {titulo}")
+    documento.set_author(nombre)
+    documento.set_creator(f"{nombre} · {PORTAFOLIO}")
+    documento.set_lang({"pt": "pt-PT", "en": "en"}.get(cv.get("idioma", "es"), "es"))
+    documento.set_subject(" | ".join(p for p in [titulo, *contacto, cv.get("resumen", ""),
+                                                 cv.get("idiomas", "")] if p))
+    claves = [titulo, *habilidades, *empresas, *estudios, cv.get("ubicacion", "")]
+    vistas: set[str] = set()
+    documento.set_keywords(", ".join(c for c in claves
+                                     if c and not (c.lower() in vistas or vistas.add(c.lower()))))
+
+
 def _dibujar(cv: dict[str, Any], contacto: list[str], escala: float, aire: float) -> _Documento:
     rotulos = SECCIONES.get(cv.get("idioma", "es"), SECCIONES["es"])
     documento = _Documento(escala, aire)
-    # Los metadatos tambien los leen algunos ATS: titulo, autor, idioma y palabras clave.
-    documento.set_title(f"{cv.get('nombre', '')} - CV - {cv.get('titulo', '')}")
-    documento.set_author(cv.get("nombre", ""))
-    documento.set_lang({"pt": "pt-PT", "en": "en"}.get(cv.get("idioma", "es"), "es"))
-    documento.set_keywords(", ".join(g.get("items", "") for g in cv.get("habilidades", [])))
+    _metadatos(documento, cv, contacto)
     _cabecera(documento, cv, contacto)
     if cv.get("resumen"):
         documento.titulo_de_seccion(rotulos["resumen"])
@@ -239,7 +258,7 @@ def _huecos(cv: dict[str, Any]) -> float:
     return max(1.0, secciones + medios / 2)
 
 
-ESCALA_MAXIMA = 1.06
+ESCALA_MAXIMA = 1.12
 # La mas chica que se sigue leyendo bien (9.5 pt -> 8.1 pt).
 ESCALA_MINIMA = 0.86
 AIRE_MAXIMO = 7.0
@@ -252,7 +271,7 @@ def _entra(documento: _Documento) -> bool:
 def cv_en_pdf(cv: dict[str, Any], perfil: dict[str, Any] | None = None) -> bytes:
     """
     `cv` es el contenido estructurado (ver base_cv_es.json); del `perfil` salen telefono y email.
-    Una pagina y llena: la letra mas grande que entra (8,1 a 10 pt) y el espacio que sobra,
+    Una pagina y llena: la letra mas grande que entra (8,1 a 10,6 pt) y el espacio que sobra,
     repartido entre las secciones. Si ni con la mas chica entra, dos paginas antes que ilegible.
     """
     perfil = perfil or {}
