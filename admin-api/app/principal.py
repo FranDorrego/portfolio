@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: principal.py    Project: portfolio                                 #
 #   Created: 2026/11/26 21:06:51  by vm                                      #
-#   Updated: 2026/11/27 11:33:30  by vm                                      #
+#   Updated: 2026/11/27 15:24:50  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -22,8 +22,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.agente import TITULO
+from app import descargas
 from app.base_de_datos import BaseDeDatos
 from app.configuracion import Configuracion, configuracion
+from app.mcp_servidor import ConToken, crear_mcp
 from app.rutas import candidaturas, cvs, perfil, publico, sesion
 from app.seguridad import Freno
 
@@ -82,7 +84,9 @@ def crear_app(ajustes: Configuracion | None = None) -> FastAPI:
         ajustes.datos.mkdir(parents=True, exist_ok=True)
         app.state.base.abrir()
         sembrar(app.state.base, ajustes.sitio)
-        yield
+        # El MCP sin estado igual necesita su administrador de sesiones corriendo.
+        async with servidor_mcp.session_manager.run():
+            yield
         app.state.base.cerrar()
 
     app = FastAPI(title="francodorrego.com · admin", lifespan=vida, docs_url=None,
@@ -97,8 +101,12 @@ def crear_app(ajustes: Configuracion | None = None) -> FastAPI:
         allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE"],
         allow_headers=["Content-Type"],
     )
-    for modulo in (sesion, candidaturas, cvs, perfil, publico):
+    for modulo in (sesion, candidaturas, cvs, perfil, publico, descargas):
         app.include_router(modulo.rutas)
+
+    # El servidor MCP, en /mcp/, detras del token de agente (app/mcp_servidor.py).
+    servidor_mcp = crear_mcp(app.state.base, ajustes)
+    app.mount("/mcp", ConToken(servidor_mcp.streamable_http_app(), ajustes))
 
     @app.get("/api/salud")
     def salud() -> dict[str, str]:

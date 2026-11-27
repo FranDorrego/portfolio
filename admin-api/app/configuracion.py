@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: configuracion.py    Project: portfolio                             #
 #   Created: 2026/11/26 21:03:43  by vm                                      #
-#   Updated: 2026/11/27 15:00:26  by vm                                      #
+#   Updated: 2026/11/27 15:24:01  by vm                                      #
 # ************************************************************************** #
 
 """La configuracion sale del entorno: la carga ArduMaker en el despliegue (nada va en el codigo)."""
@@ -45,6 +45,12 @@ class Configuracion:
     )
     sitio: str = field(
         default_factory=lambda: os.environ.get("SITE_URL", "https://francodorrego.com").rstrip("/")
+    )
+    # La direccion publica de la API: con ella se arman los enlaces de descarga firmados.
+    url_publica: str = field(
+        default_factory=lambda: os.environ.get(
+            "PUBLIC_API_URL", "https://api.francodorrego.com"
+        ).rstrip("/")
     )
     cookie_segura: bool = field(
         default_factory=lambda: os.environ.get("COOKIE_SECURE", "true").lower() != "false"

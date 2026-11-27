@@ -6,7 +6,7 @@
 <!--                                                                            -->
 <!--   File: README.md    Project: portfolio                                    -->
 <!--   Created: 2026/11/26 21:12:46  by vm                                      -->
-<!--   Updated: 2026/11/27 15:00:47  by vm                                      -->
+<!--   Updated: 2026/11/27 15:27:38  by vm                                      -->
 <!-- ************************************************************************** -->
 
 # API del panel `/admin/`
@@ -64,6 +64,21 @@ curl -X POST https://api.francodorrego.com/api/candidaturas \
 ```
 
 Con el mismo token puede adaptar un CV (`POST /api/cvs/adaptar`) y pasar su `id` como `cv_id`.
+
+## Servidor MCP
+
+En `/mcp/` (HTTP, MCP *streamable*). Entra con `Authorization: Bearer <AGENT_TOKEN>` o, para los
+clientes que no permiten cabeceras, con el token en la dirección: `/mcp/<AGENT_TOKEN>/`. Las
+herramientas (`app/mcp_servidor.py`) llaman a las mismas funciones que las rutas:
+
+`ver_sobre_mi`, `guardar_sobre_mi`, `listar_candidaturas`, `ver_candidatura`,
+`registrar_candidatura` (etiqueta MCP; `enviada_sola` la marca además «Con IA»),
+`actualizar_candidatura`, `borrar_candidatura`, `listar_cvs`, `ver_cv`, `adaptar_cv`, `rehacer_cv`,
+`subir_cv_pdf`, `borrar_cv` y `enlaces_de_descarga`.
+
+`enlaces_de_descarga` devuelve direcciones firmadas (`/api/descargas/...`) que bajan el CV o la
+carta en PDF sin login, para subirlos a otra plataforma. Vencen (72 horas por defecto, hasta 30
+días) y se invalidan todas si cambia `AGENT_TOKEN`. `PUBLIC_API_URL` es la base de esas direcciones.
 
 ## Seguridad
 

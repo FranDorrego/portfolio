@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: marco.tsx    Project: portfolio                                    */
 /*   Created: 2026/11/26 21:35:58  by vm                                      */
-/*   Updated: 2026/11/27 15:00:47  by vm                                      */
+/*   Updated: 2026/11/27 15:26:17  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -15,7 +15,7 @@
  */
 
 import type { ReactNode } from 'react';
-import { Sparkles, type LucideIcon } from 'lucide-react';
+import { Plug, Sparkles, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/class-names';
 import { CONTENEDOR_DE_PAGINA } from '@/lib/movimiento';
 import { PERFIL } from '@/data/perfil';
@@ -147,6 +147,22 @@ export function EtiquetaDeIa(): JSX.Element {
     >
       <Sparkles aria-hidden className="h-3 w-3" />
       Con IA
+    </span>
+  );
+}
+
+/** La etiqueta de una candidatura que registro un agente conectado por MCP. */
+export function EtiquetaDeMcp(): JSX.Element {
+  return (
+    <span
+      title="La registró un agente conectado por MCP"
+      className={cn(
+        'inline-flex items-center gap-1 whitespace-nowrap rounded-full border px-2.5 py-0.5',
+        'border-border bg-secondary font-mono text-xs font-medium text-foreground',
+      )}
+    >
+      <Plug aria-hidden className="h-3 w-3" />
+      MCP
     </span>
   );
 }

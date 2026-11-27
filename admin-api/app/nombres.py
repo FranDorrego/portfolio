@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: nombres.py    Project: portfolio                                   #
 #   Created: 2026/11/26 22:38:16  by vm                                      #
-#   Updated: 2026/11/26 22:38:31  by vm                                      #
+#   Updated: 2026/11/27 15:26:17  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -15,6 +15,7 @@ para encontrar despues que CV y que carta se mando a cada empresa.
 """
 
 import re
+import unicodedata
 from urllib.parse import quote
 
 AUTOR = "Franco Dorrego"
@@ -55,6 +56,7 @@ def nombre_de_archivo(*, sigla: str, cargo: str, extra: str = "") -> str:
 
 def disposicion(nombre: str, *, descargar: bool) -> str:
     """Content-Disposition con el nombre en ASCII y en UTF-8 (tildes y n incluidas)."""
-    ascii_ = nombre.encode("ascii", "ignore").decode() or "cv.pdf"
+    sin_tildes = unicodedata.normalize("NFKD", nombre.replace("·", "-"))
+    ascii_ = sin_tildes.encode("ascii", "ignore").decode() or "cv.pdf"
     modo = "attachment" if descargar else "inline"
     return f"{modo}; filename=\"{ascii_}\"; filename*=UTF-8''{quote(nombre)}"

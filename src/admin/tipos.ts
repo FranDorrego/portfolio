@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: tipos.ts    Project: portfolio                                     */
 /*   Created: 2026/11/26 21:08:08  by vm                                      */
-/*   Updated: 2026/11/27 15:00:47  by vm                                      */
+/*   Updated: 2026/11/27 15:26:17  by vm                                      */
 /* ************************************************************************** */
 
 /** Lo que devuelve la API del panel (admin-api/). */
@@ -39,6 +39,8 @@ export interface Candidatura {
   tiene_video: boolean;
   /** La encontro, preparo y envio una IA sola (la registro con AGENT_TOKEN). */
   con_ia: boolean;
+  /** Por donde se registro: el panel, la API con AGENT_TOKEN o un agente por MCP. */
+  origen: 'panel' | 'api' | 'mcp';
   video_nombre: string | null;
   creada: string;
   actualizada: string;

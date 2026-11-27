@@ -6,7 +6,7 @@
 <!--                                                                            -->
 <!--   File: README.md    Project: portfolio                                    -->
 <!--   Created: 2026/11/25 22:17:56  by claude                                  -->
-<!--   Updated: 2026/11/26 21:12:46  by vm                                      -->
+<!--   Updated: 2026/11/27 15:27:38  by vm                                      -->
 <!-- ************************************************************************** -->
 
 # Portfolio · Franco Dorrego
@@ -94,6 +94,8 @@ Un panel para mí, con email y contraseña, en [`francodorrego.com/admin/`](http
   arma un mini agente: se pega la vacante y devuelve el CV adaptado en PDF y una carta de
   presentación, listos para registrar la candidatura.
 - **Sobre mí:** qué busco y quién soy, el contexto del agente; el teléfono y el email del CV.
+- **MCP:** cualquier agente que hable MCP se conecta a `https://api.francodorrego.com/mcp/` con
+  el token de agente y hace lo mismo que el panel; lo que registra queda con la etiqueta MCP.
 
 Son dos piezas:
 

@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: sobre-mi.tsx    Project: portfolio                                 */
 /*   Created: 2026/11/26 21:08:31  by vm                                      */
-/*   Updated: 2026/11/26 21:37:43  by vm                                      */
+/*   Updated: 2026/11/27 15:26:31  by vm                                      */
 /* ************************************************************************** */
 
 /** «Sobre mi»: el contexto del agente, y el telefono y el email que van en la cabecera del CV. */
@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { api } from './api';
 import { Aviso, Campo } from './campos';
 import { ENTRADA } from './formato';
+import { ConectarMcp } from './conectar-mcp';
 import { Rotulo, Titulo } from './marco';
 import type { Perfil } from './tipos';
 
@@ -104,6 +105,7 @@ export function SobreMi(): JSX.Element {
           Guardar
         </Button>
       </div>
+      <ConectarMcp />
     </section>
   );
 }
