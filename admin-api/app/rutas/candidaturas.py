@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: candidaturas.py    Project: portfolio                              #
 #   Created: 2026/11/26 21:06:07  by vm                                      #
-#   Updated: 2026/11/27 14:52:44  by vm                                      #
+#   Updated: 2026/11/27 15:00:26  by vm                                      #
 # ************************************************************************** #
 
 """Las candidaturas: a donde me postule, con que CV, y como va."""
@@ -31,9 +31,7 @@ Idioma = Literal["es", "pt", "en"]
 COLUMNAS = (
     "c.id, c.empresa, c.cargo, c.descripcion, c.cv_id, c.enlace, c.idioma, c.estado, c.notas, "
     "c.video_nombre, (c.video IS NOT NULL) AS tiene_video, c.creada, c.actualizada, "
-    "v.nombre AS cv_nombre, "
-    # Con IA: el CV que se mando lo adapto el agente a esta vacante.
-    "COALESCE(v.tipo = 'generado', false) AS con_ia"
+    "v.nombre AS cv_nombre, c.con_ia"
 )
 
 
@@ -82,16 +80,23 @@ def listar(bd: BaseDeDatos = Depends(base)) -> list[dict[str, Any]]:
 
 
 @rutas.post("", status_code=201)
-def crear(datos: NuevaCandidatura, bd: BaseDeDatos = Depends(base)) -> dict[str, Any]:
+def crear(datos: NuevaCandidatura, bd: BaseDeDatos = Depends(base),
+          quien: dict[str, Any] = Depends(sesion)) -> dict[str, Any]:
+    """
+    Una candidatura nueva. Si la registra la IA con su token, queda marcada «Con IA»: la
+    encontro, preparo y envio sola. Las que carga la persona desde el panel, nunca.
+    """
+    con_ia = bool(quien.get("agente"))
     fila = bd.uno(
-        "INSERT INTO candidaturas (empresa, cargo, descripcion, cv_id, enlace, idioma) "
-        "VALUES (%s, %s, %s, %s, %s, %s) RETURNING id",
+        "INSERT INTO candidaturas (empresa, cargo, descripcion, cv_id, enlace, idioma, con_ia) "
+        "VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id",
         (datos.empresa.strip(), datos.cargo.strip(), datos.descripcion, datos.cv_id,
-         datos.enlace.strip(), datos.idioma),
+         datos.enlace.strip(), datos.idioma, con_ia),
     )
     assert fila
+    nota = "Enviada por la IA, sin intervencion" if con_ia else "Candidatura enviada"
     bd.ejecutar("INSERT INTO historial (candidatura_id, estado, nota) VALUES (%s, %s, %s)",
-                (fila["id"], "sin_contacto", "Candidatura enviada"))
+                (fila["id"], "sin_contacto", nota))
     return _una(bd, fila["id"])
 
 

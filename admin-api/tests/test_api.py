@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_api.py    Project: portfolio                                  #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/27 14:52:44  by vm                                      #
+#   Updated: 2026/11/27 15:00:26  by vm                                      #
 # ************************************************************************** #
 
 """El panel de punta a punta: cuenta, candidaturas, video, CV y «Sobre mi»."""
@@ -16,6 +16,8 @@ from typing import Any
 
 import pytest
 from fastapi.testclient import TestClient
+
+from app.configuracion import Configuracion
 
 import app.rutas.cvs as rutas_de_cvs
 
@@ -116,10 +118,10 @@ def test_adaptar_guarda_el_cv_y_la_carta(
     cuerpo = hecho.json()
     assert cuerpo["nombre"] == "Acme · Backend Django" and cuerpo["tipo"] == "generado"
     assert cuerpo["contenido"]["resumen"] == "Adaptado"
+    # Con un CV adaptado, pero cargada a mano: no es «Con IA».
     candidatura = con_sesion.post("/api/candidaturas", json={
         "empresa": "Acme", "cargo": "Backend", "cv_id": cuerpo["id"]}).json()
-    assert candidatura["con_ia"] is True
-    assert con_sesion.get("/api/candidaturas").json()[0]["con_ia"] is True
+    assert candidatura["con_ia"] is False
     carta = con_sesion.get(f"/api/cvs/{cuerpo['id']}/carta.pdf", params={"descargar": True})
     assert carta.content[:4] == b"%PDF"
     assert 'attachment; filename="Acme - Backend Django - Franco Dorrego - Carta.pdf"' in (
@@ -179,3 +181,17 @@ def test_el_titulo_del_cv_es_siempre_el_de_siempre(cliente: TestClient) -> None:
     sembrar(base, "https://francodorrego.com")
     fila = base.uno("SELECT contenido FROM cvs WHERE nombre = 'X'")
     assert fila and fila["contenido"]["titulo"] == "Developer Full Stack Web"
+
+
+def test_la_ia_con_su_token_registra_candidaturas_con_ia(cliente: TestClient) -> None:
+    cliente.app.state.configuracion = Configuracion(  # type: ignore[attr-defined]
+        **{**vars(cliente.app.state.configuracion), "token_de_agente": "token-agente"})
+    sin_token = cliente.post("/api/candidaturas", json={"empresa": "A", "cargo": "B"})
+    assert sin_token.status_code == 401
+    malo = cliente.post("/api/candidaturas", json={"empresa": "A", "cargo": "B"},
+                        headers={"Authorization": "Bearer otro"})
+    assert malo.status_code == 401
+    hecha = cliente.post("/api/candidaturas", json={"empresa": "Acme", "cargo": "Backend"},
+                         headers={"Authorization": "Bearer token-agente"}).json()
+    assert hecha["con_ia"] is True
+    assert hecha["historial"][0]["nota"] == "Enviada por la IA, sin intervencion"

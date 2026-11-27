@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: marco.tsx    Project: portfolio                                    */
 /*   Created: 2026/11/26 21:35:58  by vm                                      */
-/*   Updated: 2026/11/27 14:52:44  by vm                                      */
+/*   Updated: 2026/11/27 15:00:47  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -135,11 +135,11 @@ export function PuntoDeEstado({ estado }: { estado: Estado }): JSX.Element {
   return <span aria-hidden className={cn('block h-2 w-2 shrink-0 rounded-full', PUNTO[estado])} />;
 }
 
-/** La etiqueta de una candidatura enviada con un CV adaptado por el agente. */
+/** La etiqueta de una candidatura que una IA encontro, preparo y envio sola. */
 export function EtiquetaDeIa(): JSX.Element {
   return (
     <span
-      title="El CV enviado lo adaptó el agente a esta vacante"
+      title="La encontró, preparó y envió una IA sola, sin intervención"
       className={cn(
         'inline-flex items-center gap-1 whitespace-nowrap rounded-full border px-2.5 py-0.5',
         'border-primary/40 bg-primary/10 text-xs font-medium text-primary',

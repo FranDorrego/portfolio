@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: base_de_datos.py    Project: portfolio                             #
 #   Created: 2026/11/26 21:04:03  by vm                                      #
-#   Updated: 2026/11/26 22:38:16  by vm                                      #
+#   Updated: 2026/11/27 15:00:26  by vm                                      #
 # ************************************************************************** #
 
 """La conexion a PostgreSQL y el esquema. El esquema se crea solo al arrancar (sin borrar nada)."""
@@ -81,6 +81,8 @@ CREATE TABLE IF NOT EXISTS historial (
 );
 
 ALTER TABLE cvs ADD COLUMN IF NOT EXISTS empresa TEXT;
+-- Con IA: la candidatura la encontro, preparo y envio una IA sola, sin intervencion.
+ALTER TABLE candidaturas ADD COLUMN IF NOT EXISTS con_ia BOOLEAN NOT NULL DEFAULT false;
 ALTER TABLE cvs ADD COLUMN IF NOT EXISTS siglas TEXT;
 ALTER TABLE cvs ADD COLUMN IF NOT EXISTS cargo TEXT;
 

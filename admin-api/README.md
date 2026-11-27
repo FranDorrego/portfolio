@@ -6,7 +6,7 @@
 <!--                                                                            -->
 <!--   File: README.md    Project: portfolio                                    -->
 <!--   Created: 2026/11/26 21:12:46  by vm                                      -->
-<!--   Updated: 2026/11/26 21:12:46  by vm                                      -->
+<!--   Updated: 2026/11/27 15:00:47  by vm                                      -->
 <!-- ************************************************************************** -->
 
 # API del panel `/admin/`
@@ -22,6 +22,7 @@ formato para ATS (`app/pdf.py`) y adapta un CV a una vacante con un modelo de IA
 | `DATABASE_URL` | La base PostgreSQL (`postgresql://usuario:clave@host/base`) |
 | `DATA_DIR` | Dónde se guardan los videos y los PDF subidos. Fuera del repositorio, para que sobrevivan a cada despliegue |
 | `SETUP_TOKEN` | Solo para crear la primera cuenta desde el panel; después el alta queda cerrada |
+| `AGENT_TOKEN` | Para una IA que busca trabajo y se postula sola (ver abajo). Sin él, no hay acceso para agentes |
 | `ALLOWED_ORIGINS` | Los orígenes que pueden llamar a la API con la cookie (`https://francodorrego.com`) |
 | `OPENROUTER_API_KEY` | La clave del modelo de IA del agente |
 | `LLM_MODEL` | El modelo de OpenRouter que usa el agente |
@@ -49,6 +50,20 @@ TEST_DATABASE_URL=postgresql://... python -m pytest
 ```
 
 Corren contra un PostgreSQL de verdad (la base de prueba se vacía en cada prueba).
+
+## Candidaturas enviadas por una IA
+
+Una IA que encuentra la vacante, arma el CV y se postula sola usa la misma API con
+`Authorization: Bearer <AGENT_TOKEN>`. Lo que registra así queda marcado **Con IA** en el panel;
+lo que se carga a mano desde el panel, nunca.
+
+```bash
+curl -X POST https://api.francodorrego.com/api/candidaturas \
+  -H "Authorization: Bearer $AGENT_TOKEN" -H "Content-Type: application/json" \
+  -d '{"empresa": "Acme", "cargo": "Backend Developer", "enlace": "https://...", "idioma": "pt"}'
+```
+
+Con el mismo token puede adaptar un CV (`POST /api/cvs/adaptar`) y pasar su `id` como `cv_id`.
 
 ## Seguridad
 

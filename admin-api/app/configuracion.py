@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: configuracion.py    Project: portfolio                             #
 #   Created: 2026/11/26 21:03:43  by vm                                      #
-#   Updated: 2026/11/26 21:14:55  by vm                                      #
+#   Updated: 2026/11/27 15:00:26  by vm                                      #
 # ************************************************************************** #
 
 """La configuracion sale del entorno: la carga ArduMaker en el despliegue (nada va en el codigo)."""
@@ -28,6 +28,9 @@ class Configuracion:
     )
     # Solo sirve para crear la primera cuenta; despues de eso no abre nada.
     token_de_alta: str = field(default_factory=lambda: os.environ.get("SETUP_TOKEN", ""))
+    # Para una IA que busca trabajo y se postula sola: entra con «Authorization: Bearer <token>»
+    # y lo que registra queda marcado «Con IA». Sin el, no hay acceso para agentes.
+    token_de_agente: str = field(default_factory=lambda: os.environ.get("AGENT_TOKEN", ""))
     clave_de_ia: str = field(default_factory=lambda: os.environ.get("OPENROUTER_API_KEY", ""))
     modelo: str = field(
         default_factory=lambda: os.environ.get("LLM_MODEL", "anthropic/claude-sonnet-5.5")
