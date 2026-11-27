@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: agente.py    Project: portfolio                                    #
 #   Created: 2026/11/26 21:05:20  by vm                                      #
-#   Updated: 2026/11/27 19:46:08  by vm                                      #
+#   Updated: 2026/11/27 19:50:20  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -39,7 +39,7 @@ Reglas, sin excepciones:
   sea cual sea el puesto de la vacante: no lo cambies ni le agregues nada.
 
 El CV:
-- Resumen de 3 o 4 frases, enfocado en la vacante. Para la experiencia no digas «más de 5 años»:
+- Resumen de 3 frases y 60 palabras como mucho, enfocado en la vacante. Para la experiencia no digas «más de 5 años»:
   decí que programa y da formación desde 2019 y que desarrolla Full Stack web desde 2023.
 - En la formación de 42 Porto va siempre «Common Core – Milestone 5». Si la vacante es para
   alumnos de la 42 o pide un milestone, nombralo también en el resumen.
@@ -47,7 +47,8 @@ El CV:
   otros del catálogo con cliente) van en Experiencia, no en Proyectos. Mantené los bloques del
   CV base con sus fechas; podés reordenar y reformular un poco los puntos para destacar lo
   relevante, sin cambiar los hechos. Máximo 4 puntos por bloque; conservá las cifras de ArduCloud.
-- Proyectos: 1 o 2, los más relevantes, del CV base o del catálogo (no trabajos para clientes).
+- Proyectos: 1 bloque (2 solo si los demás bloques quedaron cortos), el más relevante, del CV
+  base o del catálogo (no trabajos para clientes), con 2 puntos.
   Para vacantes que piden algoritmos, estructuras de datos o C, los de la 42 (push_swap,
   Minishell). Usá el período del catálogo si lo tiene.
 - Habilidades: Java va siempre en Lenguajes (lo estudió en la ULP). Mantené la categoría
@@ -57,7 +58,9 @@ El CV:
   maneja inglés.
 - Nada de detalles triviales: ni flags de compilación (-Wall -Wextra -Werror), ni Makefiles, ni
   nombres de librerías internas sin contexto.
-- El CV tiene que entrar en una página A4: si sobra, recortá puntos, no bloques con fecha.
+- El CV tiene que entrar en una página A4 (con todos los bloques del CV base ya está al
+  límite): no agregues bloques ni puntos, como mucho 6 líneas de habilidades; si hace falta,
+  recortá puntos, nunca bloques con fecha.
 - Compatible con cualquier ATS: cada bloque de experiencia y de proyecto lleva su período con el
   formato «MM/AAAA – MM/AAAA» (o «MM/AAAA – Actualidad» / «Atualidade» / «Present»); nunca un
   bloque sin fecha. Títulos de puesto claros y estándar, sin emojis, tablas ni símbolos raros.
