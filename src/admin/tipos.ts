@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: tipos.ts    Project: portfolio                                     */
 /*   Created: 2026/11/26 21:08:08  by vm                                      */
-/*   Updated: 2026/11/26 23:06:35  by vm                                      */
+/*   Updated: 2026/11/27 14:52:44  by vm                                      */
 /* ************************************************************************** */
 
 /** Lo que devuelve la API del panel (admin-api/). */
@@ -37,6 +37,8 @@ export interface Candidatura {
   estado: Estado;
   notas: string;
   tiene_video: boolean;
+  /** El CV enviado lo adapto el agente a esta vacante. */
+  con_ia: boolean;
   video_nombre: string | null;
   creada: string;
   actualizada: string;

@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: candidaturas.tsx    Project: portfolio                             */
 /*   Created: 2026/11/26 21:09:19  by vm                                      */
-/*   Updated: 2026/11/26 22:48:21  by vm                                      */
+/*   Updated: 2026/11/27 14:52:44  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -24,7 +24,7 @@ import { api } from './api';
 import { fecha } from './formato';
 import { DetalleDeCandidatura } from './detalle-de-candidatura';
 import { FormularioDeCandidatura } from './formulario-de-candidatura';
-import { Insignia, PuntoDeEstado, Titulo } from './marco';
+import { EtiquetaDeIa, Insignia, PuntoDeEstado, Titulo } from './marco';
 import {
   BORRADOR_VACIO,
   ESTADOS,
@@ -162,6 +162,7 @@ export function Candidaturas({
                   {una.tiene_video && (
                     <Video aria-label="Con video" className="h-4 w-4 text-muted-foreground" />
                   )}
+                  {una.con_ia && <EtiquetaDeIa />}
                   <Insignia estado={una.estado} />
                 </span>
               </button>
@@ -197,6 +198,7 @@ export function Candidaturas({
                   {abierta.empresa}
                   <span className="font-normal text-muted-foreground"> · {abierta.cargo}</span>
                 </DialogTitle>
+                {abierta.con_ia && <EtiquetaDeIa />}
                 <Insignia estado={abierta.estado} />
               </div>
               <DetalleDeCandidatura

@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: marco.tsx    Project: portfolio                                    */
 /*   Created: 2026/11/26 21:35:58  by vm                                      */
-/*   Updated: 2026/11/26 21:41:35  by vm                                      */
+/*   Updated: 2026/11/27 14:52:44  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -15,7 +15,7 @@
  */
 
 import type { ReactNode } from 'react';
-import type { LucideIcon } from 'lucide-react';
+import { Sparkles, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/class-names';
 import { CONTENEDOR_DE_PAGINA } from '@/lib/movimiento';
 import { PERFIL } from '@/data/perfil';
@@ -133,4 +133,20 @@ export function Insignia({ estado }: { estado: Estado }): JSX.Element {
 
 export function PuntoDeEstado({ estado }: { estado: Estado }): JSX.Element {
   return <span aria-hidden className={cn('block h-2 w-2 shrink-0 rounded-full', PUNTO[estado])} />;
+}
+
+/** La etiqueta de una candidatura enviada con un CV adaptado por el agente. */
+export function EtiquetaDeIa(): JSX.Element {
+  return (
+    <span
+      title="El CV enviado lo adaptó el agente a esta vacante"
+      className={cn(
+        'inline-flex items-center gap-1 whitespace-nowrap rounded-full border px-2.5 py-0.5',
+        'border-primary/40 bg-primary/10 text-xs font-medium text-primary',
+      )}
+    >
+      <Sparkles aria-hidden className="h-3 w-3" />
+      Con IA
+    </span>
+  );
 }

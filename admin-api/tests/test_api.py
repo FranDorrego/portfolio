@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_api.py    Project: portfolio                                  #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/27 11:33:30  by vm                                      #
+#   Updated: 2026/11/27 14:52:44  by vm                                      #
 # ************************************************************************** #
 
 """El panel de punta a punta: cuenta, candidaturas, video, CV y «Sobre mi»."""
@@ -53,7 +53,7 @@ def test_candidatura_estado_e_historial(con_sesion: TestClient) -> None:
     nueva = con_sesion.post("/api/candidaturas", json={
         "empresa": "Acme", "cargo": "Backend", "descripcion": "Python", "cv_id": cvs[2]["id"],
         "enlace": "https://acme.pt/vaga", "idioma": "pt"}).json()
-    assert nueva["estado"] == "sin_contacto"
+    assert nueva["estado"] == "sin_contacto" and nueva["con_ia"] is False
     assert nueva["cv_nombre"] == "Base ATS · Español"
     cambiada = con_sesion.patch(f"/api/candidaturas/{nueva['id']}", json={
         "estado": "videollamada", "nota_del_cambio": "Con RRHH"}).json()
@@ -116,6 +116,10 @@ def test_adaptar_guarda_el_cv_y_la_carta(
     cuerpo = hecho.json()
     assert cuerpo["nombre"] == "Acme · Backend Django" and cuerpo["tipo"] == "generado"
     assert cuerpo["contenido"]["resumen"] == "Adaptado"
+    candidatura = con_sesion.post("/api/candidaturas", json={
+        "empresa": "Acme", "cargo": "Backend", "cv_id": cuerpo["id"]}).json()
+    assert candidatura["con_ia"] is True
+    assert con_sesion.get("/api/candidaturas").json()[0]["con_ia"] is True
     carta = con_sesion.get(f"/api/cvs/{cuerpo['id']}/carta.pdf", params={"descargar": True})
     assert carta.content[:4] == b"%PDF"
     assert 'attachment; filename="Acme - Backend Django - Franco Dorrego - Carta.pdf"' in (

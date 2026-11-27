@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: candidaturas.py    Project: portfolio                              #
 #   Created: 2026/11/26 21:06:07  by vm                                      #
-#   Updated: 2026/11/26 21:06:07  by vm                                      #
+#   Updated: 2026/11/27 14:52:44  by vm                                      #
 # ************************************************************************** #
 
 """Las candidaturas: a donde me postule, con que CV, y como va."""
@@ -31,7 +31,9 @@ Idioma = Literal["es", "pt", "en"]
 COLUMNAS = (
     "c.id, c.empresa, c.cargo, c.descripcion, c.cv_id, c.enlace, c.idioma, c.estado, c.notas, "
     "c.video_nombre, (c.video IS NOT NULL) AS tiene_video, c.creada, c.actualizada, "
-    "v.nombre AS cv_nombre"
+    "v.nombre AS cv_nombre, "
+    # Con IA: el CV que se mando lo adapto el agente a esta vacante.
+    "COALESCE(v.tipo = 'generado', false) AS con_ia"
 )
 
 
