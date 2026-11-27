@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: cvs.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:06:35  by vm                                      #
-#   Updated: 2026/11/27 10:39:32  by vm                                      #
+#   Updated: 2026/11/27 19:47:25  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -27,7 +27,8 @@ from app.base_de_datos import BaseDeDatos
 from app.configuracion import Configuracion
 from app.dependencias import base, config, sesion
 from app.nombres import disposicion, nombre_de_archivo, siglas
-from app.pdf import carta_en_pdf, cv_en_pdf
+from app.carta import carta_en_pdf
+from app.pdf import cv_en_pdf
 
 rutas = APIRouter(prefix="/api/cvs", tags=["cvs"], dependencies=[Depends(sesion)])
 
@@ -150,7 +151,8 @@ def _archivo(fila: dict[str, Any], *, extra: str = "") -> str:
     return nombre_de_archivo(sigla="CV", cargo=fila["nombre"], extra=extra)
 
 
-_FILA = "SELECT nombre, tipo, url, archivo, contenido, carta, empresa, siglas, cargo FROM cvs"
+_FILA = ("SELECT nombre, tipo, idioma, url, archivo, contenido, carta, empresa, siglas, cargo, "
+         "creado FROM cvs")
 
 
 @rutas.get("/{id_}/pdf", response_model=None)
@@ -179,7 +181,9 @@ def carta(id_: int, *, descargar: bool = False, bd: BaseDeDatos = Depends(base))
         raise HTTPException(404, "Este CV no tiene carta")
     nombre = (fila["contenido"] or {}).get("nombre", "Franco Dorrego")
     cabecera = disposicion(_archivo(fila, extra="Carta"), descargar=descargar)
-    return Response(carta_en_pdf(fila["carta"], nombre), media_type="application/pdf",
+    documento = carta_en_pdf(fila["carta"], nombre, perfil=_perfil(bd), idioma=fila["idioma"],
+                             dia=fila["creado"].date())
+    return Response(documento, media_type="application/pdf",
                     headers={"Content-Disposition": cabecera})
 
 

@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: pdf.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:04:28  by vm                                      #
-#   Updated: 2026/11/27 11:30:32  by vm                                      #
+#   Updated: 2026/11/27 19:47:25  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -319,22 +319,4 @@ def cv_en_pdf(cv: dict[str, Any], perfil: dict[str, Any] | None = None) -> bytes
         if _entra(con_aire):
             return bytes(con_aire.output())
         aire *= 0.85
-    return bytes(documento.output())
-
-
-def carta_en_pdf(texto: str, nombre: str) -> bytes:
-    """La carta de presentacion: el nombre arriba, como el CV, y los parrafos con aire."""
-    documento = _Documento()
-    documento.set_title(f"{nombre} - Carta")
-    documento.letra(20, negrita=True)
-    documento.set_text_color(*NEGRO)
-    documento.cell(0, 10, nombre, new_x="LMARGIN", new_y="NEXT")
-    documento.set_draw_color(*LINEA)
-    documento.line(documento.l_margin, documento.get_y() + 1, documento.w - documento.r_margin,
-                   documento.get_y() + 1)
-    documento.ln(8)
-    documento.letra(10.5)
-    for parrafo in texto.split("\n\n"):
-        documento.multi_cell(0, 5.8, parrafo.strip(), align="L", new_x="LMARGIN", new_y="NEXT")
-        documento.ln(3.5)
     return bytes(documento.output())

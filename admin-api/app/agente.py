@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: agente.py    Project: portfolio                                    #
 #   Created: 2026/11/26 21:05:20  by vm                                      #
-#   Updated: 2026/11/27 18:25:52  by vm                                      #
+#   Updated: 2026/11/27 19:46:08  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -25,7 +25,7 @@ import httpx
 from app.configuracion import Configuracion
 
 # Como se presenta Franco en todos sus CV, sea cual sea la vacante.
-TITULO = "Developer Full Stack Web"
+TITULO = "Full Stack Web Developer"
 
 IDIOMAS = {"es": "español", "pt": "portugués de Portugal", "en": "inglés"}
 
@@ -35,17 +35,49 @@ Reglas, sin excepciones:
 - Usá SOLO la información del CV base, de «Sobre mí» y del catálogo de proyectos. No inventes
   empresas, cargos, fechas, cifras, tecnologías ni logros. Si la vacante pide algo que Franco no
   tiene, no lo agregues.
-- El título del CV («titulo») es siempre «Developer Full Stack Web», igual que en el CV base,
+- El título del CV («titulo») es siempre «Full Stack Web Developer», igual que en el CV base,
   sea cual sea el puesto de la vacante: no lo cambies ni le agregues nada.
-- Reescribí el resumen (3 a 4 frases) enfocado en lo que pide la vacante.
-- Mantené la experiencia laboral del CV base: podés reordenar y reformular un poco los puntos
-  para destacar lo relevante, sin cambiar los hechos. Máximo 5 puntos por bloque.
-- Elegí los 2 o 3 proyectos más relevantes para la vacante, del CV base o del catálogo, con 2 o 3
-  puntos cada uno, sacados de su descripción. Usá el período del catálogo si lo tiene.
-- Ordená las habilidades poniendo primero las que pide la vacante; solo habilidades reales.
-- Inglés: Franco no lo maneja. No digas lo contrario.
-- La carta de presentación: directa, 150 a 220 palabras, 3 o 4 párrafos separados por una línea
-  en blanco, sin frases hechas, firmada «Franco Dorrego». Dirigida a la empresa y al cargo.
+
+El CV:
+- Resumen de 3 o 4 frases, enfocado en la vacante. Para la experiencia no digas «más de 5 años»:
+  decí que programa y da formación desde 2019 y que desarrolla Full Stack web desde 2023.
+- En la formación de 42 Porto va siempre «Common Core – Milestone 5». Si la vacante es para
+  alumnos de la 42 o pide un milestone, nombralo también en el resumen.
+- Experiencia profesional: los trabajos para clientes (ViveNadando, Distrivalto, BotMinero y
+  otros del catálogo con cliente) van en Experiencia, no en Proyectos. Mantené los bloques del
+  CV base con sus fechas; podés reordenar y reformular un poco los puntos para destacar lo
+  relevante, sin cambiar los hechos. Máximo 4 puntos por bloque; conservá las cifras de ArduCloud.
+- Proyectos: 1 o 2, los más relevantes, del CV base o del catálogo (no trabajos para clientes).
+  Para vacantes que piden algoritmos, estructuras de datos o C, los de la 42 (push_swap,
+  Minishell). Usá el período del catálogo si lo tiene.
+- Habilidades: Java va siempre en Lenguajes (lo estudió en la ULP). Mantené la categoría
+  «Fundamentos» (algoritmos y estructuras de datos, programación orientada a objetos,
+  programación de sistemas en C). Poné primero las que pide la vacante; solo habilidades reales.
+- Idiomas: español nativo, portugués B2 (sin «fluido») e inglés A1 en estudio. No digas que
+  maneja inglés.
+- Nada de detalles triviales: ni flags de compilación (-Wall -Wextra -Werror), ni Makefiles, ni
+  nombres de librerías internas sin contexto.
+- El CV tiene que entrar en una página A4: si sobra, recortá puntos, no bloques con fecha.
+- Compatible con cualquier ATS: cada bloque de experiencia y de proyecto lleva su período con el
+  formato «MM/AAAA – MM/AAAA» (o «MM/AAAA – Actualidad» / «Atualidade» / «Present»); nunca un
+  bloque sin fecha. Títulos de puesto claros y estándar, sin emojis, tablas ni símbolos raros.
+  Las palabras clave de la vacante que Franco SÍ tiene (algoritmos, estructuras de datos,
+  programación orientada a objetos, Java...), escritas igual que en la vacante.
+
+La carta de presentación:
+- Directa, 150 a 220 palabras, 3 o 4 párrafos separados por una línea en blanco, sin frases
+  hechas. Empieza con el saludo («Exmos. Senhores da <empresa>,» / «Estimados <empresa>:») y
+  termina con una despedida en su propia línea («Com os melhores cumprimentos,» / «Saludos
+  cordiales,» / «Best regards,») y debajo «Franco Dorrego». La fecha y los datos de contacto los
+  agrega el PDF: no los escribas.
+- Primer párrafo: el puesto dicho con claridad (por ejemplo «a vaga de Software Developer Júnior
+  para alunos da 42», no «da Escola 42») y, si estudia en la 42 y viene al caso, que es alumno
+  de la 42 Porto en el Milestone 5.
+- Una frase concreta de por qué elige esa empresa, sacada de lo que dice la vacante (el programa
+  de formación y mentoría, el tipo de proyectos, la tecnología). No inventes datos de la empresa.
+- Todo en positivo: nunca «trabajé solo», «hasta ahora solo...» ni nada que suene a debilidad.
+  Decilo como lo que quiere: «después de desarrollar productos de punta a punta para clientes,
+  quiero crecer en un equipo más grande, con revisiones de código y proyectos complejos».
 - Quien lee la carta no conoce los proyectos de Franco: un nombre suelto (ArduCloud,
   ViveNadando, Minishell, ITBANK...) no le dice nada. Contá QUÉ es y QUÉ hizo Franco, en
   palabras que entienda cualquiera: «una plataforma cloud para freelancers, con su propia API en
@@ -54,11 +86,6 @@ Reglas, sin excepciones:
   o un producto real). Nada de jerga interna ni de métricas sin contexto: «97 % de los commits»
   se dice «fui el autor principal del backend».
 - Todo el CV y la carta en {idioma}, incluidos los títulos de los puestos cuando corresponda.
-- El CV tiene que entrar en una página A4.
-- Compatible con cualquier ATS: cada bloque de experiencia y de proyecto lleva su período con el
-  formato «MM/AAAA – MM/AAAA» (o «MM/AAAA – Actualidad» / «Atualidade» / «Present»); nunca un
-  bloque sin fecha. Títulos de puesto claros y estándar, sin emojis, tablas ni símbolos raros.
-  Las palabras clave de la vacante que Franco SÍ tiene, escritas igual que en la vacante.
 
 Respondé SOLO con un JSON con esta forma:
 {{

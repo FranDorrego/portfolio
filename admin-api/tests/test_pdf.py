@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_pdf.py    Project: portfolio                                  #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/27 11:30:32  by vm                                      #
+#   Updated: 2026/11/27 19:46:14  by vm                                      #
 # ************************************************************************** #
 
 """El PDF del CV: una pagina, texto extraible y los datos de contacto del perfil."""
@@ -45,7 +45,7 @@ def test_el_portafolio_va_en_el_contacto_aunque_el_cv_no_lo_traiga() -> None:
 def test_los_metadatos_llevan_lo_relevante() -> None:
     pdf = cv_en_pdf(BASE, {"telefono": "+351 1", "email": "a@b.com"})
     # fpdf2 guarda las propiedades como texto UTF-16 en hexadecimal.
-    for dato in ("Developer Full Stack Web", "a@b.com", "francodorrego.com", "Django",
+    for dato in ("Full Stack Web Developer", "a@b.com", "francodorrego.com", "Django",
                  "ArduCloud", "42 Porto", "nativo"):
         assert dato.encode("utf-16-be").hex().upper().encode() in pdf.upper() or (
             dato.encode() in pdf

@@ -1,21 +1,51 @@
 {
   "idioma": "es",
   "nombre": "Franco Dorrego",
-  "titulo": "Developer Full Stack Web",
+  "titulo": "Full Stack Web Developer",
   "ubicacion": "Porto, Portugal",
-  "enlaces": ["francodorrego.com", "github.com/FranDorrego", "linkedin.com/in/francodorrego"],
-  "resumen": "Desarrollador Full Stack Web con más de 5 años de experiencia creando productos digitales, aplicaciones web y automatizaciones para clientes y proyectos propios. Experiencia en Python, Django, PostgreSQL, Vite y Next.js principalmente conectados por REST API y arquitecturas modulares y de microservicios. Fundador de varias empresas con aplicaciones puntuales.",
+  "enlaces": [
+    "francodorrego.com",
+    "github.com/FranDorrego",
+    "linkedin.com/in/francodorrego"
+  ],
+  "resumen": "Desarrollador Full Stack Web: programo y doy formación desde 2019 y desarrollo aplicaciones web Full Stack desde 2023, para clientes internacionales y productos propios. Trabajo con Python, Django, Django REST Framework y PostgreSQL, conectados por REST API, con React, Next.js y Vite en el frontend y despliegue en Linux con Docker y Nginx. Estudiante de 42 Porto (Common Core, Milestone 5), con base en algoritmos, estructuras de datos y programación de sistemas en C.",
   "experiencia": [
     {
       "titulo": "ArduCloud",
       "rol": "Fundador y Developer Full Stack",
       "periodo": "06/2025 – Actualidad",
       "puntos": [
-        "Diseñé y desarrollé una plataforma cloud y SaaS para freelancers y equipos de desarrollo: miniVPS Linux, dominios y DNS, despliegues desde GitHub, bases de datos, correo y WhatsApp.",
-        "Desarrollé la API central en Django y Django REST Framework con PostgreSQL, organizada en una app por dominio de negocio.",
-        "Arquitecté un sistema distribuido en 3 capas (API central en Django, agentes FastAPI en cada host y en cada miniVPS) sobre contenedores LXD.",
+        "Diseñé y desarrollé una plataforma cloud y SaaS para freelancers y equipos: miniVPS Linux, dominios y DNS, despliegues desde GitHub, bases de datos, correo y WhatsApp.",
+        "Arquitecté un sistema distribuido en 3 capas: API central en Django REST Framework y PostgreSQL (una app por dominio de negocio) y agentes FastAPI en cada host y miniVPS, sobre LXD.",
         "Construí un servidor MCP público con OAuth 2.1 y PKCE, con cerca de 80 módulos de herramientas para agentes de IA.",
-        "Administré la infraestructura de despliegue: Linux, Nginx, systemd, SSL y Docker."
+        "Administro la infraestructura (Linux, Nginx, systemd, SSL, Docker): hoy 49 miniVPS activos en 3 hosts y 98 dominios, con 99,5 % de disponibilidad media en 30 días."
+      ]
+    },
+    {
+      "titulo": "ViveNadando (cliente, México)",
+      "rol": "Arquitectura y desarrollo Full Stack",
+      "periodo": "10/2025 – 09/2026",
+      "puntos": [
+        "Plataforma de atención al cliente para una academia de natación: chatbot de WhatsApp, gestión de alumnos, calendarios y panel interno.",
+        "Lideré el backend (97 % de los commits): integración continua con la API de JackRabbit y un motor único de disponibilidad para inscripciones, clases de prueba, reposiciones y lista de espera."
+      ]
+    },
+    {
+      "titulo": "Distrivalto (cliente, México)",
+      "rol": "Arquitectura, desarrollo e integraciones",
+      "periodo": "03/2026 – Actualidad",
+      "puntos": [
+        "Chat de soporte con IA por web y WhatsApp, con mesa de agentes humanos y panel de administración de catálogo, manuales y preguntas frecuentes.",
+        "Autor principal del backend: HTTP y WebSocket en procesos separados con Redis como bus, n8n como orquestador y extracción de texto de PDF en tres pasos (lectura directa, OCR y visión)."
+      ]
+    },
+    {
+      "titulo": "Desarrollador freelance",
+      "rol": "Productos propios y clientes",
+      "periodo": "07/2023 – 05/2025",
+      "puntos": [
+        "BotMinero (cliente): backend completo en Django de bots de trading sobre futuros de Binance, con stop loss y take profit, pagos en cripto y avisos por Telegram.",
+        "Productos propios: CryptoExcel (Django con tres microservicios y frontend en Next.js) y ArbiPlus, de donde salió una librería Python publicada."
       ]
     },
     {
@@ -23,46 +53,76 @@
       "rol": "Fundador e Instructor",
       "periodo": "2019 – 2023",
       "puntos": [
-        "Fundé una academia de programación, Arduino, C y electrónica básica.",
-        "Creé los cursos, el material didáctico propio y los kits físicos de práctica."
+        "Fundé una academia de programación, Arduino, C y electrónica básica: cursos, material didáctico y kits de práctica propios."
       ]
     }
   ],
   "proyectos": [
     {
-      "titulo": "ViveNadando",
-      "rol": "Arquitectura y desarrollo Full Stack",
-      "periodo": "10/2025 – 09/2026",
+      "titulo": "42 Porto – Common Core",
+      "rol": "Programación de sistemas, algoritmos y estructuras de datos",
+      "periodo": "01/2025 – Actualidad",
       "puntos": [
-        "Plataforma de atención al cliente para una academia de natación: chatbot de WhatsApp, gestión de alumnos, calendarios y panel interno.",
-        "Lideré el desarrollo del backend (97 % de los commits) e integré la API de JackRabbit con sincronización continua de familias, alumnos, clases e inscripciones.",
-        "Motor único de disponibilidad de horarios para inscripción, clase de prueba, reposición y lista de espera."
-      ]
-    },
-    {
-      "titulo": "Distrivalto",
-      "rol": "Arquitectura, desarrollo e integraciones",
-      "periodo": "03/2026 – Actualidad",
-      "puntos": [
-        "Chat de soporte con IA por web y WhatsApp, con mesa de agentes humanos y panel de administración de catálogo, manuales y preguntas frecuentes.",
-        "Autor principal del backend: HTTP y WebSocket en procesos separados, con Redis como bus y n8n como orquestador de la IA.",
-        "Extracción de texto de manuales PDF en tres pasos: lectura directa, OCR y modelo de visión."
+        "Minishell (en pareja): shell tipo bash con tokenizer, parser, expansiones, redirecciones, pipes, señales y builtins; hice el parser, los builtins, los pipes y las señales.",
+        "push_swap: ordenación de enteros con dos pilas y operaciones limitadas, buscando el mínimo de movimientos. cub3D (en pareja): raycasting; hice el parser y la validación de mapas."
       ]
     }
   ],
   "formacion": [
-    {"institucion": "42 Porto", "detalle": "Common Core: Linux, C, C++ y desarrollo de software", "lugar": "Porto, Portugal", "periodo": "01/2025 – Actualidad"},
-    {"institucion": "Instituto Tecnológico de Buenos Aires (ITBA)", "detalle": "Desarrollo Web Full Stack", "lugar": "Buenos Aires, Argentina", "periodo": "08/2023 – 12/2023"},
-    {"institucion": "Universidad de La Punta (ULP)", "detalle": "Full stack Java, Programación orientada a objetos", "lugar": "San Luis, Argentina", "periodo": "12/2022 – 12/2023"},
-    {"institucion": "Universidad Tecnológica Nacional (UTN)", "detalle": "Técnico en Mecatrónica", "lugar": "Córdoba, Argentina", "periodo": "02/2018 – 01/2019"}
+    {
+      "institucion": "42 Porto",
+      "detalle": "Common Core – Milestone 5: C, C++, Linux, algoritmos y estructuras de datos",
+      "lugar": "Porto, Portugal",
+      "periodo": "01/2025 – Actualidad"
+    },
+    {
+      "institucion": "Instituto Tecnológico de Buenos Aires (ITBA)",
+      "detalle": "Desarrollo Web Full Stack",
+      "lugar": "Buenos Aires, Argentina",
+      "periodo": "08/2023 – 12/2023"
+    },
+    {
+      "institucion": "Universidad de La Punta (ULP)",
+      "detalle": "Full stack Java, Programación orientada a objetos",
+      "lugar": "San Luis, Argentina",
+      "periodo": "12/2022 – 12/2023"
+    },
+    {
+      "institucion": "Universidad Tecnológica Nacional (UTN)",
+      "detalle": "Técnico en Mecatrónica",
+      "lugar": "Córdoba, Argentina",
+      "periodo": "02/2018 – 01/2019"
+    }
   ],
   "habilidades": [
-    {"categoria": "Lenguajes", "items": "Python, JavaScript, TypeScript, C, C++, Bash, SQL"},
-    {"categoria": "Tecnologías", "items": "Django, FastAPI, Node.js, REST API, WebSockets, React, Next.js, Vite, HTML, CSS"},
-    {"categoria": "Bases de datos", "items": "PostgreSQL, MySQL, SQLite, Redis"},
-    {"categoria": "Infraestructura", "items": "Linux, Docker, Nginx, systemd, LXD, redes, DNS, despliegue y mantenimiento"},
-    {"categoria": "Automatización e IA", "items": "n8n, MCP, integración de modelos IA, OCR, WhatsApp API"},
-    {"categoria": "Herramientas", "items": "Git, GitHub, GitHub Actions, Claude, OpenRouter"}
+    {
+      "categoria": "Lenguajes",
+      "items": "Python, JavaScript, TypeScript, Java, C, C++, Bash, SQL"
+    },
+    {
+      "categoria": "Fundamentos",
+      "items": "Algoritmos y estructuras de datos, programación orientada a objetos, programación de sistemas en C, REST API"
+    },
+    {
+      "categoria": "Tecnologías",
+      "items": "Django, Django REST Framework, FastAPI, Node.js, WebSockets, React, Next.js, Vite, HTML, CSS"
+    },
+    {
+      "categoria": "Bases de datos",
+      "items": "PostgreSQL, MySQL, SQLite, Redis"
+    },
+    {
+      "categoria": "Infraestructura",
+      "items": "Linux, Docker, Nginx, systemd, LXD, redes, DNS, despliegue y mantenimiento"
+    },
+    {
+      "categoria": "Automatización e IA",
+      "items": "n8n, MCP, integración de modelos de IA, OCR, WhatsApp API"
+    },
+    {
+      "categoria": "Herramientas",
+      "items": "Git, GitHub, GitHub Actions, Claude, OpenRouter"
+    }
   ],
-  "idiomas": "Español: nativo | Portugués: B2 (fluido)"
+  "idiomas": "Español: nativo | Portugués: B2 | Inglés: A1 (en estudio)"
 }

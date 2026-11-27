@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: enviados.py    Project: portfolio                                  #
 #   Created: 2026/11/27 17:36:55  by vm                                      #
-#   Updated: 2026/11/27 17:37:49  by vm                                      #
+#   Updated: 2026/11/27 19:47:25  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -23,7 +23,8 @@ from typing import Any
 
 from app.base_de_datos import BaseDeDatos
 from app.nombres import siglas
-from app.pdf import carta_en_pdf, cv_en_pdf
+from app.carta import carta_en_pdf
+from app.pdf import cv_en_pdf
 
 CARPETA = "enviados"
 
@@ -51,7 +52,8 @@ def guardar_envio(bd: BaseDeDatos, datos: Path, candidatura_id: int) -> None:
     if fila["carta"]:
         carta_rel = f"{CARPETA}/c{candidatura_id}-carta.pdf"
         nombre = (fila["contenido"] or {}).get("nombre", "Franco Dorrego")
-        (datos / carta_rel).write_bytes(carta_en_pdf(fila["carta"], nombre))
+        (datos / carta_rel).write_bytes(carta_en_pdf(fila["carta"], nombre, perfil=perfil,
+                                                     idioma=fila["idioma"]))
     envio: dict[str, Any] = {
         "fecha": datetime.now(timezone.utc).isoformat(),
         "empresa": fila["empresa"],

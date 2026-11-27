@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_agente.py    Project: portfolio                               #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/27 18:25:52  by vm                                      #
+#   Updated: 2026/11/27 19:46:08  by vm                                      #
 # ************************************************************************** #
 
 """Lo que el agente acepta como respuesta."""
@@ -63,5 +63,5 @@ def test_el_titulo_no_se_adapta(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(agente, "llamar_a_claude", lambda *a: respuesta_del_modelo)
     monkeypatch.setattr(agente, "catalogo", lambda *a: "")
     hecho = agente.adaptar(Configuracion(clave_de_ia="x"), vacante="V", idioma="pt",
-                           base={"titulo": "Developer Full Stack Web"}, perfil={})
-    assert hecho["cv"]["titulo"] == "Developer Full Stack Web"
+                           base={"titulo": "Full Stack Web Developer"}, perfil={})
+    assert hecho["cv"]["titulo"] == "Full Stack Web Developer"

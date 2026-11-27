@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_api.py    Project: portfolio                                  #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/27 17:37:25  by vm                                      #
+#   Updated: 2026/11/27 19:46:08  by vm                                      #
 # ************************************************************************** #
 
 """El panel de punta a punta: cuenta, candidaturas, video, CV y «Sobre mi»."""
@@ -180,7 +180,7 @@ def test_el_titulo_del_cv_es_siempre_el_de_siempre(cliente: TestClient) -> None:
     )
     sembrar(base, "https://francodorrego.com")
     fila = base.uno("SELECT contenido FROM cvs WHERE nombre = 'X'")
-    assert fila and fila["contenido"]["titulo"] == "Developer Full Stack Web"
+    assert fila and fila["contenido"]["titulo"] == "Full Stack Web Developer"
 
 
 def test_la_ia_con_su_token_registra_candidaturas_con_ia(cliente: TestClient) -> None:
