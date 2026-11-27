@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: arbiplus.ts    Project: portfolio                                  */
 /*   Created: 2026/11/26 01:37:20  by vm                                      */
-/*   Updated: 2026/11/26 01:37:20  by vm                                      */
+/*   Updated: 2026/11/27 20:11:39  by vm                                      */
 /* ************************************************************************** */
 
 /** ArbiPlus y SQLBinance. */
@@ -46,5 +46,6 @@ export const ARBIPLUS: Proyecto = {
   ],
   repositoryUrl: 'https://github.com/FranDorrego/SQLbinance',
   featured: false,
+  enElCurriculum: false,
   visibility: 'publico',
 };

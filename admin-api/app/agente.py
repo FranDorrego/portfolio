@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: agente.py    Project: portfolio                                    #
 #   Created: 2026/11/26 21:05:20  by vm                                      #
-#   Updated: 2026/11/27 19:50:20  by vm                                      #
+#   Updated: 2026/11/27 20:11:39  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -43,8 +43,9 @@ El CV:
   decí que programa y da formación desde 2019 y que desarrolla Full Stack web desde 2023.
 - En la formación de 42 Porto va siempre «Common Core – Milestone 5». Si la vacante es para
   alumnos de la 42 o pide un milestone, nombralo también en el resumen.
-- Experiencia profesional: los trabajos para clientes (ViveNadando, Distrivalto, BotMinero y
-  otros del catálogo con cliente) van en Experiencia, no en Proyectos. Mantené los bloques del
+- Experiencia profesional: los trabajos para clientes (ViveNadando, Distrivalto y otros del
+  catálogo con cliente) van en Experiencia, no en Proyectos. ArbiPlus y BotMinero no van en el
+  CV. Mantené los bloques del
   CV base con sus fechas; podés reordenar y reformular un poco los puntos para destacar lo
   relevante, sin cambiar los hechos. Máximo 4 puntos por bloque; conservá las cifras de ArduCloud.
 - Proyectos: 1 bloque (2 solo si los demás bloques quedaron cortos), el más relevante, del CV

@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: botminero.ts    Project: portfolio                                 */
 /*   Created: 2026/11/26 01:37:20  by vm                                      */
-/*   Updated: 2026/11/26 01:37:20  by vm                                      */
+/*   Updated: 2026/11/27 20:11:39  by vm                                      */
 /* ************************************************************************** */
 
 /** BotMinero. */
@@ -61,5 +61,6 @@ export const BOTMINERO: Proyecto = {
     { icon: 'chat', label: 'Telegram' },
   ],
   featured: false,
+  enElCurriculum: false,
   visibility: 'privado',
 };

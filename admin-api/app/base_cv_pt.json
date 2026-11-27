@@ -42,10 +42,10 @@
     {
       "titulo": "Programador freelance",
       "rol": "Produtos próprios e clientes",
-      "periodo": "07/2023 – 05/2025",
+      "periodo": "12/2023 – 12/2024",
       "puntos": [
-        "BotMinero (cliente): backend completo em Django de bots de trading sobre futuros da Binance, com stop loss e take profit, pagamentos em cripto e avisos por Telegram.",
-        "Produtos próprios: CryptoExcel (Django com três microsserviços e frontend em Next.js) e ArbiPlus, de onde saiu uma biblioteca Python publicada."
+        "CryptoExcel: aplicação web para registar e analisar operações, com backend Django organizado por áreas, três microsserviços (Binance, exportações e comprovativos) e frontend em Next.js.",
+        "Contabilidade interna da ArduMaker: API de movimentos, moedas, dívidas e colaboradores, com login Google, ficheiros no Google Drive e painel em Next.js."
       ]
     },
     {
