@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: carta.py    Project: portfolio                                     #
 #   Created: 2026/11/27 19:47:25  by vm                                      #
-#   Updated: 2026/11/27 19:47:25  by vm                                      #
+#   Updated: 2026/11/27 20:40:26  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -18,6 +18,7 @@ estilo del CV (app/pdf.py).
 from datetime import date
 from typing import Any
 
+from app.terminos import sin_terminos_prohibidos
 from app.pdf import GRIS, LINEA, NEGRO, PORTAFOLIO, _Documento, _enlace, _telefono
 
 _MESES = {
@@ -43,6 +44,7 @@ def carta_en_pdf(texto: str, nombre: str, *, perfil: dict[str, Any] | None = Non
     la fecha, y despues el texto (saludo, parrafos, despedida y firma) con margenes de carta.
     """
     perfil = perfil or {}
+    texto = sin_terminos_prohibidos(texto)
     documento = _Documento()
     documento.set_margins(22, 20, 22)
     documento.set_auto_page_break(auto=True, margin=20)

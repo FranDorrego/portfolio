@@ -15,10 +15,10 @@
       "rol": "Fundador e Developer Full Stack",
       "periodo": "06/2025 – Atualidade",
       "puntos": [
-        "Desenhei e desenvolvi uma plataforma cloud e SaaS para freelancers e equipas: miniVPS Linux, domínios e DNS, deploys a partir do GitHub, bases de dados, email e WhatsApp.",
-        "Arquitetei um sistema distribuído em 3 camadas: API central em Django REST Framework e PostgreSQL (uma app por domínio de negócio) e agentes FastAPI em cada host e miniVPS, sobre LXD.",
+        "Desenhei e desenvolvi uma plataforma cloud e SaaS para freelancers e equipas: VPS Linux, domínios e DNS, deploys a partir do GitHub, bases de dados, email e WhatsApp.",
+        "Arquitetei um sistema distribuído em 3 camadas: API central em Django REST Framework e PostgreSQL (uma app por domínio de negócio) e agentes FastAPI em cada host e VPS, sobre LXD.",
         "Construí um servidor MCP público com OAuth 2.1 e PKCE, com cerca de 80 módulos de ferramentas para agentes de IA.",
-        "Administro a infraestrutura (Linux, Nginx, systemd, SSL, Docker): hoje 49 miniVPS ativos em 3 hosts e 98 domínios, com 99,5 % de disponibilidade média em 30 dias."
+        "Administro a infraestrutura (Linux, Nginx, systemd, SSL, Docker): hoje 49 VPS ativos em 3 hosts e 98 domínios, com 99,5 % de disponibilidade média em 30 dias."
       ]
     },
     {
@@ -27,7 +27,7 @@
       "periodo": "10/2025 – 09/2026",
       "puntos": [
         "Plataforma de apoio ao cliente para uma academia de natação: chatbot de WhatsApp, gestão de alunos, calendários e painel interno.",
-        "Liderei o backend (97 % dos commits): integração contínua com a API do JackRabbit e um motor único de disponibilidade para inscrições, aulas experimentais, reposições e lista de espera."
+        "Fui o autor principal do backend: integração contínua com a API do JackRabbit e um motor único de disponibilidade para inscrições, aulas experimentais, reposições e lista de espera."
       ]
     },
     {
@@ -83,7 +83,7 @@
     },
     {
       "institucion": "Universidad de La Punta (ULP)",
-      "detalle": "Full stack Java, Programação orientada a objetos",
+      "detalle": "Fundamentos de Java e programação orientada a objetos",
       "lugar": "San Luis, Argentina",
       "periodo": "12/2022 – 12/2023"
     },

@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_pdf.py    Project: portfolio                                  #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/27 19:46:14  by vm                                      #
+#   Updated: 2026/11/27 20:40:55  by vm                                      #
 # ************************************************************************** #
 
 """El PDF del CV: una pagina, texto extraible y los datos de contacto del perfil."""
@@ -59,3 +59,11 @@ def test_el_telefono_portugues_con_formato() -> None:
     assert _telefono("+351 962310060") == "+351 962 310 060"
     assert _telefono("962310060") == "+351 962 310 060"
     assert _telefono("+54 9 351 123 4567") == "+54 9 351 123 4567"
+
+
+def test_el_pdf_limpia_los_terminos_de_los_cv_viejos() -> None:
+    from app.terminos import sin_terminos_prohibidos
+
+    viejo = {**BASE, "resumen": "Administro 49 miniVPS (97 % dos commits)."}
+    assert sin_terminos_prohibidos(viejo)["resumen"] == "Administro 49 VPS."
+    assert cv_en_pdf(viejo, {}).startswith(b"%PDF")

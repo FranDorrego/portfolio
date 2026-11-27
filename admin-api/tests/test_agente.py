@@ -6,10 +6,12 @@
 #                                                                            #
 #   File: test_agente.py    Project: portfolio                               #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/27 19:46:08  by vm                                      #
+#   Updated: 2026/11/27 20:39:55  by vm                                      #
 # ************************************************************************** #
 
 """Lo que el agente acepta como respuesta."""
+
+import json
 
 import pytest
 
@@ -65,3 +67,20 @@ def test_el_titulo_no_se_adapta(monkeypatch: pytest.MonkeyPatch) -> None:
     hecho = agente.adaptar(Configuracion(clave_de_ia="x"), vacante="V", idioma="pt",
                            base={"titulo": "Full Stack Web Developer"}, perfil={})
     assert hecho["cv"]["titulo"] == "Full Stack Web Developer"
+
+
+def test_saca_los_terminos_prohibidos() -> None:
+    texto = json.dumps({
+        "cv": {"resumen": "Plataforma de miniVPS y mini VPS.", "experiencia": [{"puntos": [
+            "Liderei o backend (97 % dos commits): integração.",
+            "Lideré el backend (97% de los commits) con Django.",
+            "Minishell: builtins (97 de 201 commits)."]}],
+            "formacion": [{"detalle": "Full stack Java, POO"}]},
+        "carta": "Administro 49 miniVPS.",
+    })
+    leido = leer_respuesta(texto, "es")
+    assert leido["cv"]["resumen"] == "Plataforma de VPS y VPS."
+    assert leido["cv"]["experiencia"][0]["puntos"] == [
+        "Liderei o backend: integração.", "Lideré el backend con Django.", "Minishell: builtins."]
+    assert leido["cv"]["formacion"][0]["detalle"] == "Fundamentos de Java, POO"
+    assert leido["carta"] == "Administro 49 VPS."

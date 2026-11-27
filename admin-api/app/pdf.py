@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: pdf.py    Project: portfolio                                       #
 #   Created: 2026/11/26 21:04:28  by vm                                      #
-#   Updated: 2026/11/27 19:47:25  by vm                                      #
+#   Updated: 2026/11/27 20:40:55  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -19,6 +19,8 @@ from pathlib import Path
 from typing import Any
 
 from fpdf import FPDF
+
+from app.terminos import sin_terminos_prohibidos
 
 FUENTES = Path(__file__).parent / "fuentes"
 GRIS = (95, 99, 104)
@@ -288,6 +290,7 @@ def cv_en_pdf(cv: dict[str, Any], perfil: dict[str, Any] | None = None) -> bytes
     repartido entre las secciones. Si ni con la mas chica entra, dos paginas antes que ilegible.
     """
     perfil = perfil or {}
+    cv = sin_terminos_prohibidos(cv)
     # La ubicacion no va en la cabecera (asi el contacto entra en un renglon); si va en los
     # metadatos del PDF.
     contacto = [_telefono(perfil.get("telefono", "")), perfil.get("email", "")]

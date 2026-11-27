@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: agente.py    Project: portfolio                                    #
 #   Created: 2026/11/26 21:05:20  by vm                                      #
-#   Updated: 2026/11/27 20:11:39  by vm                                      #
+#   Updated: 2026/11/27 20:40:26  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -23,6 +23,7 @@ import anthropic
 import httpx
 
 from app.configuracion import Configuracion
+from app.terminos import sin_terminos_prohibidos
 
 # Como se presenta Franco en todos sus CV, sea cual sea la vacante.
 TITULO = "Full Stack Web Developer"
@@ -58,7 +59,10 @@ El CV:
 - Idiomas: español nativo, portugués B2 (sin «fluido») e inglés A1 en estudio. No digas que
   maneja inglés.
 - Nada de detalles triviales: ni flags de compilación (-Wall -Wextra -Werror), ni Makefiles, ni
-  nombres de librerías internas sin contexto.
+  nombres de librerías internas sin contexto, ni porcentajes o cantidades de commits («97 % de
+  los commits» se dice «fui el autor principal del backend»).
+- Vocabulario: «VPS», nunca «miniVPS». Java en la ULP son «Fundamentos de Java y programación
+  orientada a objetos»: nunca digas que es Full Stack en Java.
 - El CV tiene que entrar en una página A4 (con todos los bloques del CV base ya está al
   límite): no agregues bloques ni puntos, como mucho 6 líneas de habilidades; si hace falta,
   recortá puntos, nunca bloques con fecha.
@@ -179,12 +183,13 @@ def leer_respuesta(texto: str, idioma: str) -> dict[str, Any]:
     for clave in ("experiencia", "proyectos", "formacion", "habilidades", "enlaces"):
         if not isinstance(cv.get(clave), list):
             cv[clave] = []
+    cv = sin_terminos_prohibidos(cv)
     return {
         "empresa": str(datos.get("empresa") or ""),
         "siglas": str(datos.get("siglas") or ""),
         "cargo": str(datos.get("cargo") or ""),
         "cv": cv,
-        "carta": datos["carta"].strip(),
+        "carta": sin_terminos_prohibidos(datos["carta"].strip()),
         "notas": str(datos.get("notas") or ""),
     }
 
