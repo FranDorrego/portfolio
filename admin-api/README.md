@@ -6,14 +6,13 @@
 <!--                                                                            -->
 <!--   File: README.md    Project: portfolio                                    -->
 <!--   Created: 2026/11/26 21:12:46  by vm                                      -->
-<!--   Updated: 2026/11/27 15:27:38  by vm                                      -->
+<!--   Updated: 2026/11/27 18:25:52  by vm                                      -->
 <!-- ************************************************************************** -->
 
 # API del panel `/admin/`
 
 FastAPI + PostgreSQL. Guarda las candidaturas, los CV y «Sobre mí»; imprime los CV en PDF con
-formato para ATS (`app/pdf.py`) y adapta un CV a una vacante con un modelo de IA vía OpenRouter
-(`app/agente.py`).
+formato para ATS (`app/pdf.py`) y adapta un CV a una vacante con la API de Claude (`app/agente.py`).
 
 ## Variables de entorno
 
@@ -24,8 +23,9 @@ formato para ATS (`app/pdf.py`) y adapta un CV a una vacante con un modelo de IA
 | `SETUP_TOKEN` | Solo para crear la primera cuenta desde el panel; después el alta queda cerrada |
 | `AGENT_TOKEN` | Para una IA que busca trabajo y se postula sola (ver abajo). Sin él, no hay acceso para agentes |
 | `ALLOWED_ORIGINS` | Los orígenes que pueden llamar a la API con la cookie (`https://francodorrego.com`) |
-| `OPENROUTER_API_KEY` | La clave del modelo de IA del agente |
-| `LLM_MODEL` | El modelo de OpenRouter que usa el agente |
+| `ANTHROPIC_API_KEY` | La clave de la API de Claude, que usa el agente |
+| `LLM_MODEL` | El modelo de Claude del agente (por defecto `claude-opus-5-5`) |
+| `LLM_EFFORT` | Cuánto piensa: `low`, `medium` (por defecto), `high`, `xhigh` o `max` |
 | `SITE_URL` | El sitio, de donde el agente lee el catálogo completo de proyectos (`llms-full.txt`) |
 | `COOKIE_SECURE` | `false` solo en local, sin HTTPS |
 

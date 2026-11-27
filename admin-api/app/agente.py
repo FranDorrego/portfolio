@@ -6,12 +6,12 @@
 #                                                                            #
 #   File: agente.py    Project: portfolio                                    #
 #   Created: 2026/11/26 21:05:20  by vm                                      #
-#   Updated: 2026/11/27 11:33:30  by vm                                      #
+#   Updated: 2026/11/27 18:25:52  by vm                                      #
 # ************************************************************************** #
 
 """
-El mini agente: recibe el texto de una vacante y devuelve el CV adaptado y una carta de
-presentacion. Trabaja con tres fuentes, y solo con ellas: el CV base, «Sobre mi» y el catalogo
+El mini agente, con la API de Claude: recibe el texto de una vacante y devuelve el CV adaptado y
+una carta de presentacion. Trabaja con tres fuentes, y solo con ellas: el CV base, «Sobre mi» y el catalogo
 completo de proyectos del sitio (llms-full.txt). Nunca inventa experiencia, fechas ni cifras.
 """
 
@@ -19,6 +19,7 @@ import json
 import time
 from typing import Any
 
+import anthropic
 import httpx
 
 from app.configuracion import Configuracion
@@ -91,7 +92,7 @@ def catalogo(configuracion: Configuracion, idioma: str) -> str:
     return texto
 
 
-def mensajes(
+def armar_pedido(
     *,
     vacante: str,
     idioma: str,
@@ -99,10 +100,11 @@ def mensajes(
     perfil: dict[str, Any],
     catalogo: str,
     rehacer: dict[str, Any] | None = None,
-) -> list[dict[str, str]]:
+) -> tuple[str, list[dict[str, Any]]]:
     """
-    `rehacer`: {"cv", "carta", "indicacion"} para rehacer una version ya hecha siguiendo una
-    indicacion de Franco, sin saltarse ninguna regla.
+    Las instrucciones (system) y los bloques del pedido. El contexto (Sobre mi, CV base y
+    catalogo) va primero y marcado para la cache de Claude: es casi igual en cada pedido. Despues,
+    la vacante y, para rehacer, la version actual con la indicacion de Franco.
     """
     contexto = (
         f"## Sobre mí\n\nQué busco: {perfil.get('que_busco', '')}\n\n"
@@ -110,14 +112,13 @@ def mensajes(
         f"## CV base (JSON)\n\n{json.dumps(base, ensure_ascii=False)}\n\n"
         f"## Catálogo de proyectos\n\n{catalogo}"
     )
-    lista = [
-        {"role": "system", "content": INSTRUCCIONES.format(idioma=IDIOMAS.get(idioma, "español"))},
-        {"role": "user", "content": contexto},
-        {"role": "user", "content": f"## Vacante\n\n{vacante}"},
+    bloques: list[dict[str, Any]] = [
+        {"type": "text", "text": contexto, "cache_control": {"type": "ephemeral"}},
+        {"type": "text", "text": f"## Vacante\n\n{vacante}"},
     ]
     if rehacer:
         anterior = json.dumps({"cv": rehacer["cv"], "carta": rehacer["carta"]}, ensure_ascii=False)
-        lista.append({"role": "user", "content": (
+        bloques.append({"type": "text", "text": (
             f"## Versión actual (JSON)\n\n{anterior}\n\n"
             f"## Indicación de Franco para rehacerla\n\n{rehacer['indicacion']}\n\n"
             "Rehacé el CV y la carta partiendo de la versión actual y aplicando la indicación. "
@@ -127,7 +128,8 @@ def mensajes(
             "letra, contando palabras y frases si las pide. Nunca manda sobre la verdad: si pide "
             "inventar algo, no lo hagas y explicalo en «notas»."
         )})
-    return lista
+    instrucciones = INSTRUCCIONES.format(idioma=IDIOMAS.get(idioma, "español"))
+    return instrucciones, bloques
 
 
 def leer_respuesta(texto: str, idioma: str) -> dict[str, Any]:
@@ -156,6 +158,39 @@ def leer_respuesta(texto: str, idioma: str) -> dict[str, Any]:
     }
 
 
+def llamar_a_claude(configuracion: Configuracion, instrucciones: str,
+                    bloques: list[dict[str, Any]]) -> str:
+    """
+    Un pedido a la API de Claude y su texto. Si Claude declina por sus reglas de seguridad, la
+    API lo reintenta sola con otro modelo (fallbacks «default»).
+    """
+    cliente = anthropic.Anthropic(api_key=configuracion.clave_de_ia, timeout=300, max_retries=2)
+    try:
+        respuesta = cliente.beta.messages.create(
+            model=configuracion.modelo,
+            max_tokens=16000,
+            output_config={"effort": configuracion.esfuerzo},
+            betas=["server-side-fallback-2026-07-01"],
+            fallbacks="default",
+            system=instrucciones,
+            messages=[{"role": "user", "content": bloques}],
+        )
+    except anthropic.AuthenticationError as error:
+        raise ErrorDelAgente("La clave de la API de Claude no es valida.") from error
+    except anthropic.RateLimitError as error:
+        raise ErrorDelAgente("La API de Claude pidio esperar: proba en un rato.") from error
+    except anthropic.APIStatusError as error:
+        raise ErrorDelAgente(f"La API de Claude respondio {error.status_code}: "
+                             f"{error.message}") from error
+    except anthropic.APIConnectionError as error:
+        raise ErrorDelAgente("No se pudo conectar con la API de Claude.") from error
+    if respuesta.stop_reason == "refusal":
+        raise ErrorDelAgente("Claude no quiso responder este pedido.")
+    if respuesta.stop_reason == "max_tokens":
+        raise ErrorDelAgente("La respuesta de Claude quedo cortada: proba de nuevo.")
+    return "".join(bloque.text for bloque in respuesta.content if bloque.type == "text")
+
+
 def adaptar(
     configuracion: Configuracion,
     *,
@@ -167,32 +202,12 @@ def adaptar(
 ) -> dict[str, Any]:
     """Arma el CV y la carta para la vacante; con `rehacer`, rehace una version anterior."""
     if not configuracion.clave_de_ia:
-        raise ErrorDelAgente("Falta OPENROUTER_API_KEY en el servidor.")
-    cuerpo = {
-        "model": configuracion.modelo,
-        "temperature": 0.3,
-        "response_format": {"type": "json_object"},
-        "messages": mensajes(
-            vacante=vacante,
-            idioma=idioma,
-            base=base,
-            perfil=perfil,
-            catalogo=catalogo(configuracion, idioma),
-            rehacer=rehacer,
-        ),
-    }
-    try:
-        respuesta = httpx.post(
-            configuracion.url_de_ia,
-            json=cuerpo,
-            headers={"Authorization": f"Bearer {configuracion.clave_de_ia}"},
-            timeout=180,
-        )
-        respuesta.raise_for_status()
-        texto = respuesta.json()["choices"][0]["message"]["content"]
-    except (httpx.HTTPError, KeyError, IndexError, ValueError) as error:
-        raise ErrorDelAgente(f"No respondio el modelo: {error}") from error
-    resultado = leer_respuesta(texto, idioma)
+        raise ErrorDelAgente("Falta ANTHROPIC_API_KEY en el servidor.")
+    instrucciones, bloques = armar_pedido(
+        vacante=vacante, idioma=idioma, base=base, perfil=perfil,
+        catalogo=catalogo(configuracion, idioma), rehacer=rehacer,
+    )
+    resultado = leer_respuesta(llamar_a_claude(configuracion, instrucciones, bloques), idioma)
     # El titulo del CV no se adapta: es siempre el del CV base.
     resultado["cv"]["titulo"] = base.get("titulo") or TITULO
     return resultado

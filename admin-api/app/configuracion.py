@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: configuracion.py    Project: portfolio                             #
 #   Created: 2026/11/26 21:03:43  by vm                                      #
-#   Updated: 2026/11/27 15:24:01  by vm                                      #
+#   Updated: 2026/11/27 18:25:52  by vm                                      #
 # ************************************************************************** #
 
 """La configuracion sale del entorno: la carga ArduMaker en el despliegue (nada va en el codigo)."""
@@ -31,15 +31,12 @@ class Configuracion:
     # Para una IA que busca trabajo y se postula sola: entra con «Authorization: Bearer <token>»
     # y lo que registra queda marcado «Con IA». Sin el, no hay acceso para agentes.
     token_de_agente: str = field(default_factory=lambda: os.environ.get("AGENT_TOKEN", ""))
-    clave_de_ia: str = field(default_factory=lambda: os.environ.get("OPENROUTER_API_KEY", ""))
-    modelo: str = field(
-        default_factory=lambda: os.environ.get("LLM_MODEL", "anthropic/claude-sonnet-5.5")
-    )
-    url_de_ia: str = field(
-        default_factory=lambda: os.environ.get(
-            "LLM_URL", "https://openrouter.ai/api/v1/chat/completions"
-        )
-    )
+    # El agente que adapta los CV usa la API de Claude (Anthropic).
+    clave_de_ia: str = field(default_factory=lambda: os.environ.get("ANTHROPIC_API_KEY", ""))
+    modelo: str = field(default_factory=lambda: os.environ.get("LLM_MODEL", "claude-opus-5-5"))
+    # Cuanto piensa el modelo: low, medium, high, xhigh o max (en Claude Opus 5.5 por defecto,
+    # medium).
+    esfuerzo: str = field(default_factory=lambda: os.environ.get("LLM_EFFORT", "medium"))
     origenes: list[str] = field(
         default_factory=lambda: _lista(os.environ.get("ALLOWED_ORIGINS", ""))
     )
