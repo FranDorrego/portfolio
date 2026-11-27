@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_api.py    Project: portfolio                                  #
 #   Created: 2026/11/26 21:07:25  by vm                                      #
-#   Updated: 2026/11/27 15:00:26  by vm                                      #
+#   Updated: 2026/11/27 17:37:25  by vm                                      #
 # ************************************************************************** #
 
 """El panel de punta a punta: cuenta, candidaturas, video, CV y «Sobre mi»."""
@@ -195,3 +195,39 @@ def test_la_ia_con_su_token_registra_candidaturas_con_ia(cliente: TestClient) ->
                          headers={"Authorization": "Bearer token-agente"}).json()
     assert hecha["con_ia"] is True
     assert hecha["historial"][0]["nota"] == "Enviada por la IA, sin intervencion"
+
+
+def test_la_candidatura_guarda_lo_que_se_envio(con_sesion: TestClient,
+                                              monkeypatch: pytest.MonkeyPatch) -> None:
+    def falso(
+        _config: object, *, vacante: str, idioma: str, base: dict[str, Any],
+        perfil: dict[str, Any], rehacer: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        resumen = "Rehecho" if rehacer else "Original"
+        return {"empresa": "Acme", "cargo": "Backend", "siglas": "ACME",
+                "cv": {**base, "resumen": resumen}, "carta": f"Carta {resumen}", "notas": ""}
+
+    monkeypatch.setattr(rutas_de_cvs, "adaptar", falso)
+    cv = con_sesion.post("/api/cvs/adaptar", json={
+        "vacante": "Buscamos backend con Django y PostgreSQL en Porto, híbrido.",
+        "idioma": "es"}).json()
+    hecha = con_sesion.post("/api/candidaturas", json={
+        "empresa": "Acme", "cargo": "Backend", "cv_id": cv["id"],
+        "enlace": "https://acme.pt/1"}).json()
+    assert hecha["tiene_cv_enviado"] and hecha["tiene_carta_enviada"]
+    assert hecha["enviado"]["resumen"] == "Original"
+    assert hecha["enviado"]["carta"] == "Carta Original"
+    assert hecha["enviado"]["enlace"] == "https://acme.pt/1"
+    original = con_sesion.get(f"/api/candidaturas/{hecha['id']}/enviado/cv.pdf").content
+
+    # Rehacer y borrar el CV despues no cambia lo que se envio.
+    con_sesion.post(f"/api/cvs/{cv['id']}/rehacer", json={"indicacion": "Mas corto"})
+    con_sesion.delete(f"/api/cvs/{cv['id']}")
+    despues = con_sesion.get(f"/api/candidaturas/{hecha['id']}")
+    assert despues.json()["enviado"]["resumen"] == "Original"
+    pdf = con_sesion.get(f"/api/candidaturas/{hecha['id']}/enviado/cv.pdf",
+                         params={"descargar": True})
+    assert pdf.content == original
+    assert 'filename="ACME - Backend - Franco Dorrego.pdf"' in pdf.headers["content-disposition"]
+    carta = con_sesion.get(f"/api/candidaturas/{hecha['id']}/enviado/carta.pdf")
+    assert carta.content[:4] == b"%PDF"

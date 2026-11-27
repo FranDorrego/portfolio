@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: base_de_datos.py    Project: portfolio                             #
 #   Created: 2026/11/26 21:04:03  by vm                                      #
-#   Updated: 2026/11/27 15:24:01  by vm                                      #
+#   Updated: 2026/11/27 17:36:56  by vm                                      #
 # ************************************************************************** #
 
 """La conexion a PostgreSQL y el esquema. El esquema se crea solo al arrancar (sin borrar nada)."""
@@ -85,6 +85,10 @@ ALTER TABLE cvs ADD COLUMN IF NOT EXISTS empresa TEXT;
 ALTER TABLE candidaturas ADD COLUMN IF NOT EXISTS con_ia BOOLEAN NOT NULL DEFAULT false;
 -- Por donde se registro: el panel, la API con AGENT_TOKEN o un agente por MCP.
 ALTER TABLE candidaturas ADD COLUMN IF NOT EXISTS origen TEXT NOT NULL DEFAULT 'panel';
+-- Lo que se envio, congelado al registrarla (app/enviados.py).
+ALTER TABLE candidaturas ADD COLUMN IF NOT EXISTS enviado JSONB;
+ALTER TABLE candidaturas ADD COLUMN IF NOT EXISTS enviado_cv TEXT;
+ALTER TABLE candidaturas ADD COLUMN IF NOT EXISTS enviado_carta TEXT;
 ALTER TABLE cvs ADD COLUMN IF NOT EXISTS siglas TEXT;
 ALTER TABLE cvs ADD COLUMN IF NOT EXISTS cargo TEXT;
 

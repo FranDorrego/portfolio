@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: test_mcp.py    Project: portfolio                                  #
 #   Created: 2026/11/27 15:25:18  by vm                                      #
-#   Updated: 2026/11/27 15:25:37  by vm                                      #
+#   Updated: 2026/11/27 17:37:25  by vm                                      #
 # ************************************************************************** #
 
 """El servidor MCP: la puerta con token, las herramientas y los enlaces de descarga firmados."""
@@ -80,6 +80,8 @@ def test_registrar_por_mcp_y_descargar(mcp: TestClient) -> None:
     hecha = herramienta(mcp, "registrar_candidatura", empresa="Acme", cargo="Backend",
                         cv_id=base["id"], idioma="pt")
     assert hecha["origen"] == "mcp" and hecha["con_ia"] is False
+    enviado = urlparse(hecha["descargas_de_lo_enviado"]["cv_pdf"])
+    assert mcp.get(f"{enviado.path}?{enviado.query}").content[:4] == b"%PDF"
     sola = herramienta(mcp, "registrar_candidatura", empresa="B", cargo="C", enviada_sola=True)
     assert sola["con_ia"] is True and "MCP" in sola["historial"][0]["nota"]
     cambiada = herramienta(mcp, "actualizar_candidatura", candidatura_id=hecha["id"],

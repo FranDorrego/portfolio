@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: tipos.ts    Project: portfolio                                     */
 /*   Created: 2026/11/26 21:08:08  by vm                                      */
-/*   Updated: 2026/11/27 15:26:17  by vm                                      */
+/*   Updated: 2026/11/27 17:38:24  by vm                                      */
 /* ************************************************************************** */
 
 /** Lo que devuelve la API del panel (admin-api/). */
@@ -41,10 +41,27 @@ export interface Candidatura {
   con_ia: boolean;
   /** Por donde se registro: el panel, la API con AGENT_TOKEN o un agente por MCP. */
   origen: 'panel' | 'api' | 'mcp';
+  /** Lo que se envio, congelado al registrarla. */
+  enviado: Enviado | null;
+  tiene_cv_enviado: boolean;
+  tiene_carta_enviada: boolean;
   video_nombre: string | null;
   creada: string;
   actualizada: string;
   historial?: Cambio[];
+}
+
+export interface Enviado {
+  fecha: string;
+  empresa: string;
+  cargo: string;
+  enlace: string;
+  idioma: Idioma;
+  cv_nombre: string | null;
+  cv_tipo: Cv['tipo'] | null;
+  cv_url: string | null;
+  carta: string | null;
+  resumen: string | null;
 }
 
 export interface BloqueDelCv {

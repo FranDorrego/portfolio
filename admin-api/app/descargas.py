@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: descargas.py    Project: portfolio                                 #
 #   Created: 2026/11/27 15:24:01  by vm                                      #
-#   Updated: 2026/11/27 15:24:01  by vm                                      #
+#   Updated: 2026/11/27 17:37:25  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -26,9 +26,10 @@ from fastapi.responses import Response
 from app.base_de_datos import BaseDeDatos
 from app.configuracion import Configuracion
 from app.dependencias import base, config
-from app.rutas import cvs
+from app.rutas import candidaturas, cvs
 
-Tipo = Literal["cv", "carta"]
+# cv / carta: de un CV (por su id). enviado-cv / enviado-carta: de una candidatura (por su id).
+Tipo = Literal["cv", "carta", "enviado-cv", "enviado-carta"]
 rutas = APIRouter(prefix="/api/descargas", tags=["descargas"])
 
 
@@ -54,6 +55,9 @@ def descargar(tipo: Tipo, id_: int, vence: int, firma: str, bd: BaseDeDatos = De
         raise HTTPException(403, "Enlace invalido")
     if vence < time.time():
         raise HTTPException(410, "El enlace vencio: pedi uno nuevo")
+    if tipo in ("enviado-cv", "enviado-carta"):
+        que = "cv" if tipo == "enviado-cv" else "carta"
+        return candidaturas.enviado(id_, que, descargar=True, bd=bd, configuracion=configuracion)
     if tipo == "carta":
         return cvs.carta(id_, descargar=True, bd=bd)
     return cvs.pdf(id_, descargar=True, bd=bd, configuracion=configuracion)

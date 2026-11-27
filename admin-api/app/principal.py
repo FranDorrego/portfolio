@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: principal.py    Project: portfolio                                 #
 #   Created: 2026/11/26 21:06:51  by vm                                      #
-#   Updated: 2026/11/27 15:24:50  by vm                                      #
+#   Updated: 2026/11/27 17:36:56  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -24,6 +24,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.agente import TITULO
 from app import descargas
 from app.base_de_datos import BaseDeDatos
+from app.enviados import completar_envios
 from app.configuracion import Configuracion, configuracion
 from app.mcp_servidor import ConToken, crear_mcp
 from app.rutas import candidaturas, cvs, perfil, publico, sesion
@@ -84,6 +85,7 @@ def crear_app(ajustes: Configuracion | None = None) -> FastAPI:
         ajustes.datos.mkdir(parents=True, exist_ok=True)
         app.state.base.abrir()
         sembrar(app.state.base, ajustes.sitio)
+        completar_envios(app.state.base, ajustes.datos)
         # El MCP sin estado igual necesita su administrador de sesiones corriendo.
         async with servidor_mcp.session_manager.run():
             yield

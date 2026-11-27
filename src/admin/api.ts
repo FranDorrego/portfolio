@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: api.ts    Project: portfolio                                       */
 /*   Created: 2026/11/26 21:08:08  by vm                                      */
-/*   Updated: 2026/11/27 10:40:44  by vm                                      */
+/*   Updated: 2026/11/27 17:38:24  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -107,6 +107,11 @@ export const api = {
     subirEnTrozos<Candidatura>({ ruta: `/api/candidaturas/${id}/video`, archivo, alAvanzar }),
   borrarVideo: (id: number) =>
     pedir<Candidatura>(`/api/candidaturas/${id}/video`, { method: 'DELETE' }),
+  /** El CV o la carta tal como se enviaron en una candidatura. */
+  urlDeLoEnviado: (id: number, que: 'cv' | 'carta') =>
+    `${API}/api/candidaturas/${id}/enviado/${que}.pdf`,
+  descargaDeLoEnviado: (id: number, que: 'cv' | 'carta') =>
+    `${API}/api/candidaturas/${id}/enviado/${que}.pdf?descargar=true`,
   urlDelVideo: (id: number) => `${API}/api/candidaturas/${id}/video`,
 
   cvs: () => pedir<Cv[]>('/api/cvs'),

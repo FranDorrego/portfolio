@@ -6,7 +6,7 @@
 /*                                                                            */
 /*   File: detalle-de-candidatura.tsx    Project: portfolio                   */
 /*   Created: 2026/11/26 21:09:01  by vm                                      */
-/*   Updated: 2026/11/26 22:48:40  by vm                                      */
+/*   Updated: 2026/11/27 17:38:24  by vm                                      */
 /* ************************************************************************** */
 
 /**
@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/class-names';
 import { api } from './api';
 import { EnlaceCopiable } from './enlace-copiable';
+import { LoEnviado } from './lo-enviado';
 import { Aviso, Campo } from './campos';
 import { ENTRADA, fecha } from './formato';
 import { PuntoDeEstado, Rotulo } from './marco';
@@ -115,6 +116,8 @@ export function DetalleDeCandidatura({
           <p className="mt-2 whitespace-pre-wrap">{candidatura.descripcion}</p>
         </details>
       )}
+
+      <LoEnviado candidatura={candidatura} />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Campo etiqueta="Estado">

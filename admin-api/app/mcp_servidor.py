@@ -6,7 +6,7 @@
 #                                                                            #
 #   File: mcp_servidor.py    Project: portfolio                              #
 #   Created: 2026/11/27 15:24:38  by vm                                      #
-#   Updated: 2026/11/27 15:26:47  by vm                                      #
+#   Updated: 2026/11/27 17:37:25  by vm                                      #
 # ************************************************************************** #
 
 """
@@ -82,6 +82,19 @@ def crear_mcp(bd: BaseDeDatos, configuracion: Configuracion) -> FastMCP:
         salida["vence_en_horas"] = horas
         return salida
 
+    def con_lo_enviado(candidatura: dict[str, Any], horas: int = 72) -> dict[str, Any]:
+        """Suma los enlaces de descarga del CV y la carta tal como se enviaron."""
+        enviado: dict[str, Any] = {}
+        if candidatura.get("tiene_cv_enviado"):
+            enviado["cv_pdf"] = enlace_firmado(configuracion, tipo="enviado-cv",
+                                               id_=candidatura["id"], horas=horas)
+        elif (candidatura.get("enviado") or {}).get("cv_url"):
+            enviado["cv_pdf"] = candidatura["enviado"]["cv_url"]
+        if candidatura.get("tiene_carta_enviada"):
+            enviado["carta_pdf"] = enlace_firmado(configuracion, tipo="enviado-carta",
+                                                  id_=candidatura["id"], horas=horas)
+        return {**candidatura, "descargas_de_lo_enviado": enviado}
+
     @servidor.tool()
     def ver_sobre_mi() -> dict[str, Any]:
         """Qué busca Franco, quién es y sus datos de contacto del CV."""
@@ -112,8 +125,11 @@ def crear_mcp(bd: BaseDeDatos, configuracion: Configuracion) -> FastMCP:
 
     @servidor.tool()
     def ver_candidatura(candidatura_id: int) -> dict[str, Any]:
-        """Una candidatura con su historial de estados."""
-        return _resultado(lambda: candidaturas.ver(candidatura_id, bd))
+        """
+        Una candidatura con su historial, los datos de lo que se envió y enlaces de descarga del
+        CV y la carta tal como se mandaron.
+        """
+        return con_lo_enviado(_resultado(lambda: candidaturas.ver(candidatura_id, bd)))
 
     @servidor.tool()
     def registrar_candidatura(empresa: str, cargo: str, descripcion: str = "",
@@ -127,8 +143,8 @@ def crear_mcp(bd: BaseDeDatos, configuracion: Configuracion) -> FastMCP:
         datos = candidaturas.NuevaCandidatura(empresa=empresa, cargo=cargo,
                                               descripcion=descripcion, cv_id=cv_id,
                                               enlace=enlace, idioma=idioma)
-        return _resultado(lambda: candidaturas.registrar(bd, datos, origen="mcp",
-                                                         con_ia=enviada_sola))
+        return con_lo_enviado(_resultado(lambda: candidaturas.registrar(
+            bd, datos, origen="mcp", con_ia=enviada_sola, carpeta=configuracion.datos)))
 
     @servidor.tool()
     def actualizar_candidatura(candidatura_id: int, estado: Estado | None = None,
@@ -142,7 +158,7 @@ def crear_mcp(bd: BaseDeDatos, configuracion: Configuracion) -> FastMCP:
             if valor is not None:
                 cambios[clave] = valor
         datos = candidaturas.Cambios(**cambios)
-        return _resultado(lambda: candidaturas.cambiar(candidatura_id, datos, bd))
+        return _resultado(lambda: candidaturas.cambiar(candidatura_id, datos, bd, configuracion))
 
     @servidor.tool()
     def borrar_candidatura(candidatura_id: int) -> dict[str, Any]:
